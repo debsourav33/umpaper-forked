@@ -1,0 +1,1307 @@
+%%
+%% This is file `sample-sigconf.tex',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% samples.dtx  (with options: `sigconf')
+%%
+%% IMPORTANT NOTICE:%%
+%% For the copyright see the source file.
+%%
+%% Any modified versions of this file must be renamed
+%% with new filenames distinct from sample-sigconf.tex.
+%%
+%% For distribution of the original source see the terms
+%% for copying and modification in the file samples.dtx.
+%%
+%% This generated file may be distributed as long as the
+%% original source files, as listed above, are part of the
+%% same distribution. (The sources need not necessarily be
+%% in the same archive or directory.)
+%%
+%% The first command in your LaTeX source must be the \documentclass command.
+\documentclass[sigconf,review]{acmart}
+
+\usepackage{code}
+\usepackage{graphicx}
+\usepackage{balance}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{listings}
+\usepackage{booktabs}
+\usepackage{subfig}
+
+\hypersetup{draft}
+
+%%% The following is specific to Onward! '21 and the paper
+%%% 'Let a Thousand Flowers Bloom: On the Uses of Diversity in Software Testing'
+%%% by Alex Groce.
+%%%
+
+
+
+%%
+%% Submission ID.
+%% Use this when submitting an article to a sponsored event. You'll
+%% receive a unique submission ID from the organizers
+%% of the event, and this ID should be used as the parameter to this command.
+%%\acmSubmissionID{123-A56-BU3}
+
+%%
+%% The majority of ACM publications use numbered citations and
+%% references.  The command \citestyle{authoryear} switches to the
+%% "author year" style.
+%%
+%% If you are preparing content for an event
+%% sponsored by ACM SIGGRAPH, you must use the "author year" style of
+%% citations and references.
+%% Uncommenting
+%% the next command will enable that style.
+%%\citestyle{acmauthoryear}
+
+%%
+%% end of the preamble, start of the body of the document source.
+\begin{document}
+
+%%
+%% The "title" command has an optional parameter,
+%% allowing the author to define a "short title" to be used in page headers.
+\title{Mind the Gap: Using the Difference Between Mutation Score and
+  Code Coverage to Understand Testing Efforts}
+
+%%
+%% The "author" command and its associated commands are used to define
+%% the authors and their affiliations.
+%% Of note is the shared affiliation of the first two authors, and the
+%% "authornote" and "authornotemark" commands
+%% used to denote shared contribution to the research.
+%\author{Alex Groce}
+%\affiliation{\institution{Northern Arizona University}\country{United States}}
+
+
+%%
+%% By default, the full list of authors will be used in the page
+%% headers. Often, this list is too long, and will overlap
+%% other information printed in the page headers. This command allows
+%% the author to define a more concise list
+%% of authors' names for this purpose.
+\renewcommand{\shortauthors}{us folks}
+
+%% Table shortcuts
+\newcommand{\mr}[2]{\multirow{#1}{*}{#2}}
+\newcommand{\mc}[3]{\multicolumn{#1}{#2}{#3}}
+
+%% comments
+\newcommand{\clg}[1]{\textcolor{blue}{#1}}
+\newcommand{\adg}[1]{\textcolor{purple}{#1}}
+\newcommand{\kj}[1]{\textcolor{olive}{#1}}
+
+%% numbers
+\newcommand{\averageprojvariance}{402}
+\newcommand{\averagevariance}{604}
+\newcommand{\outliertotalfiles}{26}
+\newcommand{\outliertestissues}{12}
+\newcommand{\outlierumissues}{7}
+\newcommand{\outlierunclear}{7}
+\newcommand{\allcorr}{0.7479}
+\newcommand{\covcorr}{0.2066}
+\newcommand{\allrsquared}{0.573}
+\newcommand{\allr}{0.757}
+\newcommand{\covrsquared}{0.021}
+\newcommand{\covr}{0.145}
+
+%%
+%% The abstract is a short summary of the work to be presented in the
+%% article.
+\begin{abstract}
+%  Test adequacy is a core software engineering goal.
+  An "adequate" test suite
+  should satisfy the \emph{oracle question}, checking all requirements and
+  specifications, and finding inconsistencies between them and an implementation. Practitioners
+  frequently use code coverage to approximate 
+  adequacy, while academics argue that mutation score may better
+  approximate true oracle coverage. High code coverage is increasingly
+  attainable even on large systems with the increasing uptake of
+  automatic test generation (e.g., via fuzzing). In
+  light of all of these options for measuring and improving testing effort, how
+  should a QA engineer spend their time? We
+  propose a new framework for reasoning about the extent, limits, and nature of
+  a given testing effort based on an idea we call the \emph{oracle gap}, or
+  \emph{the difference between source code coverage and mutation score for a
+    given software element}. We conduct (1) a large-scale observational study of
+  the oracle gap across popular Maven projects, (2) a controlled study that varies 
+  testing and oracle quality across several of those projects and (3) a
+  small-scale observational study of highly critical, well-tested code across
+  comparable blockchain projects. We show that the
+  oracle gap surfaces important information about the extent and quality of a
+  test effort beyond either adequacy metric alone. In particular, it provides a
+  way for practitioners to make better informed decisions on how to direct their
+  testing efforts for a given project to maximize return on their time
+  investment, while raising new questions that may fruitfully guide future
+  testing research.
+\end{abstract}
+
+\begin{CCSXML}
+<ccs2012>
+<concept>
+<concept_id>10011007.10010940.10010992.10010998.10011001</concept_id>
+<concept_desc>Software and its engineering~Dynamic analysis</concept_desc>
+<concept_significance>500</concept_significance>
+</concept>
+<concept>
+<concept_id>10011007.10011074.10011099.10011102.10011103</concept_id>
+<concept_desc>Software and its engineering~Software testing and debugging</concept_desc>
+<concept_significance>500</concept_significance>
+</concept>
+</ccs2012>
+\end{CCSXML}
+
+\ccsdesc[500]{Software and its engineering~Dynamic analysis}
+\ccsdesc[500]{Software and its engineering~Software testing and debugging}
+
+\keywords{test oracles, code coverage, mutation analysis}
+
+
+\maketitle
+
+\section{Introduction}
+
+Which cryptocurrency project has better testing practices, Bitcoin Core or Algorand?
+Both projects' tests cover the core transaction verification logic---critical
+functionality---reasonably well. Algorand's file-level coverage
+is admirably high, with test cases covering 90\% of the statements in the files
+in question. Bitcoin, however, has an astonishing 98.7\% statement-level
+coverage of the core transaction verification code. Using this (very common, in
+practice~\cite{Discontents,codeCoverageGoogle}) test suite adequacy metric, although Algorand is
+certainly well-tested, Bitcoin has the edge. 
+
+However, it is well known that \emph{executing} code and actually fully
+functionally testing it are not the same thing. While code coverage is a
+useful indicator, it provides more of a one-way test than a true measure of
+test suite quality. That is, low coverage is bad, but high coverage doesn't mean
+a test suite is truly checking the code for correctness. Another long-studied
+way to measure adequacy relies on \emph{mutation analysis}, which checks how
+well tests detect syntactic changes injected
+into source code files. Mutation analysis incidentally measures
+code coverage (you cannot detect a change you don't run) but
+\emph{fundamentally} measures oracle quality/power\cite{StaatsOracle}:
+the ability to
+tell ``good code'' from ``bad code.''
+
+Returning to our cryptocurrency matchup armed with this computationally
+expensive but arguably more precise metric and asking again: who
+is winning, Algorand or Bitcoin? Using an existing any-language mutation
+testing framework~\cite{regexpMut}, Bitcoin's mutation score for the
+transaction verification code is a more than respectable 75.85\%. Meanwhile,
+using the same framework and parameters, Algorand boasts a remarkable mutation
+score of 99.7\%! Perhaps Algorand is ``winning'' after all? Modern test
+adequacy research focuses on correlating either coverage, mutation score, or
+both, with the prevalence of faults, often claiming that coverage
+is ``good enough'' or that mutation's expensive ``more informative number'' is
+needed~\cite{whatdoweknow,covdev,ThierryStudy}.  Here, though, mutation score
+is not a ``refinement'' of code coverage, but yields a substantially different
+ranking of effectiveness.   Which is really better?
+
+In this paper, we present evidence in favor of a new way of thinking about these
+metrics, and in particular how to use the relationship between them to inform
+testing efforts. Our opening question is a red herring: in practice, which of
+two different projects has better tests isn't nearly as important a question as
+``how should Bitcoin's (or Algorand's) test engineers spend their time?'' Neither coverage nor
+mutation score alone explains \emph{where a test effort has been effective thus
+  far, and where effort can most easily be improved}.
+
+In the past, the structure of testing advice,
+regardless of metric, is most easily summed up as 
+``write more tests.'' Both low coverage and poor oracle power\footnote{Informally,
+oracle power is the effectiveness of a test suite in identifying
+behavior that is not correct, given that the incorrect behavior is
+exhibited by at least one test.}
+can typically be addressed by writing a new test that 1) covers
+more code and 2) checks some instantiation of an oracle over the
+inputs in the test.  As automated testing grows in importance, however, improving test
+generation and oracle quality are often quite separate engineering efforts and
+research topics, involving different code artifacts and tasks. E.g., changing
+fuzzer or using symbolic execution to cover additional obscure paths is not an
+effective use of time, if oracle weakness is the primary limit for a fuzzing effort. Meanwhile, adding
+invariant checks is of limited value when a fuzzing effort is still not even
+probing for crashes effectively. The naive approach to such problems, to
+focus on improving coverage until coverage is ``high'' before working on
+improving assertions and invariants,  ignores the fact that in many code bases, once the most critical
+functionality is covered, there may be more utility in improving the oracle
+over covered code than in moving coverage further towards some arbitrary
+target by simply running more but less-critical, code.
+
+We define the \emph{oracle gap} as \emph{the difference between source code
+  coverage and mutation score for a given software element}. Naive,
+automatically-generated tests that cover code without strong assertions
+straightforwardly produce positive gaps; basic coverage is easier to achieve
+than high mutation scores.  Computing the difference between fractions of two different measures (e.g., statements covered and
+mutants killed) may at first glance appear improper; however, we could
+formally map any two coverages into an abstract adequacy measure, using
+fixed coefficients of 1.0, or by defining a suitable transfer
+function.  Informally, the key is that the difference is only
+interesting in terms of sign and approximate magnitude.  In practice,
+a comparison of whether code is ``more covered'' or ``more checked''
+is straightforward enough for conception and application.  In the
+research literature, informal comparisons of, e.g., branch and statement
+coverage are not infrequent \cite{covComparisons, mutationStatementBranchComparison}.
+
+%Our proposed framework operationalizes 
+%existing, long-standing test adequacy metrics.
+
+Previous efforts to establish test adequacy
+measures tend to focus on a single (approximate)
+number corresponding to ``testedness''~\cite{testedness};  such monolithic scores will always have trouble
+distinguishing very different kinds of test effort and are thus difficult to \emph{act
+on} cost-effectively.  
+%The weakness
+%of code coverage alone for this purpose is well known and understood:
+%efforts to defend coverage show that it correlates (modestly, well, or
+%in some claims, more poorly) with fault detection, but acknowledge it
+%fundamentally ignores oracles.  Mutation score is typically
+%seen as fundamentally more informative and powerful.
+%%However, mutation score, without the context of 
+%coverage, still cannot distinguish very different kinds of test efforts, as we
+%show in our analysis.
+%
+We find that in many well-tested projects, the code that is covered is
+well-tested, perhaps because finite resources are best devoted to code where the
+impact of bugs is higher, and seldom-used or merely ``cosmetic'' code
+is not executed by tests.  Given that in such cases, developers
+have produced a strong oracle for tested code, it is not obvious
+that they are doing the wrong thing out of ignorance or lack of
+interest in testing.  However, it is still helpful for developers to \emph{know}
+that that's what their test effort looks like, to help allocate finite QA resources. 
+
+In this paper, we show that oracle gap  improves
+understanding of important aspects of test adequacy.
+% We do this by
+%interrogating the oracle gap both over a large dataset of open source Java
+%projects, and a focused dataset of similar-functionality in high-criticality
+%cryptocurrency projects. 
+Our contributions are:
+
+\begin{enumerate}
+\item We introduce the \emph{oracle gap}, and a refined
+  notion, \emph{covered oracle gap}, to measure the tendency of a test effort
+  to 1) favor executing code over checking its behavior for
+  correctness, 2) favor checking correctness of executed code over
+  covering structural code elements or 3) balance these goals.
+\item We present empirical data on the oracle gap in real-world Java projects.
+  Some files are well-covered, but poorly checked, while others have more
+  consistent test and oracle power. We investigate the distribution of raw and
+  covered oracle gap and show that knowing oracle gap adds useful information.
+\item We use a subset of these Java projects to condluct a synthetic examination
+  of oracle gap to probe its ability to provide actionable testing advice. We
+  show that given a test suite, as we remove assertions, oracle gap provides
+  stronger advice on average to improve oracle quality; if we remove entire
+  tests, the gap tends to propose adding coverage.
+\item We investigate in detail how oracle gaps vary for implementations of
+  cryptocurrency functionality across projects. By focusing on comparable,
+  critical code that should certainly be tested thoroughly, we show how oracle
+  gap indicates differences in test approach and quality not otherwise visible.
+\end{enumerate}
+
+We provide our data and code to support replicability and further research and
+practice in this direction.\footnote{Link to anonymized data provided with
+  submission; to be open-sourced post-blinding.}
+
+\section{The Oracle Gap}
+
+%Test adequacy is a central problem in software quality.  
+The most common
+approximation for test adequacy in practical use is \emph{code coverage}, or the
+percentage of the code base (measured in terms of lines or branches, typically)
+the test suite executes.  Although cheap to compute, it measures
+execution, not testedness.  \emph{Mutation analysis}  checks how
+well a project's tests detect syntactic changes that  injected
+into project source code~\cite{HintsOnTestDataSelection}. Mutation analysis incidentally measures
+code coverage, but more fundamentally evaluates the test suite's ability to
+detect bad code.
+
+Mutation analysis is well established in the academic
+literature~\cite{demillo1978hints, budd1979mutation, jia2008constructing, zhangPMT}.  As a practice, however, it has only recently begun to achieve 
+industrial penetration~\cite{PetrovicMutationGoogle,BellerFacebookMutation}, in large part due to its
+computational expense, and seldom as an actual adequacy metric (vs. a
+pinpoint for test issues).  
+Prior work has extensively examined the correlation between various mutants generated by mutation analysis 
+and real world faults in code, finding that in many cases mutation analysis can mimic such faults 
+in code \cite{JustMutationFault}. As a result, researchers recommend using
+mutation score to measure adequacy in terms of a test suite's likelihood to
+detect bugs. 
+Defenses of code coverage often amount to
+claims that, in practice, it is predictive enough of mutation score
+that it is reasonable to use it in its place.
+
+By contrast, we argue in favor of reasoning about coverage and mutation score in
+tandem to inform both assessments of the extent of current testing efforts, and
+decisions about where to expend future effort. This informs our first research
+question:
+
+\textbf{RQ1}: What is the empirical relationship between mutation score and coverage? 
+
+We study this question on a large dataset of Java projects
+(Section~\ref{sec:javastudy}).  We find that mutation score and coverage are indeed
+positively correlated (as shown in many previous studies \cite{papadakis2018mutation, inozemtsevaCoverageTestEffectiveness, testedness}),
+although with high variance.  
+Despite this, there should not be (and in fact, we don't find) a
+perfect correlation; otherwise,
+it would never make sense to use the computationally more expensive
+mutation score. Instead, we find that the two correlate
+particularly well at low coverage values (where mutation score rarely exceeds
+file coverage).   Better covered files show significantly more variation, 
+with frequent large positive gaps between coverage and mutation
+score---indicating code that is executed, but poorly checked.
+
+On face, then, divergences between coverage and mutation score might best inform
+testing practices for well-covered code. We therefore distinguish
+between raw oracle gap and \emph{covered oracle gap}, or
+the gap between code coverage and mutation score
+\emph{over covered code only}. Prior work~\cite{PapadakisStudy,ThierryStudy}
+runs mutation testing on all code, giving a score strongly related to coverage.
+However recent work by
+Google~\cite{PetrovicMutationGoogle} 
+only mutates covered code, because mutations to uncovered
+lines of code are not particularly interesting; the 
+information gained from them is essentially in the
+coverage report.
+%
+This informs our second research question (also Section~\ref{sec:javastudy}):
+
+\textbf{RQ2}: How does the correlation between mutation score and coverage
+differ when only considering covered code (lines)? 
+
+Covered oracle gap is a more novel
+point of view on a testing effort.
+The covered oracle gap speaks to the quality of the developer-written oracles,
+oracles that developers write, taking into account that one cannot detect
+mutations to code that not executed.  
+
+Both  values speak to the
+quality and form of a testing effort.
+We therefore ask how actionable this feedback is:
+
+\textbf{RQ3}: How can the oracle gap inform testing?
+
+We interrogate the oracle gap via a synthetic experiment where we artificially
+vary the coverage and oracle power of well tested real-world Java
+code (Section~\ref{sec:synthetic}).  We find that the oracle gap does ``move''
+as expected, increasing as assertions are removed or coverage is added,
+decreasing otherwise, corresponding to expected advice to focus attention on
+either coverage or test oracle power, respectively. 
+
+Our first three research questions look at the oracle gap across many large Java
+programs.  We look at a smaller dataset of comparable programs where we
+could identify central functionality that \emph{should} be well tested to
+answer our final research question:
+
+\textbf{RQ4}: What are the implications (and causes) of a small or
+large, and positive or negative, oracle gap, in a real-world context
+where test efforts may be assumed to be comparable in motivation?  
+
+To answer this question, we performed a case study of high market cap
+cryptocurrencies' transaction and block validation code. (Section~\ref{sec:crypto})  We manually examined
+test suites and determine the reason for different oracle gaps. 
+
+
+\section{RQs 1 and 2: Large-scale Study}
+\label{sec:javastudy}
+
+\begin{table*}
+\centering
+\begin{tabular}{lrrrrr}
+\toprule
+\bf Statistic                   & \bf Mean                                      & \bf Median                                 & \bf Range               & \bf Std. Dev.            & \bf Total    \\
+\midrule
+\#files/project                 & 267.8                                         & 156                                        & [2, 2667]               & 447.0                    & 12051        \\
+mutant runtime/project          & 3105.4                                        & 1815.4                                     & [2.81, 452998]          & 14196.0                  & 3285536.3    \\
+line coverage/file              & 63.8                                          & 81.3                                       & [0, 100]                & 39.5                     & -            \\
+lines of code/project           & 10298.2                                       & 5767                                       & [18, 42774]             & 11715.0                  & 463417       \\
+\# tests/project                & 1277.6                                        & 483                                        & [24, 8804]              & 1881.2                   & 42161        \\
+\#mutants/file                  & 41.9                                          & 30.5                                       & [0, 99]                 & 36.0                     & 44320        \\
+
+\bottomrule
+\end{tabular}
+\caption{Descriptive Statistics of Corpus.}
+\label{tab:corpus}
+\end{table*}
+
+Our first two research questions ask:
+
+\begin{quote}
+
+\textbf{RQ1} What is the empirical relationship between mutation score
+  and coverage?
+
+\vspace{1ex}
+\textbf{RQ2} 
+How does the correlation between mutation score and coverage
+differ when only considering covered lines? 
+\end{quote}
+
+We answer these questions via a large scale observational
+study of Java projects, providing a high level view of how mutation score and coverage are related,
+as well as general oracle gap trends.
+
+\subsection{Experimental Setup}
+
+\subsubsection{Dataset}
+An observational study on this scale requires a large corpus of real-world Java
+projects.  We collected the top 1000 Java projects on GitHub by star count, as
+well as repositories from top open source organizations\footnote{https://github.com/collections/open-source-organizations} with more than 20 stars. 
+Our analysis requires coverage computation and mutation analysis, and so we
+retained only projects that used the Maven build system and provided coverage
+computation. 
+
+The final corpus contains 463,417 lines of code, and 12,051 files across 45 projects. 
+Table~\ref{tab:corpus} lists descriptive statistics for the corpus. Although there is significant
+variation, the average file is of medium length (39 LOC) and is
+fairly well covered (63.8\%). 
+
+% \begin{figure}
+% \vspace{2mm}
+% \includegraphics[width=0.9\columnwidth]{figures/aggregated_corpus_plot.eps}
+% \caption{Boxplots of Corpus Statistics.}
+% \label{fig:corpus-stats}
+% \end{figure}
+
+\subsubsection{Setup and Analysis}
+
+We use universalmutator~\cite{universalMutator}, a multi-lingual regular-expression-based
+tool for mutant generation, to compute mutation score. The current set of operators present in
+universalmutator is the usual combination
+of arithmetic (e.g., replace {\tt +} with {\tt -}), logical (replace
+{\tt \&\&} with {\tt ||}) statement deletion, and control flow (e.g.,
+adding {\tt break} or {\tt continue}) changes.
+Due to the size of our corpus, computing mutation score on all files in every project
+is computationally intractable. We therefore sampled up
+to 100 mutants per file to approximate the mutation score of the file, for
+up to 100 files per project.  
+On average, our corpus contains a median of 236 mutants/file, while on average we sample a median 30.5 mutants/file, giving us
+a 12.9\% sample rate overall. This is in line with prior
+work~\cite{GopinathSampleSize} that analyzes mutation score in light of
+sampling; they
+obtain a 7\% mutation score error when sampling less than 5\% of
+total mutants. Mutation
+analysis on this dataset required 3,105 seconds per file, on average. 
+  
+%Moreover, since the mean number of mutants/file is
+%heavily influenced by some large files, the sampling ratio for many
+%files is much larger, close to or above 100\%.
+
+
+
+%The goal of splitting by project is to examine projects with different levels
+%of testing and their oracles; we assume that projects have a somewhat
+%consistent style and quality of testing. 
+Since many projects have too many files to run mutation testing exhaustively, 
+we use a stratified sample of 100 files by coverage, bucketing all files into 0-25\% coverage, 25-50\% coverage,
+50-75\% coverage and 75-100\% coverage. We randomly select 25 files in each bucket, or all the files
+in a given bucket, if it has fewer than 25 files. 
+
+A large empirical study of mutation analysis on real-world projects is
+challenged by the large number of potential mutants; test and  compile time; and
+project- and maven-specific plugins and build tools. 
+To overcome these challenges in a computationally feasible way,
+we first generate all mutants for file using the 
+universal and Java specific regular-expression rules for universalmutator, with an additional rule
+to ignore mutating Java annotations. From this set, we select 100 mutants,
+compiling lazily (i.e., checking if 
+a mutant compiles before adding it to the set). We set a test timeout of 10
+minutes. Of the 44,320 mutants in our corpus, only 2304 mutants timed out, giving us a
+test timeout rate of 5.2\%.
+
+We plot the relationship between mutation score and coverage and analyze 
+correlation, $R^2$, variance and residual plots; we do the same for mutation
+over covered lines only, supplemented with coverage data from
+CodeCov (\url{https://codecov.io/}).
+
+\subsection{Results}
+
+Figure~\ref{fig:alllr} shows a linear regression fit
+between mutation score over all lines of code and code coverage; Figure
+\ref{fig:coveredlr} shows the same over covered lines of
+code. Figure~\ref{fig:boxplots} shows
+boxplots of raw and covered oracle gaps at different coverage thresholds, and in aggregate.
+
+\begin{figure*}%
+  \centering
+  \subfloat[Regression Line Plot\label{fig:alllr_plot}]{{\includegraphics[width=7cm]{figures/all_files_lr.eps} }}%
+  \qquad
+  \subfloat[Residual Plot\label{fig:alllr_resid}]{{\includegraphics[width=7cm]{figures/all_files_lr_resid.eps} }}%
+  \caption{Regression and residual plot of coverage vs mutation score for all
+    lines. Coverage and mutation score are weakly positively correlated.}
+  \label{fig:alllr}
+\end{figure*}
+
+\begin{figure*}%
+  \centering
+  \subfloat[Regression Line Plot\label{fig:coveredlr_plot}]{{\includegraphics[width=7cm]{figures/all_covered_files_lr.eps} }}%
+  \qquad
+  \subfloat[Residual Plot\label{fig:coveredlr_resid}]{{\includegraphics[width=7cm]{figures/all_covered_files_lr_resid.eps} }}%
+  \caption{Regression and residual plot of coverage vs mutation score for covered lines. No clear correlation is present due to significant noise between coverage and covered mutation score.}
+  \label{fig:coveredlr}
+\end{figure*}
+
+\begin{figure}%
+\subfloat[Raw oracle gaps at different coverage threshholds and in aggregate.\label{fig:gapboxplot}]{{\includegraphics[width=7cm]{figures/all_gap_boxplot_bucketed.eps}}}%
+\qquad
+\subfloat[Covered oracle gaps at different coverage threshholds and in aggregate.\label{fig:gapboxplotcovered}]
+{{\includegraphics[width=7cm]{figures/covered_gap_boxplot_bucketed.eps}}}%
+  \caption{Boxplot of oracle gaps, both raw and covered, for the Java dataset.
+    Covered oracle gaps tend to increase with coverage, but variance decreases;
+    there is high variance overall, though it is higher in aggregate for covered gaps.\label{fig:boxplots}}
+\end{figure}
+
+\subsubsection{Raw Oracle Gap (RQ1) Results} 
+
+Figure \ref{fig:alllr} shows a weak positive correlation between mutation score and coverage. 
+The correlation coefficient of the regressionline is 
+{\allcorr}, with an r-value of {\allr}. Variation is moderately explained by the line,
+with an $R^2$ value of {\allrsquared}. For low coverage files,
+mutation scores tend to be very low, with only a couple of outliers violating
+this rule.
+Figure \ref{fig:gapboxplot} also shows a substantial variance of 603.92 in oracle gap,
+with a Pearson correlation
+coefficient of 0.4591 between coverage and raw oracle gap. 
+Importantly, the residual plot indicates that there is likely \emph{not} a
+strictly linear relationship between mutation score and coverage, as residual
+magnitude increases with coverage. Instead, the plot suggests that at lower
+levels of coverage, the relationship is somewhat linear, but as coverage
+increases it becomes a much weaker predictor of mutation score. 
+
+This increased variance at higher
+coverage values (for coverage values from 75\% to 100\% variance is 823.31 compared to a variance of 25.35 for 
+coverage values from 0\% to 25\%) suggests that mutation testing and oracle gap are more
+informative at higher levels of coverage (motivating mutation analysis only once
+a certain amount of test effort has been expended).  
+%Specifically, when the oracle gap is large and positive, 
+%it can indicate that despite high levels of coverage, the test suites
+%need more oracle power.
+% The above sentence felt repetitive to me, if you disagree feel free to
+% uncomment it.
+%
+To further validate these observation, we manually examined the  {\outliertotalfiles} files in our corpus with
+greater than 80\% coverage and less than 20\% mutation score. Of these files, at least
+{\outliertestissues} clearly had multiple missing
+assert statements in their tests, not catching obvious defects
+introduced by ``gross'' mutation.  Another {\outlierunclear} files had one specific
+type of missing assertion, which corresponded with a specific mutation operator. Finally, the remaining {\outlierumissues} files were false
+positives caused by message string or log statement mutations, 
+or other code that need not be tested resulting in a spurious low
+mutation score.
+
+\subsubsection{Covered Oracle Gap (RQ2) Results} 
+
+Unlike the relationship between mutation score over all lines and coverage, the relationship between covered lines and
+mutation score over covered lines is much noisier overall, with weaker correlation.  The regression in Figure~\ref{fig:coveredlr} shows a correlation
+coefficient of {\covcorr} and an r-value of {\covr}. The ${R}^2$ of {\covrsquared} indicates that very little of the
+variation in the plot can be explained by the regression line.
+
+The residual plot, however, depicts an interesting phenomenon: at lower
+coverages the relationship tends towards a negative
+oracle gap.  This suggest that for poorly-covered files, the outliers tend to be
+cases where few lines are being tested, but in general these lines  
+are well tested. At higher coverage, the oracle gap trends
+towards positive oracle gaps, as would usually be expected given that
+code is easier to execute than to check.
+Figure \ref{fig:gapboxplotcovered} also supports this conclusion, with a slight upwards trend in covered oracle gaps,
+as coverage increases (correlation coefficient of 0.5661) and an increased aggregate variance of 1142.74. Additionally, and by
+contrast with the results for raw oracle gap, variance in covered gaps
+\emph{decreases} at higher coverage
+levels (for coverage values from 75\% to 100\% variance is 742.30 compared to a variance of 1655.82 for 
+coverage values from 0\% to 25\%).  That is, it appears that better-tested files
+tend towards more consistent testing behavior (trending slightly positive in
+terms of gap). We examine these phenomena further in our cryptocurrency case study (Section~\ref{sec:crypto}), where we examine 
+oracle gaps and their implications on overall test quality. 
+
+\subsubsection{Discussion}
+
+Based on these results we observe the following:
+\begin{itemize}
+    \item As coverage increases, the variance in oracle gap increases as well, indicating more value in running mutation testing at higher
+    coverage thresholds. This is supported
+    by our residual plot in Figure \ref{fig:alllr} and boxplot in Figure \ref{fig:boxplots}, where the magnitude of the difference between coverage and mutation score
+    in general trends upwards with coverage.
+    \item The \emph{covered oracle gap} exhibits significant variance, in
+      aggregate, though it decreases substantially as coverage increases. 
+      Moreover, while the basic limit that
+      low coverage tends to make a high mutation score impossible
+      causes raw oracle gaps to tend positive, covered oracle gaps are
+      both negative and positive.  They cluster around zero,
+      indicating a kind of ``default'' test effort that has emphasized
+      coverage and behavioral checks roughly equally, but a large
+      number of projects have gaps significantly larger, suggesting
+      more effort should be spent in improving the ``lagging'' measure.
+    \item As our manual review showed, high coverage and low mutation
+      score (large positive covered oracle gap) most often clearly indicated an actionable lack of important assertions.
+\end{itemize}
+
+Since both Figures \ref{fig:alllr} and \ref{fig:coveredlr} had a high degree of
+noise, we also computed the variance of the oracle gap within projects as compared to overall variance. 
+Average project variance was
+{\averageprojvariance} as compared to the overall variance of {\averagevariance}.
+Projects tend to have a higher degree of similarity with
+regards to their oracle quality even across differently-covered files as
+compared to the aggregate variance across all files (i.e, as we expected,
+projects do, even within large variance, have a ``testing style'').
+
+\section{RQ3: Synthetic Experiment}
+\label{sec:synthetic}
+
+Our analysis of trends suggests that oracle gaps may be informative both in
+projects with better coverage, and on covered code only.  Next, we directly
+investigate whether oracle gaps can translate into directly actionable advice to
+test practioners, with our third research question:
+\vspace{-1em}
+\begin{quote}
+\item \textbf{RQ3}: How can the oracle gap inform testing?
+\end{quote}
+
+We answer this by synthetically varying the coverage and oracle power
+(via the proxy of assertions) of 25
+well-tested Java files and observing the effect on the oracle gap.  The
+intuition is that these variations simulate various points in a test writing process, 
+ranging from 0\% of tests to 100\% of tests and varying levels of
+oracle effort ranging from 0\% to 100\% of assertions.  We do this to confirm that the
+(covered) oracle gap does, in general, ``advise'' the testers of these files to
+focus on either coverage or oracle power, respectively, in the appropriate direction.
+
+\subsection{Experimental Setup}
+
+\subsubsection{Dataset}
+The goal of this experiment is to simulate the process of testing a file over
+time, effectively by moving \emph{back} in time from the current testing state.
+This thus requires well-covered files to start from.  We selected files with
+both high coverage and high mutation score from five projects from our Java dataset.
+We manually examined these files to ensure they had matching unit
+tests that could be manipulated to achieve different coverage thresholds. 
+The final dataset consists of 25 files over 5 projects;
+Table~\ref{tab:syntheticstats} summarizes file and test information for
+this corpus. For each file, we programatically find all related tests and \texttt{assert}
+statements.
+We focus on unit tests, disregarding those that check for exceptional behavior,
+as well as integration or system tests. This is because our experimental setup
+requires we be able to keep a test but remove its \texttt{assert} statements; in
+tests checking for exceptional behavior, removing the \texttt{assert} means that
+if an exception is thrown, it is not checked, and the test will always fail
+(even though the program is correct). System and integration
+tests are not as simply structured as unit tests, making it
+difficult-to-impossible to programmatically vary test coverage/oracle strength
+in a systematic way. 
+
+\subsubsection{Setup and Analysis}
+
+We generate synthetic test suites for these 25 well-tested Java files by
+sampling from the starting pool of assertions and tests for each file
+(effectively by commenting out some number of assertions and tests to produce a
+smaller suite).  Our configurations effectively consist of 0\%, 50\%, and 100\% of both
+assertions and tests, in combination.  For example, the \emph{50\% tests, 100\%
+assertions} configuration consists of half the tests but all of those tests' assertions;
+100\% tests, 0\% assertions includes all tests, but with all assert statements
+removed. We exclude configurations with 0\% of the tests and more than 0\% of
+assertions. The 0\% tests configuration serves as a baseline, measuring the
+mutation score produced by only the integration tests (and unit tests for
+exceptional behavior). For any configuration involving 50\% of either assertions or tests, we
+randomly sample five times, unless the number of assertions per test in a file
+is less than 1.5 on average (in which case we do not explore these
+configurations). We compute coverage and mutation analysis on the source code
+files in question using the resulting test suites to generate both the regular
+oracle gap and the covered oracle gap. 
+The mutation analysis over this corpus for these experiments
+took many CPU weeks on AWS EC2 instances.
+
+% \begin{table*}[ht!]
+% \vspace{2mm}
+% \centering
+% \begin{tabular}{lrr}
+% \toprule
+% \bf Test Percentage             & \bf Assert Percentage                         & \bf Number of Samples \\
+% \midrule
+% 0                               & 0                                             & 1                     \\
+% 50                              & 0                                             & 5                     \\
+% 50                              & 50                                            & 5                     \\
+% 50                              & 100                                           & 5                     \\
+% 100                             & 0                                             & 1                     \\
+% 100                             & 50                                            & 5                     \\
+% 100                             & 100                                           & 1                     \\
+
+% \bottomrule
+% \end{tabular}
+% \caption{Synthetic Experiment Configurations.}
+% \label{tab:synthetic}
+% \end{table*}
+
+\begin{table*}[]
+{\small
+\centering
+\begin{tabular}{llrrrrr}
+\toprule
+\bf Project               & \bf File                                      & \bf LOC & \bf \# Mutants & \bf \# Tests & \bf \# Asserts & \bf \# Asserts/Test \\
+\midrule
+\multirow{5}{*}{datasketches-java}         & DirectQuickSelectSketchTest.java              & 683  & 366        & 22       & 151        & 6.86            \\
+                          & ReservoirItemsSketchTest.java                 & 458  & 604        & 14       & 85         & 6.07            \\
+                          & UtilTest.java                                 & 279  & 1133       & 17       & 74         & 4.35            \\
+                          & BoundsOnBinomialProportionsTest.java          & 104  & 702        & 4        & 12         & 3.00            \\
+                          & MurmurHash3AdaptorTest.java                   & 297  & 741        & 17       & 53         & 3.12            \\
+\midrule
+\multirow{5}{*}{apollo}                    & StubClientTest.java                           & 242  & 44         & 17       & 24         & 1.41            \\
+                          & JsonSerializerMiddlewaresTest.java            & 70   & 10         & 5        & 9          & 1.80            \\
+                          & RuleRouterTest.java                           & 273  & 53         & 29       & 60         & 2.07            \\
+                          & HeadersTest.java                              & 102  & 35         & 9        & 21         & 2.33            \\
+                          & ServiceImplTest.java                          & 531  & 259        & 41       & 77         & 1.88            \\
+\midrule
+\multirow{5}{*}{lmdbjava}                  & CursorIterableTest.java                       & 271  & 51         & 21       & 47         & 2.24            \\
+                          & KeyRangeTest.java                             & 233  & 35         & 19       & 41         & 2.16            \\
+                          & ByteBufferProxyTest.java                      & 118  & 187        & 7        & 11         & 1.57            \\
+                          & ResultCodeMapperTest.java                     & 124  & 32         & 5        & 7          & 1.40            \\
+                          & TxnTest.java                                  & 257  & 113        & 7        & 19         & 2.71            \\
+\midrule
+\multirow{5}{*}{github-api}                & GHGistTest.java                               & 100  & 51         & 3        & 45         & 15.00           \\
+                          & GHLicenseTest.java                            & 120  & 29         & 10       & 40         & 4.00            \\
+                          & GHCheckRunBuilderTest.java                    & 114  & 131        & 6        & 23         & 3.83            \\
+                          & GHWorkflowTest.java                           & 122  & 44         & 5        & 22         & 4.40            \\
+                          & GHBranchProtectionTest.java                   & 87   & 14         & 6        & 18         & 3.00            \\
+\midrule
+\multirow{5}{*}{shardingsphere-elasticjob} & ElasticJobExecutorTest.java                   & 205  & 69         & 8        & 20         & 2.50            \\
+                          & ShardingServiceTest.java                      & 246  & 146        & 18       & 37         & 2.06            \\
+                          & AverageAllocationJobShardingStrategyTest.java & 56   & 88         & 6        & 6          & 1.00            \\
+                          & AppConstraintEvaluatorTest.java               & 146  & 127        & 7        & 15         & 2.14            \\
+                          & TaskContextTest.java                          & 92   & 110        & 13       & 27         & 2.08            \\
+
+\bottomrule
+\end{tabular}
+\caption{Synthetic experiment corpus, consisting of 25 well-tested Java files
+  over 5 projects.\label{tab:syntheticstats}}}
+\end{table*}
+
+\subsection{Results}
+
+%\clg{Do we talk about assertions adding coverage?}
+
+
+  \begin{figure}%
+    \centering
+    \subfloat[100-100 delta: element config - 100-100 config\label{fig:gapdeltas_100}]{{\includegraphics[width=7cm]{figures/mean_delta_100-100.eps} }}%
+    \qquad
+    \subfloat[Previous delta: element config - left of element (wrapping to row above if leftmost in current row) config\label{fig:gapdeltas_prev}]{{\includegraphics[width=7cm]{figures/mean_delta_prev.eps} }}%
+    \caption{Delta in mean covered oracle gap against either the full unit test suite, or the ``previous'' configuration. Covered oracle gaps fall as more asserts are added and rise fastest when tests with no asserts are added.}%
+    \label{fig:gapdeltas}%
+\end{figure}
+
+Figure \ref{fig:gapdeltas} shows results. Figure~\ref{fig:gapdeltas_100} shows
+how the covered oracle gap changes with respect to the \emph{full} 
+suites (100\% of tests and 100\% of asserts). Figure~\ref{fig:gapdeltas_prev} showing how the covered
+oracle gap changes with respect to the \emph{previous} configuration for this
+test suite (the configuration to the
+left). These differences are averaged over all executions of these
+configurations on all 25 files.  To understand this matrix better, consider one of the files in our corpus, 
+\texttt{ShardingService.java} (note that the raw numbers for this file are not
+shown here, but are available in our data and replication package).  At 0\% of
+unit test cases (0\% assertions), the tests for this file show a covered oracle gap of
+21.10\%. This means that the integration and exceptional behavior unit tests
+are substantially biased in the direction of coverage over oracle strength. This
+gap grows as more tests are added without their assert statements: 
+100\% of the tests with 0\% of the asserts have a covered oracle gap of 40.63\%.
+
+We also investigate what happens when a hypothetical tester added more asserts.
+For example, 100\% of tests with 50\% of available assertions
+consists of all the system and integration tests along with 100\% of the test cases in the unit test file with
+50\% of their constitutent assertions. Note that any configuration that samples 50\% of tests
+or assertions are sampled to account for variance. 
+When averaged across all five samples, the tests for our example file achieves a covered oracle gap
+of 31.75\% at the 100\% of tests with 50\% of asserts, which is lower than the covered oracle gap of 40.53\% 
+at the 100\% of tests with no assertions. Adding assert statement reduces
+overall oracle gap.  In other words, when assertions are ``missing''
+the oracle gap straightforwardly
+indicates a tester should 
+add assertions/oracle power.
+
+From Figures \ref{fig:gapdeltas_100} and \ref{fig:gapdeltas_prev}, we find as the percentage of assertions in a unit test
+increases, in all cases, the covered oracle gap decreases. Practically, this
+means that when covered oracle gaps are strongly positive, one can directly add more
+asserts to decrease the covered-oracle gap, and improve the overall test
+oracle power. Conversely, adding coverage with minimal asserts (for example 0-0
+to 100-0), increases the covered oracle gap, meaning that despite obtaining
+higher coverage, oracle power is not changed significantly by the inclusion of
+these additional tests.
+
+While the average trends of oracle gaps are in line with our hypothesis regarding tests and asserts,
+this trend is not universally true for all files in our corpus. Specifically, while in all files
+adding asserts increases mutation score, coverage does not always fixed as
+assert statements are added.
+This is because asserts sometimes contain invocations to source methods, which increases overall coverage
+and oracle power simultaneously. This leads to oracle gaps going up in a couple of outlier cases as asserts are
+added, because the increase in coverage from these asserts is greater than the corresponding increase in mutation
+score.  One way to think about the synthetic experiment is to note
+that on average, \emph{following the advice of covered oracle gap}
+tends towards producing the final test suites.  If we assume the final
+suites are high quality---they have high coverage
+and high mutation score---then the advice is good.
+
+\section{RQ4: Cryptocurrency Case Study}
+\label{sec:crypto}
+
+Having investigated oracle gap in the large, we ask:
+\begin{quote}
+\textbf{RQ4}: What are the implications (and causes) of a small or
+large, and positive or negative, oracle gap, in a real-world context
+where test efforts may be assumed to be comparable in motivation?
+\end{quote}
+
+\subsection{Experimental Setup}
+
+We aim investigate the value of oracle gaps in important, real world, comparable
+code. We therefore examined the transaction validation code for Bitcoin~\cite{nakamoto2008bitcoin} and other cryptocurrency projects.
+Due to their distributed, decentralized nature, cryptocurrencies are essentially the sum of the operations of the code executed by many independent nodes, especially nodes that mine cryptocurrency.  
+The code that validates blocks and transactions for blockchains implementing cryptocurrencies is therefore, by definition, of the utmost importance: it is the first line of defense against subversion of the blockchain and, thus, the cryptocurrency.  Checking transactions for
+correctness is \emph{the raison d'être} of any blockchain.
+
+For Bitcoin Core, we chose the core {\tt tx\_verify.cpp} file, which verifies all
+transactions. We also performed mutation analysis
+of transaction-verification-related code for three other high market
+cap cryptocurrencies.  Our selection was also influenced by the
+availability of code coverage, and indicative, rather than a
+comprehensive survey.  We identified candidate files that might be roughly comparable to
+Bitcoin's {\tt tx\_verify.cpp} by searching for keywords like \texttt{transaction},
+\texttt{verify}, \texttt{sign}, and \texttt{validate}. We manually inspected
+functions and test coverage for these functions (where applicable) to identify
+which files would be interesting targets for mutation. Ultimately we
+settled on 1--2 files per project that are representative of 
+interesting and tested functionality (a choice that we readily acknowledge is by
+no means comprehensive or suggestive of a project's quality and testing as a
+whole).  We ran mutants against each project's default test suite (determined by
+consulting READMEs and build/CI documentation) using universalmutator to obtain
+a mutation score. The projects are written in C++ and Go. 
+
+\begin{comment}
+\begin{sloppypar}
+Two fuzz targets seemed to be relevant to fuzzing {\tt tx\_verify.cpp} code: {\tt process\_message\_tx} and {\tt coins\_view}.
+In theory {\tt process\_message} and {\tt process\_messages} were
+also potential interest, but the relevant corpus entries were
+duplicated in {\tt process\_message\_tx} (we verified the two more
+general targets provided \emph{no}
+additional mutant kills). We ran fuzzing for five minutes using
+libFuzzer exploration based on the full (and quite large: 4,517 tests for
+{\tt process\_message\_tx}, and 6,889 for {\tt coins\_view}) QA asset corpus for each
+harness, with all sanitizers enabled. The {\tt process\_message\_tx} target was
+able to detect 24 mutants, and the {\tt coins\_view} harness was able to detect
+32 mutants, for a total of 50 mutants (since some mutants were
+detected by both). In other words, fuzzing could detect just under 12\%
+of all the generated mutants, resulting in a very large raw or covered oracle gap.   For the functional tests, however, the gap was much smaller, despite the similarly very high coverage; fuzzing only added two additional mutant kills.
+\end{sloppypar}
+
+\subsection{Experimental Setup}
+
+To perform our analysis of cryptocurrencies, we mutated both Bitcoin Core's main transaction validation
+and the transaction validation files of other altcoins.
+\end{comment}
+
+\subsection{Results}
+
+\begin{comment}
+\begin{table*}[ht!]
+\vspace{2mm}
+\centering
+\begin{tabular}{llcccc}
+\toprule
+\bf \mr{2}{Project}             & \bf \mr{2}{File path}                         & \bf \mr{2}{LOC}  & \mc{1}{c}{\bf Mutation} & \mc{1}{c}{\bf File}     & \mc{1}{c}{\bf Project}   \\
+\bf                             & \bf                                           & \bf              & \mc{1}{c}{\bf score}    & \mc{1}{c}{\bf coverage} & \mc{1}{c}{\bf coverage}  \\
+\midrule
+bitcoin                         & src/consensus/tx\_verify.cpp                  & 210              & 75.8\%                  & 98.7\%                  & 84.2\%                   \\
+\cmidrule{2-6}
+\mr{2}{go-ethereum}             & core/block\_validator.go                      & 129              & 66.7\%                  & 81.0\%                  &  \mr{1}{58.8\%}          \\
+                                & signer/fourbyte/validation.go                 & 127              & 42.2\%                  & 60.0\%                  &                          \\
+                                % & signer/core/signed\_data.go                   & 1,044            & 25.3\%                  & 69.3\%                  &                          \\
+%\cmidrule{2-6}
+%\mr{3}{solana}                  & perf/src/sigverify.rs                         & 1,246            & ????\%                  & 74.48\%                 & \mr{3}{82.2\%}           \\
+%                               & core/src/sigverify\_stage.rs                  & 296              & ????\%                  & 88.46\%                 & \mr{3}{82.2\%}           \\  this seems to just call perf/src/sigverify
+%                                & core/src/validator.rs                         & 2,016            & -                       & 73.29\%                 &                          \\
+%                                & core/src/tvu.rs                               &  494             & -                       & 63.12\%                 &                          \\
+%\cmidrule{2-6}
+% dogecoin                        & src/bitcoin-tx.cpp                            & 847              & 58.7\%                  & -$^\dagger$               & 70.1\%                   \\
+\cmidrule{2-6}
+avalanchego                     & vms/platformvm/add\_subnet\_validator\_tx.go  & 308              & 44.3\%                  & 79.1\%                  & 63.6\%                   \\
+%\cmidrule{2-6}
+%  stellar                       & src/historywork/VerifyTxResultsWork.cpp       & 192              & 85.1\%                  & 85.3\%                  & 74.9\%                   \\
+%\cmidrule{2-6}
+%cosmos-sdk                      & x/auth/ante/sigverify.go                      & 510              & 67.3\%                  & 67.0\%                  & 60.9\%                   \\
+\cmidrule{2-6}
+go-algorand                     & data/transactions/logic/eval.go               & 1558             & 99.7\%                  & 90.0\%                  & -$^\dagger$                  \\
+\bottomrule
+\end{tabular}
+\caption{Code Coverage and Mutation Scores for Transaction/Block
+  Validation and Verification Across Popular Cryptocurrencies. \underline{Mutation score} represents the proportion of mutants that were killed divided by the total number of mutants (higher is better).
+\underline{File coverage} and \underline{Project coverage} report statement level coverage for the file and entire project, respectively. \underline{LOC} represents the lines of code of the chosen file. $^\dagger$We were unable to obtain individual coverage for one file.
+}
+\label{tab:overview}
+\end{table*}
+\end{comment}
+
+\begin{table*}[ht!]
+\vspace{2mm}
+\centering
+\begin{tabular}{llccccr}
+\toprule
+\bf \mr{2}{Project}             & \bf \mr{2}{File path}                         & \mc{1}{c}{\bf File}       & \mc{1}{c}{\bf Mutation}  & \mc{1}{c}{\bf Covered} & \mc{1}{c}{\bf Raw}     & \mc{1}{c}{\bf Covered}   \\
+\bf                             & \bf
+                                                                                &
+                                                                                  \mc{1}{c}{\bf coverage}   & \mc{1}{c}{\bf score}     & \mc{1}{c}{\bf mutation}            & \mc{1}{c}{\bf oracle}            & \mc{1}{c}{\bf oracle}  \\
+  \bf                             & \bf
+                                                                                &
+                                                                                  \bf  &\bf    &   \mc{1}{c}{\bf score}           & \mc{1}{c}{\bf gap}     & \mc{1}{c}{\bf gap} \\
+\midrule
+bitcoin                         & src/consensus/tx\_verify.cpp                  & 98.7\%                    & 75.8\%                   & 83.1\%                          & 22.9\%                        & 15.5\%                   \\
+\cmidrule{2-7}
+\mr{2}{go-ethereum}             & core/block\_validator.go                      & 81.0\%                    & 66.7\%                   & 78.0\%                          & 14.3\%                        & 3.0\%          \\
+                                & signer/fourbyte/validation.go                 & 60.0\%                    & 42.2\%                   & 76.4\%                          & 17.8\%                        & -16.4\%                   \\
+\cmidrule{2-7}
+avalanchego                     & vms/platformvm/add\_subnet\_validator\_tx.go  & 79.1\%                    & 44.3\%                   & 67.1\%                          & 34.8\%                        & 12.0\%                   \\
+\cmidrule{2-7}
+go-algorand                     & data/transactions/logic/eval.go               & 90.0\%                    & 99.7\%                   & 99.7\%                          & -9.7\%                        & -9.7\%                   \\
+\bottomrule
+\end{tabular}
+\caption{Covered Mutation Scores and Oracle Gaps For Selected Files}
+\label{tab:comparison}
+\end{table*}
+
+Table~\ref{tab:comparison} shows the range of raw and covered oracle
+gaps for code in these cryptocurrencies.  
+For the alternative cryptocurrencies, we limited our attention to the default
+(typically functional) tests provided in the build chain, according to documentation.  We know that at least some of the considered
+cryptocurrencies (e.g., Ethereum) make use of fuzz testing.  However, if the marginal contribution of fuzzing is
+similar to Bitcoin, which we discuss below, the impact on gaps if we
+included fuzzing should be negligible.
+
+\begin{sloppypar}
+The results for cryptocurrencies fit well with our framework, showing
+different gaps for superficially (by coverage or mutation score)
+similar testing efforts.  To return to the example from the
+introduction, Bitcoin and go-algorand both have what would be usually
+considered ``good'' coverage, at > 90\%.  And the 75\% and 99\%
+mutation scores are, respectively, solid and remarkable.  In
+isolation, however, the numbers either suggest ``Bitcoin core is
+somewhat better tested'' (coverage) or ``Algorand is much better
+tested'' (mutation score).  Using both numbers, however, we can see
+that these projects have chosen different trade-offs in testing.  The
+Bitcoin core tests emphasize covering all code, and in fact do cover
+all but extremely obscure (and possibly impossible to introduce with a
+historically possible blockchain) behavior.  In contrast, Algorand
+leaves more code uncovered, including code that appears to correspond
+to obscure and unlikely but possible conditoins.  However, Bitcoin
+core has taken much less pain to construct a strong oracle.  In
+practice, 75\% of course is generally considered a very good mutation
+score for real-world code, but the 99\%+ mutation coverage of
+Algorand reflects an even greater attention to ensuring every
+behavior's impact is checked, and moreover suggests that Algorand
+chose to cover almost all of the code with serious semantic impact.
+It is likely that to some extent Bitcoin sacrificed some
+oracle-improvement effort to focus on increasing coverage, which is
+closely monitored by the project, while efforts to perform frequent mutation
+analysis on Bitcoin Core are only now in progress.
+
+Similarly, within the Ethereum project, {\tt
+  block\_validator.go} would benefit from a stronger oracle. The tests for
+{\tt validation.go} simply fail to cover a large portion of the file,
+though does a good job of checking the covered code. 
+For avalanchego, the covered oracle gap is what we could
+consider ``normal'' reflecting a somewhat weaker oracle combined with
+reasonable code coverage.   Note that by mutation score, {\tt
+  validation.go} from Ethereum and {\tt add\_subnet\_validator\_tx.go}
+appear to be very simila: using the conventional ``best
+practice'' of applying mutation testing alone as an adequacy measure when
+possible, these files would both seem to be poorly tested.  The
+mutation score would not indicate that in one case, the failure is
+mostly due to poor coverage (a large negative oracle gap) and in the
+other case, the result is due to an oracle that significantly lags
+code coverage (a smaller, but stil large, positive oracle gap).
+As with Bitcoin and Algorand
+considering the gap tells the full story of the difference in
+testing, and most likely effective mitigations for weaknesses.
+
+Finally, the scores for all projects show the importance of usually
+focusing on \emph{covered} oracle gap.  The raw oracle gaps are all
+positive, since in many cases limited coverage dominates the factors
+leading to unkilled mutants; covered oracle gap exposes the real (and
+quite large) differences in oracle power.
+\end{sloppypar}
+
+\subsection{Bitcoin and Fuzzing: Acting on the Gap}
+
+Bitcoin Core includes a complex, well-designed, set of fuzzing tests that are
+run on OSS-Fuzz~\cite{icseseip22}.  %We examined the oracle gap
+%question using the relevant fuzz targets 
+Two particularly relevant fuzz targets in
+{\tt tx\_verify.cpp} are ({\tt
+  process\_message\_tx} and {\tt coins\_view}); we used these to explore qualitativey
+how oracle gap is particularly informative for highly automated
+testing methods.
+
+ Fuzzing {\tt tx\_verify.cpp} doesn't affect code
+coverage either way: fuzz test coverage is approximately as high as for
+functional tests, though with minor changes in exact code covered.
+However, overall, fuzzing could detect just under 12\%
+of all the generated mutants, resulting in very large positive raw and covered
+oracle gaps (essentially the same, given 98\%+
+code coverage).
+%
+Fuzzing adds two unique mutant kills beyond those produced by
+functional testing for Bitcoin Core.  
+%
+% Only fuzzing generates inputs that cause
+% the height of a coinbase to be zero.
+% Note that the opportunity for either approach to
+% generate a zero value here is limited: functional tests only cover the
+% mutated line 14 times, and fuzzing 556 times.  In contrast, both cover
+% numerous other lines of code more than a million times.  For
+% functional tests, the line is the 2nd least-covered line executed in {\tt
+%   tx\_verify.cpp}, and it is the 4th least-covered line executed for fuzzing.
+%
+The much greater mutant killing power (75.8\% vs 12\%) of the functional
+tests obviously does not lie in the marginal 0.5
+percentage points of  branch coverage it obtains; it lies
+in the ability to reject incorrect executions that do not crash or set
+off a sanitizer alarm.
+
+This raises the question:  why fuzz?  The coverage for high quality
+(if imperfect) functional tests such as those for Bitcoin Core will
+often be considerably
+higher, and the oracle will almost always be \emph{much} more powerful.  The answer lies in the
+fact that, even in the presence of such high quality tests, fuzzing
+uncovers subtle bugs that functional tests designed by humans will
+almost never detect,
+e.g. \url{https://github.com/bitcoin/bitcoin/issues/22450}.\footnote{Comments
+  on this bug, such as ``Another win for fuzzing, oh wow.'' and
+  ``Fuzzer rulez!'' show that the Bitcoin Core team has little doubt
+  about the power of fuzzing.}   Fuzzing is \emph{not} a replacement
+for functional/unit tests; and functional/unit tests are not a
+replacement for fuzzing.  In our mutation analysis, consider the two
+mutants detected by {\tt coins\_view} fuzzing alone.  In the
+traditional, score-based, view of mutation analysis, the {\tt
+  coins\_view} fuzz harness would be seen as performing badly.  But it
+detects two (hypothetical) bugs not detectable by any other means; in the
+real world, if one such bug is exploitable, detecting it may ``pay
+for'' all the fuzzing effort, and there will seldom be just one such
+bug (see an approximate list of fuzzer-detected, fixed bugs in Bitcoin
+Core\footnote{\url{https://github.com/bitcoin/bitcoin/issues?q=is\%3Aissue+fuzz+is\%3Aclosed+label\%3ABug}}). 
+
+However, while the size of the oracle gap does not show fuzzing is useless, it \emph{does} likely point to the most effective way to improve the power of Bitcoin Core fuzzing: manual, expert developer effort to improve the
+oracles used by existing fuzz targets, or efforts to craft custom,
+more restricted, fuzz targets with stronger oracles when this is not
+feasible.
+
+Building fuzz harnesses with complex correctness checks is hard, of
+course; the functional tests know exactly what inputs are being
+provided to APIs, and can check for expected behavior.  Trying to
+inject this kind of check into fuzz harnesses ranges from non-trivial
+to effectively impossible (for some properties).  When
+applicable, more generic, ``mathematical'' constraints such as are
+used in property-based testing~\cite{ClaessenH00} can help, but these
+are often hard to apply at the end-to-end level of a fuzz harness,
+without turning the fuzz harness into a spaghetti code mess of
+checks for various qualities of the inputs.  In the worst case, these
+end up simply reflecting developer/tester notions that already found
+their way into the code itself.  Differential testing~\cite{Differential} against other
+implementations might also help here, but is probably best done at a
+higher end-to-end level than inside these specific fuzz targets (this
+is already done on some cryptographic elements of the code).
+
+There is no
+easy solution to this problem, but the most promising route is
+probably to focus
+on adding invariants and assertions to the non-test code itself when
+the oracle gap is extremely large in automated testing; these checks can be executed by
+both functional and fuzz tests, and avoid the problem of duplicating
+analysis of inputs.  At
+present, the Bitcoin Core code has about 1,800 {\tt assert}
+statements, scattered among  ~180KLOC of C and C++.  The resulting ratio
+of about one assertion per 100 lines of code is not terrible, but is
+at the lower limit of what many consider to be an acceptable assertion
+ratio for critical code.
+Given that Bitcoin Core defines at least 4,000 functions, the code obviously
+doesn't meet the NASA/JPL proposal of having an average of two
+assertions per function~\cite{holzmann2006power}.  E.g., there are only five assert
+statements in the {\tt src/consensus} directory, which has about 500
+lines of code and defines more than 10 functions, suggesting that the assertion ratio is low even for
+critical code.  Large covered oracle gap serves as a strong indicator
+that efforts such as examining assertion density or devoting resources
+to differential testing or metamorphic testing may be in order.  In
+the Bitcoin case, the fact that there is essentially almost no more coverage
+to be had would also suggest this approach, but in cases where fuzz
+coverage is good, but not extremely high, oracle gap (as with
+avalanchego's validator functional tests) can show that diminishing
+returns on coverage vs. oracle power may already be setting in,
+avoiding fairly fruitless efforts to improve fuzzing via tool
+selection or other methods that do not target oracle power~\cite{icseseip22}.
+
+\section{Threats to Validity}
+
+Both our observational study and case study of cryptocurrencies present certain threats to validity,
+which are addressed in the following section. These include many common issues with mutation analysis,
+including equivalent mutants, and mutating logging statements, test code and asserts. While all of these
+could be confounding factors in determining the relationship between mutation score and coverage, from
+examination of mutants generated by Universal Mutator, these tend to be a very small subset of the data,
+and thus do not effect our higher level conclusions, which show trends much greater than a small margin.
+Furthermore, despite these threats, in approximately half of all cases, a high \emph{oracle-gap} revealed
+a fundamental issue in the underlying test suite when we performed our manual examination of files with
+greater than 80\% coverage and less than 20\% mutation score. 
+
+\textbf{Equivalent Mutants}: One of the most common threats to validity in mutation testing is the
+issue of equivalent mutants \cite{buddEquivalent}, or syntactic changes to the source code that exhibit no underlying
+change to the meaning of the code. Since the code is equivalent, these mutants will never be killed,
+regardless of the written test suite. 
+
+\textbf{Logging Statements}: Another issue with running mutation testing is the potential to mutate
+logging statements, which are often rarely, if ever checked. Mutating these statements produces trivial
+mutation operators which will never be killed, thus artificially deflating overall mutation score
+of projects in the corpus. 
+
+\textbf{Mutating Test Code}: Our heuristic of mutating files with coverage data ensured that the
+vast majority of the time we were mutating source code, when running our experiments. However, there
+were a small group of cases, where our experiments ended up mutating test code, thus producing
+mutants that were not valuable to the end developer. 
+
+\textbf{Mutating Asserts}: A small subset of code in our corpus also consisted of assertions that
+exist within the code, but are not checked by the various test cases. These asserts would often
+occur at the beginning or a function and would check various preconditions, which would be met
+by other calling functions. Mutating such code would result in live mutants even when tests were
+well-written, which similar to the other threats would deflate overall mutation score.
+
+\section{Related Work}
+
+While there has been a growing body of work on studying mutation testing and its relationship 
+with defects, and an extensive literature on test adequacy measured by
+code coverage dating almost to the beginnings of software engineering, we are
+not aware of work analying the relationship
+between mutation score and coverage in terms similar to ours.   While
+there is foundational work on the oracle/test
+distinction~\cite{StaatsOracle} at a theoretical level (without a
+discussion of the gap or use of mutation testing to estimate oracle
+power), most work assumes a basic framework of  trying to determine
+correlation of mutation testing or coverage alone with fault
+detection and/or coverage with mutation score
+score~\cite{papadakis2018mutation,PapadakisStudy,ThierryStudy}.  In
+such work, the oracle/test distinction is not erased (it is the reason
+code coverage is presumed less useful), but is not considered in the
+light of whether code is ``more executed'' or ``more checked'' in a
+test effort.  Beyond early key work on the oracle problem, perhaps the
+closest approach, which does not involve mutants at all, is the notion
+of \emph{checked coverage} introduced by Schuler and
+Zeller~\cite{ZellerCheckedCov}, which, however, still results in a
+single score and does not suggest whether coverage and oracle efforts
+are in balance.
+
+%\textbf{Relevant Mutation Testing Studies}
+
+Petrovic et al. \cite{PetrovicTestingPractices} study the relationship between
+mutants and faults, while describing how developers
+have been using mutation testing at Google. They find that mutation testing has a 70\% coupling with high priority
+defectsThis helps support our assertion that higher mutation scores are strongly correlated with higher quality oracles, with
+mutation testing being a viable method of catching defects before they occur. Combining the results of with our study regarding the
+oracle gap provides information for practitioners about both the value of mutation testing and when they should be running mutation testing on their codebase. 
+
+\begin{comment}
+Delgado-Pérez et al. \cite{DelgadoPerezCaseStudy} also performed mutation testing on 2,509 mutants over 15 functions. Their study 
+primarily focused on analyzing equivalent mutants and the computational cost of finding these mutants.
+They agree with the hypothesis that mutation testing is a better predictor of faults than a
+traditional coverage based approach. This large scale study of mutation is similar to our Java study of a large number of
+mutants, however the analysis and results differ in that they were analyzing equivalent mutants, while we are examining the
+correlation between mutation score and coverage through the lens of the oracle gap. Additionally, our study is over a much 
+larger sample size, with over 30 Java projects, that total have 463,417 lines of code, making it more appropriate for extrapolating
+generalizable correlations.
+\end{comment}
+
+Just et al. \cite{JustMutationFault} empirically examined 357 faults over 5 open source applications, totaling
+over 321,000 lines of code. They found that 73\% of real-world faults can be associated with common mutation
+operators, such as statement deletion, argument swapping and library method call. However,
+they answer the question regarding how mutants are correlated with real world faults, while we answer the question
+of how mutation score and coverage are correlated, and what the
+changing relationships in the varying relation means for
+developers/testers.  Beller et al. \cite{BellerFacebookMutation} examined how to feasibly
+implement mutation testing at Facebook, including tuning mutation
+operators towards those that helped find high priority bugs. Out of the
+15,000 mutants generated, over half were live, with their case study of 26 developers illustrating how these mutants
+did help find real bugs.  These studies support the notion that
+lagging mutation score indicates lagging fault \emph{detection}
+capability even in the presence of coverage, as also suggested by work
+by Sina et al. on whether automatically generated unit tests help find bugs~\cite{DoGenerated}.
+
+%\textbf{The Relationship Between Coverage and Mutation Score}
+
+Smith et al. \cite{SmithCoverageMutation} briefly discussed the relationship between coverage and mutation score, finding
+that the two are strongly correlated. However, this study was significantly
+smaller than ours, covering only 2 open source projects. It also does not analyze the nature of the
+relationship, or causes for divergence. This work is probably
+the closest to ours in the topics covered and relationship analyzed, but with only two open source projects being
+studied.
+
+Li et al. \cite{LiCoverageMutation} also examined when it is best to use various testing methods, including mutation testing,
+and prime path, edge pair, and all-uses coverage. They found that mutation testing ends up catching the most
+overall faults, along with defining a new term: the cost-benefit ratio or the number of tests needed on
+average to catch a fault. Mutation testing also performs the best here, with the fewest number of tests
+to find a fault. The metrics measured here are a bit different than ours, since this study only studied
+the different testing methods in isolation, while we study how they complement each other. Rather than suggesting
+that developers should either use mutation score or coverage, we suggest that they should use both metrics, as they
+can help complement each other, with low coverage being more informative and mutation testing helping significantly more
+once developers hit higher coverage thresholds.
+
+\section{Conclusion and Implications}
+
+Current approaches to measuring test adequacy focus on either simply
+reporting structural coverage, or on reporting a complex mix of oracle
+power and structural coverage, in the form of mutation score.  Neither
+approach yields practicable advice on the degree to which a test's
+coverage and oracle efforts are ``in balance.''  We propose the
+\emph{oracle gap} or
+\emph{the difference between source code coverage and mutation score} as a new
+metric to help researchers and practitioners improve their
+understanding of test adequacy.  We show that in practice the oracle
+gap varies widely in real code, and connect that variance to real
+differences in testing, both by performing a synthetic experiment on
+our Java corpus and by examining in detail real-world cryptocurrency
+code testing similar critical functionality.
+
+This way of looking at test adequacy has implications for both testing researchers and
+practitioners. For researchers, while there exists the expected corration 
+between coverage and mutation score, the
+relationship is complex and important.  Mutation score is not a ``refined''
+coverage score, nor vice versa, and reporting one number without the context of
+the other paints a partial picture on tools like fuzz testers or other automatic
+test generators.  There is already strong impetus for research in improving or
+constructing oracles for existing or generated tests; our results show that the
+recent growth and impressiveness of fuzz testing efforts provides further motivation.
+Fuzzing is growing in popularity in both research and
+practice, and these tools bring significant value in finding bugs that
+other forms of testing don't find as easily.  But, we show that their gains in
+coverage are not as impressive as their magnitutde would naively suggest.  
+The apparent gap provided by automatic tests (or equivalently, tests without
+assertions at all) means that ultimately, and perhaps unsurprisingly, it doesn't
+test the code it covers particularly well.  Overall it might still find more
+bugs than manual testing, if all parts of the code were equally important.  Rather, it
+seems that manual testing really properly tests the code it is testing, on
+balance, but practioners don't as commonly work to cover less important code.
+Flooding the codebase with tests to superficially cover logging code can
+sacrifice testing simplicity for very little gain.
+
+
+This speaks to the implications of our reasoning for practitioners.  
+Covering more code probably \emph{is} good, but there is a balance in how finite testing
+effort should be allocated.
+Practitioners using fuzzing, or any kind of testing paradigm, can look at the
+oracle gap from time to time on their test efforts to understand where their
+effort should next be allocated.  Companies 
+are already using mutants of covered lines that are not killed to
+improve testing.  In addition to localized advice, oracle gap might give
+visibility into what might be called 'oracle debt' by analogy with 'technical
+debt': cases where policies about coverage have yielded testing whose coverage
+exceeds its ability to probe for faults.
+
+\balance
+
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{bibliography}
+
+\balance
+
+\end{document}
