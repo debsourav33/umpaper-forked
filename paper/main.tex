@@ -22,7 +22,7 @@
 %%
 %% The first command in your LaTeX source must be the \documentclass command.
 \documentclass[sigconf,review, anonymous]{acmart}
-\acmConference[ISSTA 2023]{ACM SIGSOFT International Symposium on Software Testing and Analysis}{17-21 July, 2023}{Seattle, USA}
+\acmConference[ICSE 2024]{46th International Conference on Software Engineering}{April 2024}{Lisbon, Portugal}
 
 \usepackage{code}
 \usepackage{graphicx}
@@ -63,40 +63,9 @@ basicstyle=\ttfamily\bfseries\footnotesize,
 }
 \lstset{style=javastyle}
 
-%%% The following is specific to Onward! '21 and the paper
-%%% 'Let a Thousand Flowers Bloom: On the Uses of Diversity in Software Testing'
-%%% by Alex Groce.
-%%%
-
-
-
-%%
-%% Submission ID.
-%% Use this when submitting an article to a sponsored event. You'll
-%% receive a unique submission ID from the organizers
-%% of the event, and this ID should be used as the parameter to this command.
-%%\acmSubmissionID{123-A56-BU3}
-
-%%
-%% The majority of ACM publications use numbered citations and
-%% references.  The command \citestyle{authoryear} switches to the
-%% "author year" style.
-%%
-%% If you are preparing content for an event
-%% sponsored by ACM SIGGRAPH, you must use the "author year" style of
-%% citations and references.
-%% Uncommenting
-%% the next command will enable that style.
-%%\citestyle{acmauthoryear}
-
-%%
-%% end of the preamble, start of the body of the document source.
-\begin{document}
-
-%%
 %% The "title" command has an optional parameter,
 %% allowing the author to define a "short title" to be used in page headers.
-\title{Program Mutation is Randomized Program Transformation: A
+\title{Program Mutation is Just Program Transformation: \\ A
   Universal Approach to Mutant Generation}
 
 %%
@@ -139,6 +108,7 @@ basicstyle=\ttfamily\bfseries\footnotesize,
 \newcommand{\covrsquared}{0.021}
 \newcommand{\covr}{0.145}
 
+\begin{document}
 
 \begin{abstract}
 While mutation testing has been a topic of academic interest for
@@ -161,8 +131,11 @@ can effectively generate source-level mutants for essentially
 any-language approach can be overcome, without the need to parse
 specific languages.  We compare the universal program transformation
 approach to mutation to existing tools, and demonstrate the advantages
-of using parser-parser combinators to improve on an initial regular-expression
-based approach to generation.
+of using parser-parser combinators to improve on a simple regular-expression
+based approach to generation.  The ease of building new tools is
+further demonstrated by showing that the implementation of a recently
+published mutation tool for Coq can be duplicated using only XX
+transformation rules, without parsing the Coq language.
 \end{abstract}
 
 
@@ -186,68 +159,65 @@ based approach to generation.
 
 \maketitle
 
+
+
 \section{Introduction}
 
 \section{Related Work}
 
-There is a large body of work studying mutation testing and its relationship 
-with defects, and an extensive literature on test adequacy measured by
-code coverage that dates almost to the beginnings of software
-engineering; however, we are
-unaware of work analyzing the relationship
-between mutation score and coverage in terms similar to ours.   While
-there is foundational work on the oracle/test
-distinction~\cite{StaatsOracle} at a theoretical level, most work assumes a basic framework of  trying to determine
-correlation of mutation testing or coverage alone with fault
-detection and/or coverage with mutation score~\cite{papadakis2018mutation,PapadakisStudy,ThierryStudy}.  In
-such work, the oracle/test distinction is not considered in the
-light of whether code is ``more executed'' or ``more checked'' in a
-test effort.  Perhaps the
-closest approach, which does not involve mutants at all, is the notion
-of \emph{checked coverage}~\cite{ZellerCheckedCov}, which, however, still results in a
-single score, as does pseudotesting~\cite{pseudotestingorig,
-  pseudotestingstudy, descartes}.  Further, checked coverage is
-inherently unable to identify buggy assertions that do not in practice
-detect mutants, if there is any dynamic flow
-from coverage to the faulty assertion.
-%\textbf{Relevant Mutation Testing Studies}
+Many approaches have been proposed to tackle the \emph{computational} cost of mutation, including weak-mutation, 
+meta-mutation, mutation-sampling, and predicting which mutants will be
+killed~\cite{offuttMutant1996,
+  untch1993mutation,KaufmanFAKAJ2022,zhang2016pmt}.  Approaches to reducing the cost of
+mutation analysis were categorized as \textit{do smarter}, \textit{do
+faster}, and \textit{do fewer} by Offutt et al.~\cite{offutt2001mutation}.
+The \textit{do smarter} approaches include space-time trade-offs, weak
+mutation analysis, and parallelization of mutation analysis. The \textit{do
+faster} approaches include mutant schema generation, code patching, and
+other methods to make mutants run faster. Finally, the
+\textit{do fewer} approaches try to reduce the number of mutants examined,
+and include selective mutation and mutant sampling.
 
-%Petrovic et al. \cite{PetrovicTestingPractices} study the relationship between
-%mutants and faults, while describing how developers
-%have been using mutation testing at Google. They find that mutation testing has a 70\% coupling with high priority
-%defects. This helps support our assertion that higher mutation scores are strongly correlated with higher quality oracles, with
-%mutation testing being a viable method of catching defects before they occur. Combining the results of with our study regarding the
-%oracle gap provides information for practitioners about both the value of mutation testing and when they should be running mutation testing on their code base. 
+None of these approaches focus on the cost in \emph{human} time to
+develop and maintain mutation testing tools.  In fact, the complexity
+and sophistication of some of these approaches imposes a daunting
+barrier to those who would develop ``good'' mutation tools for a new
+language.  However, arguably the most powerful and generalizable
+methods for reducing the cost of mutation, such as random sampling~\cite{GopinathSampleSize,gopinath2017mutation} and
+predictive mutation testing~\cite{zhang2016pmt,kim2022predictive}, are independent of the generation of
+mutants and so applicable to any language.
 
-\begin{comment}
-Delgado-Pérez et al. \cite{DelgadoPerezCaseStudy} also performed mutation testing on 2,509 mutants over 15 functions. Their study 
-primarily focused on analyzing equivalent mutants and the computational cost of finding these mutants.
-They agree with the hypothesis that mutation testing is a better predictor of faults than a
-traditional coverage based approach. This large scale study of mutation is similar to our Java study of a large number of
-mutants, however the analysis and results differ in that they were analyzing equivalent mutants, while we are examining the
-correlation between mutation score and coverage through the lens of the oracle gap. Additionally, our study is over a much 
-larger sample size, with over 30 Java projects, that total have 463,417 lines of code, making it more appropriate for extrapolating
-generalizable correlations.
-\end{comment}
+Hariri et al. compared C mutation approaches at the source and
+compiler IR levels~\cite{CompareSrcBinary} and found that overall
+source level mutation was better, producing fewer mutants overall, but
+matching the IR approach in the important measures of surface and
+minimal mutants and overall mutation score.  Numerous studies compare
+Java mutation tools~\cite{MajorPIT,gopinath2017does}, including a
+recent article for a more general audience in Communications of the
+ACM~\cite{CommACMJavaTool} (perhaps showing the growing interest in
+practical mutation testing).  This paper showed that users
+considered active maintenance, support for a variety of testing
+frameworks, and support for recent Java versions as the most important
+features in a Java mutation tool.  The approach proposed in this paper
+by its nature tends to promise all three of these key factors without
+imposing onerous burdens on maintainers.
 
-Just et al. \cite{JustMutationFault} found that 73\% of real-world faults can be associated with common mutation
-operators. Beller et al. \cite{BellerFacebookMutation} examined how to feasibly
-implement mutation testing at Facebook. These studies support the notion that
-lagging mutation score indicates lagging fault \emph{detection}
-capability even in the presence of coverage, as also suggested by work
-by Sina et al. on whether automatically generated unit tests help find bugs~\cite{DoGenerated}.
-Smith et al. \cite{SmithCoverageMutation} briefly discussed the
-relationship between coverage and mutation score, but 
-examined only two open source projects. Li et al. \cite{LiCoverageMutation} also examined when it is best to use various testing methods, including mutation testing. Rather than suggesting
-that developers should \emph{either} use mutation score or coverage, we suggest that they should use both metrics, as they
-complement each other.  Recent industrial uses of
-mutants~\cite{PetrovicMutationGoogle,BellerFacebookMutation} do not
-include gap analysis, but informally hint that large-scale users may
-be amenable to the type of analysis we provide, given how they use
-mutants to pinpoint test issues now.  Finally, it is interesting to consider that
-large positive covered oracle gap can be alternatively thought of as
-the presence of many \emph{stubborn} mutants in a file~\cite{papadakis2018mutant}.
-
+Finally, the practical use of mutation testing at Google argues that
+support for a variety of languages is critical, and that the approach
+we take is more than sufficient.  Google has used its
+substantial resources to provide mutation generation for C++, Java,
+Python, Javascript, Go, Typescript, and Common
+Lisp~\cite{PetrovicMutationGoogle}, all of which we also support.  The
+operators Google uses for these
+languages (based on the original Mothra operators~\cite{offutt1996experimental}) are a subset of those provided by our implementation, with the caveat
+that statement block removal is only supported when using Comby;
+regular expression mutation is limited to single-line statement
+deletion.  For Lisp-like languages, identifying statements vs. value-returning
+function calls makes use of block deletion impractical, but it can be
+supported as well.  The majority of these operators are implemented in
+a few lines as universal rules for all languages; only specializing
+logical operators and implementing block/statement deletion even requires
+language identification.
 
 \section{Conclusion and Implications}
 
