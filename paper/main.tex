@@ -163,6 +163,33 @@ transformation rules, without parsing the Coq language.
 
 \section{Introduction}
 
+\section{The Universal Source-Based Approach}
+
+\subsection{Incremental Mutation}
+
+One obvious concern with any-language source-based mutation is that every time the
+program changes, the cost of invalid mutations must be paid again.
+However, the locality of mutants and source changes in fact means this
+is seldom required.
+
+The {\tt git merge-file} utility takes a base file and two modified
+versions of that file, and produces an automatic merge, using the
+usual git merge resolution algorithm.    Because a mutant is a (very
+small) source change, this means that in practice updating a mutant to
+reflect even large changes to a source file is cost-free, and if the
+original mutant was valid, the new mutant will usually also be valid.
+New mutant generation is only required for new lines of code and
+modified lines of code.  To the extent development is incremental,
+therefore, mutation generation can also be incremental.
+
+\section{Using Parser Parser Combinators Instead of Regular Expressions}
+
+\section{Experimental Evaluatoni}
+
+\subsection{Universal Source-Based Mutation vs. Previous Approaches}
+
+\subsection{Regular Expressions vs. Parser Parser Combinators}
+
 \section{Related Work}
 
 Many approaches have been proposed to tackle the \emph{computational} cost of mutation, including weak-mutation, 
@@ -212,14 +239,15 @@ operators Google uses for these
 languages (based on the original Mothra operators~\cite{offutt1996experimental}) are a subset of those provided by our implementation, with the caveat
 that statement block removal is only supported when using Comby;
 regular expression mutation is limited to single-line statement
-deletion.  For Lisp-like languages, identifying statements vs. value-returning
-function calls makes use of block deletion impractical, but it can be
-supported as well.  The majority of these operators are implemented in
+deletion.  For Lisp-like languages, the difficulty of identifying statements vs. value-returning
+function calls makes use of block deletion somewhat impractical, but
+still easy to implement.  The majority of the Google Mothra operators
+can be implemented in
 a few lines as universal rules for all languages; only specializing
 logical operators and implementing block/statement deletion even requires
 language identification.  Unlike Google's mutation infrastructure, our tool is open source, easily extensible, and not tied to any particular development environment.
 
-\section{Conclusion and Implications}
+\section{Conclusions and Future Work}
 
 \bibliographystyle{ACM-Reference-Format}
 \bibliography{bibliography}
