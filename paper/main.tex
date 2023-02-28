@@ -165,6 +165,68 @@ transformation rules, without parsing the Coq language.
 
 \section{The Universal Source-Based Approach}
 
+The key insight of this paper is that \emph{most mutation operators
+  proposed in the literature do not in fact require parsing of source
+  code.}  Consider, for example, one of the most commonly used
+mutation operators, replacement of arithmetic operations.  We do not
+need to parse a program containing the string {\tt ``x + y''} in order to
+replace that string with {\tt ``x - y''}.  Instead, this change is
+guaranteed to be effected if we simply search the program, represented
+as a string, for all occurrences of  {\tt ``+''}, and produce for each
+such occurrence, a mutant where tha character is replaced by {\tt
+  ``-''}.  We can do the same for each pair of arithmetic operations,
+and thus trivially implement a large fraction of the classic Mothra~\cite{offutt1996experimental}
+mutation operators.
+
+The obvious objection to this simplistic approach is that unless we
+parse the code to identify arithmetic expressions, some of these
+replacements will be invalid.  E.g., in a C++ program we will produce
+mutants like {\tt x-+} replacing {\tt x++}.  However, most of these
+instances can be avoided by slightly more judicious choice of search
+target: instances of {\tt ``+''} where the preceeding or following
+character is not another {\tt ``+''}, for instance.
+
+Of course, in some cases this will still leave us with invalid
+mutants.  However, rejecting such mutants is easy: the truly invalid
+mutants will fail to compile.  Of course, we must pay the price of
+checking each mutant to make sure that it does compile, at generation
+time.
+
+However, consider what has been gained by paying this cost.  We have
+replaced a complex implementation, that requires parsing source code,
+with an implementation that only requires string search-and-replace.
+One can imagine an implementation of the above approach to arithmetic
+operation replacement being implemented in as little as 10-20 lines of
+Python code, including a call to a compiler to check for invalid
+mutants.  Moreover, defining new mutation operators is not a matter of
+understanding a representation of a parsed program, but is essentially
+a matter of providing two strings, where the second is a proposed
+replacement for the first.  Instead of code for arithmetic operator
+replacement, we can imagine the above hypothetical Python program
+reading in a file of thus expressed mutation operators, and
+implementing an unbounded number of operators in a minimalist fashion.
+
+Of course, simple string replacement is not general enough to handle
+many interesting mutations.  Consider the classic case of statement
+deletion, one of the most widely used and important mutation
+operators.  What string can we replace with another string in order to
+delete a statement in a C program?  We would need an ``operator'' for
+each possible C statement.  However, if we allow the use of
+\emph{regular expression match and replace pairs} in place of simple
+strings, we can easily express this operator, with some precision:
+
+\begin{verbatim}
+(^\s*)(\S+[^{}]+.*)\n ==> \1/*\2*/\n
+\end{verbatim}
+
+In Python regular expression syntax, this expresses the replacement of
+strings with a possibly-empty amount of white space followed by a
+character pattern indicating a line of source code, with the same
+source code, preserving indentation, turned into a comment.
+
+
+\subsection{Hierarchies of Operator Applicability}
+
 \subsection{Incremental Mutation}
 
 One obvious concern with any-language source-based mutation is that every time the
