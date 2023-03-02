@@ -209,7 +209,7 @@ implementing an unbounded number of operators in a minimalist fashion.
 Of course, simple string replacement is not general enough to handle
 many interesting mutations.  Consider the classic case of statement
 deletion, one of the most widely used and important mutation
-operators.  What string can we replace with another string in order to
+operators~\cite{deng2013empirical}.  What string can we replace with another string in order to
 delete a statement in a C program?  We would need an ``operator'' for
 each possible C statement.  However, if we allow the use of
 \emph{regular expression match and replace pairs} in place of simple
@@ -224,6 +224,17 @@ strings with a possibly-empty amount of white space followed by a
 character pattern indicating a line of source code, with the same
 source code, preserving indentation, turned into a comment.
 
+Using regular expressions to express mutants has many benefits.  While
+much more expressive than simple string replacement, regular
+expressions are familliar to most developers.  In principle,
+development of complex regular expressions for operators can even be
+performed by simply providing examples~\cite{bartoli2014automatic}  or
+describing the operator in natural
+language~\cite{zhong2018generating}.  Implementing a mutation
+generation tool for a language by providing the equivalent of our
+Python program above with a list of regular expression matches and
+replacements is clearly much easier than writing a mutation tool from
+scratch, and much easier to maintain and extend. 
 
 \subsection{Hierarchies of Operator Applicability}
 
@@ -245,6 +256,8 @@ modified lines of code.  To the extent development is incremental,
 therefore, mutation generation can also be incremental.
 
 \section{Using Parser Parser Combinators Instead of Regular Expressions}
+
+\section{Implementation}
 
 \section{Experimental Evaluatoni}
 
