@@ -160,6 +160,97 @@ based approach to generation.
 
 \section{Introduction}
 
+Mutation testing, though introduced in the late
+1970s~\cite{demillo1978hints,mathur2012foundations,demillo1978hints},
+has largely been a topic of academic interest rather than widespread
+practice until quite recently.  However, with the adoption of mutation
+testing by bellwether software industry companies including
+Google~\cite{GoogleMut}, Meta~\cite{BellerFacebookMutation}, and
+Amazon~\cite{AmazonMut}, interest in using mutation testing for
+real-world projects has grown widely.
+
+Interest in mutation testing has become widespread enough in the open
+source community that a popular (more than 300 stars on GitHub)
+repository, ``Awesome Mutation Testing,'' lists more than 40 tools,
+covering almost twenty languages:
+\url{https://github.com/theofidry/awesome-mutation-testing}.  Some of
+these tools are the products of academic research, but many are
+essentially the hobby projects of developers interested in enabling
+mutation testing for their favorite language.
+
+However, the same website demonstrates the existence of a sad history
+of mutation testing tools: mutation tools have a tendency to be
+developed for a while and then abandoned.   The page listing abandoned
+mutation testing tools
+(\url{https://github.com/theofidry/awesome-mutation-testing/blob/master/abandoned.md})
+lists almost half as many tools as are under active maintenance, and
+these tools cover approximately half as many languages.  Each of these
+tools required considerable development time and effort, and was
+popular enough at some point to be worth noting in the ``Awesome
+Mutation Testing'' resource.  Many of the abandoned tools have GitHub
+repositories (some archived) with more than 20 stars, and so may well
+have had users who at some point faced the reality of no future bug
+fixes or changes to address changes to the programming language being
+mutated\footnote{While this is a minor concern for languages such as C
+  that are relatively stable, it means that a mutation tool may fail
+  to parse C++ 2020, and is particularly problematic for somewhat
+  fast-moving languages such as Rust.}.  Of course, many open source
+projects are abandoned, and academic software has a long history of
+being available and supported only so long as a graduate student is
+working on a thesis or a particular grant is being funded.  Still,
+there appears to be a significant risk in relying on any mutation tools other
+than the most widely used and well-supported, such as PIT.
+
+...
+
+
+In this paper, we argue that developing a large number of mutation
+testing tools, each requiring its own development community, workflow
+for mutation, and effort to keep up with language changes, is
+unnecessary.  Mutation testing, and in particular, the core problem,
+\emph{mutation generation} is simply a particular instance of the
+problem of \emph{program transformations}.  Moreover,
+mutation testing can be treated as an almost entirely \emph{syntactic}
+transformation problem; in fact, in their classic introduction to
+software testing, Ammann and Offutt refer to mutation testing as
+``syntax-based testing'' ~\cite{ammann2016introduction}.  While, e.g., refactoring may need to
+``understand'' a program to some extent, mutation can often operate
+with essentially no context beyond a single line of code.
+
+We further propose that in fact, for the most part, mutation
+generation need not even ``know'' the syntax of a target language, in
+terms of a complete grammar.  Instead, mutation testing can operate to
+a large extent in a \emph{universal} manner, where programs are
+transformed at the level of \emph{patterns of characters}.
+
+The contributions of this paper are:
+
+\begin{enumerate}
+  \item The description of a novel approach to mutation generation
+    based on generalized description of multi-lingual program transformations
+    that allows a single tool to handle mutant generation for
+    essentially all programming languages.  This approach also makes
+    mutation testing easy to extend for new languages and even allows
+    developers to write project-specific rules easily without
+    having to modify a mutation tool's implementation.
+
+          \item A proposal to use parser-parser combinators to improve the
+      efficiency and expressive power of that approach, and an
+      evaluation of the gains thus achieved.
+
+    
+      \item A comparison of an implementation of mutation generation
+       based on this approach with existing tools for four important
+       programming languages.  The single-language tools range from
+       approximately 3,800 LOC to nearly 60,000 LOC, and each handle
+       one programming language.  Our tool, which provides comparable
+       core mutation testing functionality, supports over a dozen
+       languages using only about 2200 LOC of Python and less than 500
+       lines of rules defining mutation operators.
+
+\end{enumerate}
+
+
 \section{The Universal Source-Based Approach}
 
 The key insight of this paper is that \emph{most mutation operators
@@ -301,11 +392,27 @@ therefore, mutation generation can also be incremental.
 
 \section{Implementation}
 
-\section{Experimental Evaluatoni}
+\section{Experimental Evaluation}
 
-\subsection{Universal Source-Based Mutation vs. Previous Approaches}
+\begin{itemize}
+
+  \item{RQ1:}  How does the use of parser-parser combinators modify 
+    the efficiency (in terms of invalid mutants) and effectiveness (in
+    terms of mutation score and equivalent mutants) of the universal
+    approach to mutation generation?
+
+\item{RQ2:}  How does the univeral approach, using regular expressions
+  or parser-combinator combinator rules, compare to existing
+  single-language mutation tools, in terms of number of generated
+  mutants, mutation scores, equivalent mutants, and other evaluation measures used in the literature?
+    
+  \end{itemize} 
 
 \subsection{Regular Expressions vs. Parser Parser Combinators}
+
+  
+\subsection{Universal Source-Based Mutation vs. Previous Approaches}
+
 
 \section{Related Work}
 
