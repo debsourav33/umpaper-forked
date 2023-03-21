@@ -207,9 +207,22 @@ than the most widely used and well-supported, such as PIT.
 In this paper, we argue that developing a large number of mutation
 testing tools, each requiring its own development community, workflow
 for mutation, and effort to keep up with language changes, is
-unnecessary.  Mutation testing, and in particular, the core problem,
-\emph{mutation generation} is simply a particular instance of the
-problem of \emph{program transformations}.  Moreover,
+unnecessary.  The core problem of mutation testing,
+\emph{mutant generation}, is simply a particular instance of the
+problem of \emph{program transformation}.  Program transformation
+considers the problem of taking a program, $P$, and producing a
+program, $P'$ that is the result of applying some function $f$ to $P$
+(i.e., $P' = f(P)$).  In mutant generation, we
+consider a family of functions $f$ where each $f_{o,loc}$ is an
+instantiation of a \emph{mutation operator} $o$  (as classically, if
+often informally, defined in the literature) at a particular program
+location $loc$ in $P$.  The inclusion of $loc$ in the specification of
+$f$ indicates that the problem is a specialization of general
+program transformation in that all classic mutation operators we are
+aware of are \emph{local}: they only affect a small portion of a
+program, genearlly a contiguous string of characters or tokens.
+
+Moreover, as this suggests,
 mutation testing can be treated as an almost entirely \emph{syntactic}
 transformation problem; in fact, in their classic introduction to
 software testing, Ammann and Offutt refer to mutation testing as
@@ -217,16 +230,40 @@ software testing, Ammann and Offutt refer to mutation testing as
 ``understand'' a program to some extent, mutation can often operate
 with essentially no context beyond a single line of code.
 
-We further propose that in fact, for the most part, mutation
+We further propose that in fact, for the most part, mutant
 generation need not even ``know'' the syntax of a target language, in
 terms of a complete grammar.  Instead, mutation testing can operate to
 a large extent in a \emph{universal} manner, where programs are
-transformed at the level of \emph{patterns of characters}.
-
-The contributions of this paper are:
+transformed at the level of \emph{patterns of characters}.  That is,
+each $o$ and $loc$ can be defined without reference to, e.g., the
+context-free grammar of a programming language, but only with respect
+to a position in $P$ treated as a string, and a transformation on a
+string defined in terms of, e.g., regular expressions with capture and
+replacement.  Treating mutant generation as a problem of (textual, local)
+program transformation provides two major benefits:
 
 \begin{enumerate}
-  \item The description of a novel approach to mutation generation
+  \item A single tool can provide mutant generation for almost any
+    programming language, without needing to parse that language, and
+    rules for one language can be re-used for another language.  This
+    reduces the development and maintenance effort for mutation
+    testing tools by orders of magnitude.  Moreover, it removes the
+    need for many   maintenance activities related to parsing code;
+    such changes need to be made only when a change to the language
+    would introduce new mutation operators or modify existing ones.
+    The local nature of operators tends to make the second case in
+    particular very rare.
+    \item The existing literature on multi-lingual or language
+      agnostic program transformation can be applied to the problem of
+      mutant generation, making it easy to express mutation operators
+      that operate across many languages, and efficient to generate
+      mutants.
+      \end{enumerate}
+
+The contributions of this paper are therefore:
+
+\begin{enumerate}
+  \item The description of a novel approach to mutant generation
     based on generalized description of multi-lingual program transformations
     that allows a single tool to handle mutant generation for
     essentially all programming languages.  This approach also makes
@@ -239,14 +276,16 @@ The contributions of this paper are:
       evaluation of the gains thus achieved.
 
     
-      \item A comparison of an implementation of mutation generation
+      \item A comparison of an implementation of mutant generation
        based on this approach with existing tools for four important
        programming languages.  The single-language tools range from
-       approximately 3,800 LOC to nearly 60,000 LOC, and each handle
+       approximately 3,800 LOC to nearly 60,000 LOC, and, we emphasize, each handle
        one programming language.  Our tool, which provides comparable
        core mutation testing functionality, supports over a dozen
-       languages using only about 2200 LOC of Python and less than 500
-       lines of rules defining mutation operators.
+       languages using only about 2,200 LOC of Python and less than 500
+       lines for rules defining mutation operators over a dozen
+       specific languages (and which can effectively mutate an
+       essentially unlimited number of other languages).
 
 \end{enumerate}
 
@@ -326,7 +365,7 @@ scratch, and much easier to maintain and extend.
 
 \subsection{Hierarchies of Operator Applicability}
 
-Implementing mutation generation by providing a set of regular-expression
+Implementing mutant generation by providing a set of regular-expression
 based textual transformations for each target language, and using a
 single engine to apply rules to source files is certainly less
 difficult in terms of development and maintenance effort than building
@@ -386,7 +425,7 @@ reflect even large changes to a source file is cost-free, and if the
 original mutant was valid, the new mutant will usually also be valid.
 New mutant generation is only required for new lines of code and
 modified lines of code.  To the extent development is incremental,
-therefore, mutation generation can also be incremental.
+therefore, mutant generation can also be incremental.
 
 \section{Using Parser Parser Combinators Instead of Regular Expressions}
 
@@ -399,7 +438,7 @@ therefore, mutation generation can also be incremental.
   \item{RQ1:}  How does the use of parser-parser combinators modify 
     the efficiency (in terms of invalid mutants) and effectiveness (in
     terms of mutation score and equivalent mutants) of the universal
-    approach to mutation generation?
+    approach to mutant generation?
 
 \item{RQ2:}  How does the univeral approach, using regular expressions
   or parser-combinator combinator rules, compare to existing
@@ -456,7 +495,7 @@ imposing onerous burdens on maintainers.
 Finally, the practical use of mutation testing at Google argues that
 support for a variety of languages is critical, and that the approach
 we take is more than sufficient.  Google has used its
-substantial resources to provide mutation generation for C++, Java,
+substantial resources to provide mutant generation for C++, Java,
 Python, Javascript, Go, Typescript, and Common
 Lisp~\cite{PetrovicMutationGoogle}, all of which we also support.  The
 operators Google uses for these
