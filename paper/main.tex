@@ -513,7 +513,19 @@ still easy to implement.  The majority of the Google Mothra operators
 can be implemented in
 a few lines as universal rules for all languages; only specializing
 logical operators and implementing block/statement deletion even requires
-language identification.  Unlike Google's mutation infrastructure, our tool is open source, easily extensible, and not tied to any particular development environment.
+language identification.  Unlike Google's mutation infrastructure, our
+tool is open source, easily extensible, and not tied to any particular
+development environment.
+
+The approach reported in this paper was briefly presented in part in a
+tool paper (citation redacted for blinding purposes) that introduced
+the idea of using regular expressions to generate mutants for multiple
+languages, and provided an evaluation against PIT for a single toy
+Java program.  The present paper provides the full idea and context,
+provides empirical data for universal mutant generation on real world
+programs over four languages,
+and introduces the idea of using parser-parser combinators to improve
+on regular expression-based generation.
 
 \section{Conclusions and Future Work}
 
