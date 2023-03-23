@@ -463,21 +463,30 @@ always write a simple script to check...
 \label{tab:table_java1}
 \resizebox{\columnwidth}{!}{%
 
-\begin{tabular}{|c|c|c|c|c|}
+\begin{tabular}{|c|c|c|c|c|c|}
 \hline
- &  & \textbf{Valid} & \textbf{Invalid} & \textbf{Valid \%}  \\ \hline
-\multirow{2}{*}{pebble} & Regex & 86 & 928 & 8.48\%  \\\cline{2-5}
-    & Comby & 85 & 667 & 11.30\% \\ \hline
-\multirow{2}{*}{spring-hateoas} & Regex & 248 & 2231 & 10.00\% \\\cline{2-5}
-    & Comby & 176 & 1212 & 12.68\% \\ \hline
-\multirow{2}{*}{javacc} & Regex & 542 & 1346 & 28.70\% \\\cline{2-5}
-    & Comby & 503 & 782 & 39.14\% \\ \hline
-\multirow{2}{*}{coffee-gb} & Regex & 224 & 1703 & 11.63\% \\\cline{2-5}
-    & Comby & 174 & 624 & 21.80\% \\ \hline
-\multirow{2}{*}{egads} & Regex & 624 & 1830 & 25.43\% \\\cline{2-5}
-    & Comby & 622 & 566 & 52.36\% \\ \hline
-\multirow{2}{*}{apk-parser} & Regex & 351 & 1232 & 22.17\% \\\cline{2-5}
-    & Comby & 338 & 866 & 28.07\% \\ \hline
+ & \multicolumn{2}{c|}{} & \textbf{Valid} & \textbf{Invalid} & \textbf{Valid \%}  \\ \hline
+\multirow{2}{*}{pebble} & \multicolumn{2}{c|}{Regex} & 86 & 928 & 8.48\%  \\\cline{2-6}
+    & \multicolumn{2}{c|}{Comby} & 85 & 667 & 11.30\% \\ \hline
+\multirow{2}{*}{spring-hateoas} & \multicolumn{2}{c|}{Regex} & 248 & 2231 & 10.00\% \\\cline{2-6}
+    & \multicolumn{2}{c|}{Comby} & 176 & 1212 & 12.68\% \\ \hline
+\multirow{2}{*}{javacc} & \multicolumn{2}{c|}{Regex} & 542 & 1346 & 28.70\% \\\cline{2-6}
+    & \multicolumn{2}{c|}{Comby} & 503 & 782 & 39.14\% \\ \hline
+\multirow{2}{*}{coffee-gb} & \multicolumn{2}{c|}{Regex} & 224 & 1703 & 11.63\% \\\cline{2-6}
+    & \multicolumn{2}{c|}{Comby} & 174 & 624 & 21.80\% \\ \hline
+\multirow{2}{*}{egads} & \multicolumn{2}{c|}{Regex} & 624 & 1830 & 25.43\% \\\cline{2-6}
+    & \multicolumn{2}{c|}{Comby} & 622 & 566 & 52.36\% \\ \hline
+\multirow{2}{*}{apk-parser} & \multicolumn{2}{c|}{Regex} & 351 & 1232 & 22.17\% \\\cline{2-6}
+    & \multicolumn{2}{c|}{Comby} & 338 & 866 & 28.07\% \\ \hline
+
+\multirow{6}{*}{Overall} & \multirow{3}{*}{Regex} & Mean & 345.83 & 1545.00  & 17.74\%\\\cline{3-6}
+    &   &  Median & 299.50 & 1524.50 & 16.90\%  \\\cline{3-6}
+    &   &  Std. Dev & 203.86 & 467.98 & 8.73\%  \\\cline{2-6}
+
+ & \multirow{3}{*}{Comby} & Mean & 316.33 & 786.17 & 27.56\% \\\cline{3-6}
+    &   &  Median & 257.00 & 724.50 & 24.94\%  \\\cline{3-6}
+    &   &  Std. Dev & 210.81 & 235.24  & 15.93\%  \\\hline
+
 
 \end{tabular}
 
@@ -492,22 +501,30 @@ always write a simple script to check...
 \label{tab:table_python1}
 \resizebox{\columnwidth}{!}{%
 
-\begin{tabular}{|c|c|c|c|c|c|}
+\begin{tabular}{|c|c|c|c|c|c|c|}
 \hline
- &  & \textbf{Valid} & \textbf{Invalid} & \textbf{Redundant} & \textbf{Valid \%}  \\ \hline
-\multirow{2}{*}{keract} & Comby & 1655 & 1600 &	729 & 41.53\%  \\\cline{2-6}
-    & Comby & 1471 & 1063 & 533 & 47.96\% \\ \hline
-\multirow{2}{*}{dtw} & Comby & 973 & 566 & 567 & 46.20\% \\\cline{2-6}
-    & Comby & 866 & 330 & 639 &	47.19\% \\ \hline
-\multirow{2}{*}{notion-sdk-py} & Comby & 196 & 760 & 82 & 18.89\% \\\cline{2-6}
-    & Comby & 196 & 701 & 122 & 19.23\% \\ \hline
+ & \multicolumn{2}{c|}{} & \textbf{Valid} & \textbf{Invalid} & \textbf{Redundant} & \textbf{Valid \%}  \\ \hline
+\multirow{2}{*}{keract} & \multicolumn{2}{c|}{Regex} & 1655 & 1600 &	729 & 41.53\%  \\\cline{2-7}
+    & \multicolumn{2}{c|}{Comby} & 1471 & 1063 & 533 & 47.96\% \\ \hline
+\multirow{2}{*}{dtw} & \multicolumn{2}{c|}{Regex} & 973 & 566 & 567 & 46.20\% \\\cline{2-7}
+    & \multicolumn{2}{c|}{Comby} & 866 & 330 & 639 &	47.19\% \\ \hline
+\multirow{2}{*}{notion-sdk-py} & \multicolumn{2}{c|}{Regex} & 196 & 760 & 82 & 18.89\% \\\cline{2-7}
+    & \multicolumn{2}{c|}{Comby} & 196 & 701 & 122 & 19.23\% \\ \hline
     
-\multirow{2}{*}{atlassian-python-api} & Comby & 302	& 1002 & 207 &	19.99\% \\\cline{2-6}
-    & Comby & 333 & 635 & 351 & 25.25\% \\ \hline
-\multirow{2}{*}{ESD} & Comby & 1859	& 2767 & 1642 & 29.46\% \\\cline{2-6}
-    & Comby & 1712 & 1548 &	614 & 44.18\% \\ \hline
-\multirow{2}{*}{fiber} & Comby & 493 & 909 & 163 & 31.08\% \\\cline{2-6}
-    & Comby & 458 & 767	& 241 & 31.24\% \\ \hline
+\multirow{2}{*}{{\makecell{atlassian-python \\ api}}} & \multicolumn{2}{c|}{Regex} & 302	& 1002 & 207 &	19.99\% \\\cline{2-7}
+    & \multicolumn{2}{c|}{Comby} & 333 & 635 & 351 & 25.25\% \\ \hline
+\multirow{2}{*}{ESD} & \multicolumn{2}{c|}{Regex} & 1859	& 2767 & 1642 & 29.46\% \\\cline{2-7}
+    & \multicolumn{2}{c|}{Comby} & 1712 & 1548 &	614 & 44.18\% \\ \hline
+\multirow{2}{*}{fiber} & \multicolumn{2}{c|}{Regex} & 493 & 909 & 163 & 31.08\% \\\cline{2-7}
+    & \multicolumn{2}{c|}{Comby} & 458 & 767	& 241 & 31.24\% \\ \hline
+
+\multirow{6}{*}{Overall} & \multirow{3}{*}{Regex} & Mean & 913.00 & 1267.33 & 565.00 & 31.19\%   \\\cline{3-7}
+    &   &  Median & 733.00 & 955.50 & 387.00 & 30.27\%  \\\cline{3-7}
+    &   &  Std. Dev & 708.93 & 813.35 & 584.79 & 11.06\%  \\\cline{2-7}
+
+ & \multirow{3}{*}{Comby} & Mean & 839.33 & 840.67 & 416.67 & 35.84\% \\\cline{3-7}
+    &   &  Median & 662.00 & 734.00 & 442.00 & 37.71\%  \\\cline{3-7}
+    &   &  Std. Dev & 628.79 & 418.99 & 211.62 & 12.28\%  \\\hline
 
 \end{tabular}
 
@@ -555,19 +572,19 @@ always write a simple script to check...
     
 \multirow{12}{*}{Overall} & \multirow{3}{*}{Regex} & \multicolumn{2}{c|}{Mean} & 0.39  & -\\\cline{3-6}
     &   &  \multicolumn{2}{c|}{Median} & 0.28 & - \\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.27 & - \\\cline{2-6}
+    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.30 & - \\\cline{2-6}
 
  & \multirow{3}{*}{Comby} & \multicolumn{2}{c|}{Mean} & 0.40 & -\\\cline{3-6}
     &   &  \multicolumn{2}{c|}{Median} & 0.30 & - \\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.26 & - \\\cline{2-6}
+    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.29 & - \\\cline{2-6}
 
  & \multirow{3}{*}{PIT} & \multicolumn{2}{c|}{Mean} & 0.55 & -\\\cline{3-6}
     &   &  \multicolumn{2}{c|}{Median} & 0.55 & - \\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.34 & - \\\cline{2-6}
+    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.37 & - \\\cline{2-6}
     
  & \multirow{3}{*}{LittleDarwin} & \multicolumn{2}{c|}{Mean} & 0.59 & -\\\cline{3-6}
     &   &  \multicolumn{2}{c|}{Median} & 0.59 & - \\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.32 & - \\ \hline
+    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.35 & - \\ \hline
     
 \end{tabular}
 }
@@ -603,7 +620,7 @@ always write a simple script to check...
     & CosmicRay & 78 & 28 & 0.74 & - \\ \hline
 \multirow{3}{*}{\small ESD} & Regex & 132 & 1727 & 0.07 & - \\\cline{2-6}
     & Comby & 121 & 1591 & 0.07 & - \\ \cline{2-6}
-    & Mutmut & (57+0) & 663 & 0.08 & - \\ \cline{2-6}
+    & Mutmut & 57 & 663 & 0.08 & - \\ \cline{2-6}
     & CosmicRay & 63 & 950 & 0.06 & - \\ \hline
 \multirow{3}{*}{\small fiber} & Regex & 307 & 186 & 0.62 & \\\cline{2-6}
     & Comby & 291 & 167 & 0.64 & -\\ \cline{2-6}
@@ -612,19 +629,19 @@ always write a simple script to check...
     
 \multirow{12}{*}{Overall} & \multirow{3}{*}{Regex} & \multicolumn{2}{c|}{Mean} & 0.45  & -\\\cline{3-6}
     &   &  \multicolumn{2}{c|}{Median} & 0.55 & - \\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.21 & - \\\cline{2-6}
+    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.23 & - \\\cline{2-6}
 
  & \multirow{3}{*}{Comby} & \multicolumn{2}{c|}{Mean} & 0.46 & -\\\cline{3-6}
     &   &  \multicolumn{2}{c|}{Median} & 0.58 & - \\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.22 & - \\\cline{2-6}
+    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.24 & - \\\cline{2-6}
 
  & \multirow{3}{*}{Mutmut} & \multicolumn{2}{c|}{Mean} & 0.53 & -\\\cline{3-6}
     &   &  \multicolumn{2}{c|}{Median} & 0.61 & - \\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.22 & - \\\cline{2-6}
+    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.24 & - \\\cline{2-6}
     
  & \multirow{3}{*}{CosmicRay} & \multicolumn{2}{c|}{Mean} & 0.46 & -\\\cline{3-6}
     &   &  \multicolumn{2}{c|}{Median} & 0.45 & - \\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.26 & - \\ \hline
+    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.28 & - \\ \hline
     
 \end{tabular}
 }
