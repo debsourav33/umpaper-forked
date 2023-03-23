@@ -37,6 +37,8 @@
 \usepackage{xcolor}
 \usepackage{xspace}
 
+\usepackage{tabularx} % for tables with adjustable column width
+\usepackage{makecell} % for formatting table cell contents
 
 \definecolor{dkgreen}{rgb}{0,0.5,0}
 \definecolor{dkred}{rgb}{0.5,0,0}
@@ -454,8 +456,179 @@ always write a simple script to check...
 
 \subsection{Regular Expressions vs. Parser Parser Combinators}
 
-  
+% ---------------- JAVA table --------------------------
+\begin{table}[hbtp]
+\centering
+\caption{JAVA (Regex vs. Comby)}
+\label{tab:table_java1}
+\resizebox{\columnwidth}{!}{%
+
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+ &  & \textbf{Valid} & \textbf{Invalid} & \textbf{Redundant} & \textbf{Valid \%}  \\ \hline
+\multirow{2}{*}{pebble} & Regex & 86 & 928 & 0 & 8.48\%  \\\cline{2-6}
+    & Comby & 85 & 667 & 0 & 11.30\% \\ \hline
+\multirow{2}{*}{spring-hateoas} & Regex & 248 & 2231 & 0 & 10.00\% \\\cline{2-6}
+    & Comby & 176 & 1212 & 0 & 12.68\% \\ \hline
+\multirow{2}{*}{javacc} & Regex & 542 & 1346 & 0 & 28.70\% \\\cline{2-6}
+    & Comby & 503 & 782 & 0 & 39.14\% \\ \hline
+\multirow{2}{*}{coffee-gb} & Regex & 224 & 1703 & 0 & 11.63\% \\\cline{2-6}
+    & Comby & 174 & 624 & 0 & 21.80\% \\ \hline
+\multirow{2}{*}{egads} & Regex & 624 & 1830 & 0 & 25.43\% \\\cline{2-6}
+    & Comby & 622 & 566 & 0 & 52.36\% \\ \hline
+\multirow{2}{*}{apk-parser} & Regex & 351 & 1232 & 0 & 22.17\% \\\cline{2-6}
+    & Comby & 338 & 866 & 0 & 28.07\% \\ \hline
+
+\end{tabular}
+
+}
+\end{table}
+
+% ---------------- Python table --------------------------
+
+\begin{table}[hbtp]
+\centering
+\caption{Python (Regex vs. Comby)}
+\label{tab:table_python1}
+\resizebox{\columnwidth}{!}{%
+
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+ &  & \textbf{Valid} & \textbf{Invalid} & \textbf{Redundant} & \textbf{Valid \%}  \\ \hline
+\multirow{2}{*}{keract} & Comby & 1655 & 1600 &	729 & 41.53\%  \\\cline{2-6}
+    & Comby & 1471 & 1063 & 533 & 47.96\% \\ \hline
+\multirow{2}{*}{dtw} & Comby & 973 & 566 & 567 & 46.20\% \\\cline{2-6}
+    & Comby & 866 & 330 & 639 &	47.19\% \\ \hline
+\multirow{2}{*}{notion-sdk-py} & Comby & 196 & 760 & 82 & 18.89\% \\\cline{2-6}
+    & Comby & 196 & 701 & 122 & 19.23\% \\ \hline
+    
+\multirow{2}{*}{atlassian-python-api} & Comby & 302	& 1002 & 207 &	19.99\% \\\cline{2-6}
+    & Comby & 333 & 635 & 351 & 25.25\% \\ \hline
+\multirow{2}{*}{ESD} & Comby & 1859	& 2767 & 1642 & 29.46\% \\\cline{2-6}
+    & Comby & 1712 & 1548 &	614 & 44.18\% \\ \hline
+\multirow{2}{*}{fiber} & Comby & 493 & 909 & 163 & 31.08\% \\\cline{2-6}
+    & Comby & 458 & 767	& 241 & 31.24\% \\ \hline
+
+\end{tabular}
+
+}
+\end{table}
+
+
 \subsection{Universal Source-Based Mutation vs. Previous Approaches}
+
+% ---------------- JAVA table --------------------------
+
+\begin{table}[htbp]
+\centering
+\caption{JAVA (UniversalMutator vs. PIT vs. LittleDarwin)}
+\label{tab:table_java2}
+\resizebox{\columnwidth}{!}{
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+ &  & \textbf{Killed} & \textbf{Not Killed} &  \makecell{\textbf{Mutation} \\ \textbf{Score}} & \textbf{Equivalent \%} \\ \hline
+
+ \multirow{4}{*}{\small pebble} & Regex & 70 & 16 & 0.81 & - \\\cline{2-6}
+    & Comby & 68 & 17 & 0.80 & - \\\cline{2-6}
+    & PIT & 19 & 1 & 0.95 & - \\ \cline{2-6}
+    & LittleDarwin & 8 & 0 & 1.00 & - \\ \hline
+\multirow{3}{*}{\small spring-hateoas} & Regex & 82 & 166 & 0.33 & - \\\cline{2-6}
+    & Comby & 65 & 111 & 0.37 & - \\ \cline{2-6}
+    & PIT & 82 & 32 & 0.28 & - \\ \cline{2-6}
+    & LittleDarwin & 15 & 23 & 0.39 & - \\ \hline
+\multirow{3}{*}{\small javacc} & Regex & 123 & 419 & 0.23 & - \\\cline{2-6}
+    & Comby & 103 & 400 & 0.21 & - \\ \cline{2-6}
+    & PIT & 30 & 113 & 0.21 & -\\ \cline{2-6}
+    & LittleDarwin & 64 & 18 & 0.78 & - \\ \hline
+\multirow{3}{*}{\small coffee-gb} & Regex & 48 & 176 & 0.21 & - \\\cline{2-6}
+    & Comby & 40 & 134 & 0.23 & - \\ \cline{2-6}
+    & PIT & 32 & 4 & 0.89 & - \\ \cline{2-6}
+    & LittleDarwin & 11 & 18 & 0.38 & -\\ \hline
+\multirow{3}{*}{\small egads} & Regex & 442 & 182 & 0.71 & - \\\cline{2-6}
+    & Comby & 422 & 200 & 0.68 & - \\ \cline{2-6}
+    & PIT & 87 & 20 & 0.81 & - \\ \cline{2-6}
+    & LittleDarwin & 74 & 11 & 0.87 & - \\ \hline
+\multirow{3}{*}{\small apk-parser} & Regex & 26 & 325 & 0.07 & \\\cline{2-6}
+    & Comby & 26 & 312 & 0.08 & -\\ \cline{2-6}
+    & PIT & 14 & 75  & 0.16 & -\\ \cline{2-6}
+    & LittleDarwin & 3 & 30 & 0.09 & -\\ \hline
+    
+\multirow{12}{*}{Overall} & \multirow{3}{*}{Regex} & \multicolumn{2}{c|}{Mean} & 0.39  & -\\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Median} & 0.28 & - \\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.27 & - \\\cline{2-6}
+
+ & \multirow{3}{*}{Comby} & \multicolumn{2}{c|}{Mean} & 0.40 & -\\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Median} & 0.30 & - \\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.26 & - \\\cline{2-6}
+
+ & \multirow{3}{*}{PIT} & \multicolumn{2}{c|}{Mean} & 0.55 & -\\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Median} & 0.55 & - \\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.34 & - \\\cline{2-6}
+    
+ & \multirow{3}{*}{LittleDarwin} & \multicolumn{2}{c|}{Mean} & 0.59 & -\\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Median} & 0.59 & - \\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.32 & - \\ \hline
+    
+\end{tabular}
+}
+\end{table}
+
+% ----------------  Python table -------------------------------
+
+\begin{table}[htbp]
+\centering
+\caption{Python (UniversalMutator vs. Mutmut vs. CosmicRay)}
+\label{tab:table_python2}
+\resizebox{\columnwidth}{!}{
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+ &  & \textbf{Killed} & \textbf{Not Killed} &  \makecell{\textbf{Mutation} \\ \textbf{Score}} & \textbf{Equivalent \%} \\ \hline
+
+ \multirow{4}{*}{\small keract} & Regex & 463 & 1192 & 0.28 & - \\\cline{2-6}
+    & Comby & 383 & 1088 & 0.26 & - \\\cline{2-6}
+    & Mutmut & 349 & 133 & 0.72 & - \\ \cline{2-6}
+    & CosmicRay & 250 & 671 & 0.27 & - \\ \hline
+\multirow{3}{*}{\small dtw} & Regex & 506 & 467 & 0.52 & - \\\cline{2-6}
+    & Comby & 475 & 391 & 0.55 & - \\ \cline{2-6}
+    & Mutmut & 118 & 152 & 0.44 & - \\ \cline{2-6}
+    & CosmicRay & 328 & 385 & 0.46 & - \\ \hline
+\multirow{3}{*}{\small notion-sdk-py} & Regex & 112 & 84 & 0.57 & - \\\cline{2-6}
+    & Comby & 118 & 78 & 0.60 & - \\ \cline{2-6}
+    & Mutmut & 41 & 22 & 0.65 & -\\ \cline{2-6}
+    & CosmicRay & 23 & 29 & 0.44 & - \\ \hline
+    
+\multirow{3}{*}{\makecell{\small atlassian-python \\ api}} & Regex & 193 & 109 & 0.64 & - \\\cline{2-6}
+    & Comby & 207 & 126 & 0.62 & - \\ \cline{2-6}
+    & Mutmut & 123 & 51 & 0.71 & - \\ \cline{2-6}
+    & CosmicRay & 78 & 28 & 0.74 & - \\ \hline
+\multirow{3}{*}{\small ESD} & Regex & 132 & 1727 & 0.07 & - \\\cline{2-6}
+    & Comby & 121 & 1591 & 0.07 & - \\ \cline{2-6}
+    & Mutmut & (57+0) & 663 & 0.08 & - \\ \cline{2-6}
+    & CosmicRay & 63 & 950 & 0.06 & - \\ \hline
+\multirow{3}{*}{\small fiber} & Regex & 307 & 186 & 0.62 & \\\cline{2-6}
+    & Comby & 291 & 167 & 0.64 & -\\ \cline{2-6}
+    & Mutmut & 127 & 95 & 0.57 & -\\ \cline{2-6}
+    & CosmicRay & 259 & 61 & 0.81 & -\\ \hline
+    
+\multirow{12}{*}{Overall} & \multirow{3}{*}{Regex} & \multicolumn{2}{c|}{Mean} & 0.45  & -\\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Median} & 0.55 & - \\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.21 & - \\\cline{2-6}
+
+ & \multirow{3}{*}{Comby} & \multicolumn{2}{c|}{Mean} & 0.46 & -\\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Median} & 0.58 & - \\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.22 & - \\\cline{2-6}
+
+ & \multirow{3}{*}{Mutmut} & \multicolumn{2}{c|}{Mean} & 0.53 & -\\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Median} & 0.61 & - \\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.22 & - \\\cline{2-6}
+    
+ & \multirow{3}{*}{CosmicRay} & \multicolumn{2}{c|}{Mean} & 0.46 & -\\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Median} & 0.45 & - \\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.26 & - \\ \hline
+    
+\end{tabular}
+}
+\end{table}
 
 
 \section{Related Work}
