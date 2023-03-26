@@ -456,6 +456,43 @@ always write a simple script to check...
 
 \subsection{Regular Expressions vs. Parser Parser Combinators}
 
+% ---------------- C++ table UM Only--------------------------
+\begin{table}[hbtp]
+\centering
+\caption{C++ (Regex vs. Comby)}
+\label{tab:table_cpp1}
+\resizebox{\columnwidth}{!}{%
+
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+ & \multicolumn{2}{c|}{} & \textbf{Valid} & \textbf{Invalid} & \textbf{Valid \%}  \\ \hline
+\multirow{2}{*}{ompl} & \multicolumn{2}{c|}{Regex} & 595 & 1938 & 23.49\%  \\\cline{2-6}
+    & \multicolumn{2}{c|}{Comby} & 564 & 1610 & 25.94\% \\ \hline
+\multirow{2}{*}{libgraphqlparser} & \multicolumn{2}{c|}{Regex} & 157 & 584 & 21.19\% \\\cline{2-6}
+    & \multicolumn{2}{c|}{Comby} & 131 & 309 & 29.77\% \\ \hline
+\multirow{2}{*}{rethinkdb\_rebirth} & \multicolumn{2}{c|}{Regex} & 545 & 1701 & 24.27\% \\\cline{2-6}
+    & \multicolumn{2}{c|}{Comby} & 492 & 1517 & 24.49\% \\ \hline
+    
+\multirow{2}{*}{xoreos} & \multicolumn{2}{c|}{Regex} & 2419 & 1457 & 62.41\% \\\cline{2-6}
+    & \multicolumn{2}{c|}{Comby} & 2280 & 1017 & 69.15\% \\ \hline
+\multirow{2}{*}{libxmljs} & \multicolumn{2}{c|}{Regex} & 881 & 3108 & 22.09\% \\\cline{2-6}
+    & \multicolumn{2}{c|}{Comby} & 790 & 3218 & 19.71\% \\ \hline
+\multirow{2}{*}{tiny-differentiable-simulator} & \multicolumn{2}{c|}{Regex} & 747 & 535 & 58.27\% \\\cline{2-6}
+    & \multicolumn{2}{c|}{Comby} & 770 & 444 & 63.43\% \\ \hline
+
+\multirow{6}{*}{Overall} & \multirow{3}{*}{Regex} & Mean & 890.67 &	1553.83 & 35.28\%\\\cline{3-6}
+    &   &  Median & 671.00 & 1579.00 & 23.88\%  \\\cline{3-6}
+    &   &  Std. Dev & 787.62 & 956.31 & 19.48\%  \\\cline{2-6}
+
+ & \multirow{3}{*}{Comby} & Mean & 837.83 & 1352.50 & 38.75\% \\\cline{3-6}
+    &   &  Median & 667.00 & 1267.00 & 27.86\%  \\\cline{3-6}
+    &   &  Std. Dev & 745.78 & 1058.33	& 21.66\%  \\\hline
+
+\end{tabular}
+}
+
+\end{table}
+
 % ---------------- JAVA table UM Only--------------------------
 \begin{table}[hbtp]
 \centering
@@ -574,6 +611,55 @@ always write a simple script to check...
 
 
 \subsection{Universal Source-Based Mutation vs. Previous Approaches}
+
+
+% ---------------- C++ table (UM vs Others)--------------------------
+
+\begin{table}[htbp]
+\centering
+\caption{C++ (UniversalMutator vs. Dextool)}
+\label{tab:table_cpp2}
+\resizebox{\columnwidth}{!}{
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+ &  & \textbf{Killed} & \textbf{Not Killed} &  \makecell{\textbf{Mutation} \\ \textbf{Score}} & \textbf{Equivalent \%} \\ \hline
+
+ \multirow{3}{*}{\small ompl} & Regex & 29 & 566 & 0.05 & 30\% \\\cline{2-6}
+    & Comby & 41 & 523 & 0.07 & 40\% \\\cline{2-6}
+    & Dextool & 23 & 255 & 0.08 & N/A \\ \hline
+\multirow{3}{*}{\small libgraphqlparser} & Regex & 142 & 15 & 0.90 & 30\% \\\cline{2-6}
+    & Comby & 116 & 15 & 0.89 & 20\% \\ \cline{2-6}
+    & Dextool & 50 & 2 & 0.96 & N/A \\ \hline
+\multirow{3}{*}{\small rethinkdb\_rebirth} & Regex & 65 & 480 & 0.12 & 10\% \\\cline{2-6}
+    & Comby & 49 & 443 & 0.10 & 20\% \\ \cline{2-6}
+    & Dextool & 9 & 16 & 0.36 & N/A \\ \hline
+    
+\multirow{3}{*}{\small xoreos} & Regex & 33 & 2386 & 0.01 & 0\% \\\cline{2-6}
+    & Comby & 33 & 2247 & 0.01 & 10\% \\ \cline{2-6}
+    & Dextool & 8 & 406 & 0.02 & N/A \\ \hline
+\multirow{3}{*}{\small libxmljs} & Regex & 547 & 334 & 0.62 & 10\% \\\cline{2-6}
+    & Comby & 507 & 283 & 0.64 & 10\% \\ \cline{2-6}
+    & Dextool & 383 & 447 & 0.46 & N/A \\ \hline
+\multirow{3}{*}{\small tiny-differentiable-simulator} & Regex & 38 & 709 & 0.05 & 0\% \\\cline{2-6}
+    & Comby & 32 & 738 & 0.04 & 0\% \\ \cline{2-6}
+    & Dextool & 13 & 48 & 0.21 & N/A\\ \hline
+    
+\multirow{9}{*}{Overall} & \multirow{3}{*}{Regex} & \multicolumn{2}{c|}{Mean} & 0.29  & 13.33\%\\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Median} & 0.09 & 10.00\% \\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.38 & 13.66\% \\\cline{2-6}
+
+ & \multirow{3}{*}{Comby} & \multicolumn{2}{c|}{Mean} & 0.29 & 16.67\% \\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Median} & 0.09 & 15.00\% \\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.37 & 13.66\% \\\cline{2-6}
+
+ & \multirow{3}{*}{Cargo-Mutants} & \multicolumn{2}{c|}{Mean} & 0.33 & N/A\\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Median} & 0.29 & N/A \\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.38 & N/A \\ \hline
+    
+    
+\end{tabular}
+}
+\end{table}
 
 % ---------------- JAVA table (UM vs Others) --------------------------
 
