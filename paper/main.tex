@@ -203,9 +203,17 @@ Moreover, newer languages, including ones with considerable interest
 in the development community, often lack mutation testing tools.  Even
 languages with a long history may long lack a working mutation testing
 tool; e.g., it was not until 2014 that Haskell had such a tool
-\cite{mucheck}.  Furthermore, that tool may no longer  be
-supported (the last commits or package updates were in 2015), and it
-is not clear that a successor tool has appeared in the ensuing years.
+\cite{mucheck}.  Furthermore, that tool is no longer
+supported\footnote{The last commits or package updates were in 2015, and the
+primary author confirms that changes to {\tt haskell-src-ext} since
+introduced render it unusable at present.}, and it
+appears that no successor tool has appeared in the ensuing
+years\footnote{There is FitSpec \cite{FitSpec}, which is maintained,
+  but FitSpec does not perform traditional mutation testing or produce
+  source code (or bytecode) mutants; it rather
+  performs black-box type-aware mutation of function return values.}.
+Haskell developers (until now, see below) have no option for
+performing true mutation testing.
 
 A great deal of research effort has been devoted to devising clever
 schemes for reducing the computational burden of mutation testing over
@@ -272,8 +280,7 @@ program transformation provides two major benefits:
     need for many   maintenance activities related to parsing code;
     such changes need to be made only when a change to the language
     would introduce new mutation operators or modify existing ones.
-    The local nature of operators tends to make the second case in
-    particular very rare.
+    The local nature of operators tends to make the second case very rare.
     \item The existing literature on multi-lingual or language
       agnostic program transformation can be applied to the problem of
       mutant generation, making it easy to express mutation operators
@@ -443,10 +450,11 @@ constructs common to e.g.,  Java, C, and C++ ({{\tt if}, {\tt while},
     \hline
     Universal & C-Like & Language-Specific \\
     \hline
-{\tt < ==> >} & else ==> & synchronized ==> \\ 
+{\tt < ==> >} &{\tt  else ==>} & {\tt synchronized ==>} \\ 
 {\tt < ==> ==} & {\tt if (\textbackslash(.*\textbackslash)) ==> if (!\textbackslash 1)} &
                                                                  {\tt (\^{}\textbackslash s*)(\textbackslash S+.*\textbackslash n) ==> \textbackslash 1pass}\\
-{\tt < ==> <=} & {\tt if (\textbackslash(.*\textbackslash)) ==> if (1==1)} & any\_of ==> all\_of\\
+{\tt < ==> <=} & {\tt if (\textbackslash(.*\textbackslash)) ==> if
+                 (1==1)} & {\tt any\_of ==> all\_of}\\
 \hline
 
 \end{tabular}
@@ -980,15 +988,17 @@ which it has no rules, Haskell.
 \subsection{Haskell Case Study}
 
 \begin{figure}
-\begin{code}
+
+  \begin{code}
  qsort :: [ Int] -> [ Int ]
  qsort [] = []
  qsort (x: xs ) = qsort l ++ [x] ++ qsort r
      where l = filter (< x) xs
            r = filter ( >= x) xs
 \end{code}
-\label{fig;haskell}
 \caption{Example from MuCheck Paper}
+\label{fig:haskell}
+
 \end{figure}
 
 Figure~\ref{fig:haskell} shows a simple Haskell program, the
@@ -1003,7 +1013,15 @@ C-like syntax does not hold, we applied our implementation to this example.
 Using regular expressions, and only the universal rules, our tool
 generates 10 valid mutants and 34 invalid mutants of the code (22.73\%
 valid mutants).  Comby produces an identical 10 valid mutants, but 65
-invalid mutants (13.33\% validity).  These mutants produce a mutation
+invalid mutants (13.33\% validity).  Both tools produce a large number
+of invalid mutants here due to including rules such as adding {\tt
+  break} and {\tt continue} that are sufficiently widespread in
+applicability to be included in our ``universal'' set but do not apply
+to Haskell; we believe that comby's awareness of Haskell syntax in
+this case actually gives it \emph{more} opportunities to apply such
+inapplicable mutants.
+
+These mutants produce a mutation
 score of 0.8 for the two properties defined in the original MuCheck
 paper.  In other words, like MuCheck, our tool is able to
 determine that the properties provided are insufficient.  In
