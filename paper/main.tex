@@ -132,7 +132,7 @@ can effectively generate source-level mutants for essentially
 any-language approach can be overcome, without the need to parse
 specific languages.  We compare the universal program transformation
 approach to mutation to existing tools, and demonstrate the advantages
-of using parser-parser combinators to improve on a simple regular-expression
+of using parser parser combinators to improve on a simple regular-expression
 based approach to generation.  
 \end{abstract}
 
@@ -195,11 +195,8 @@ fixes or changes to address changes to the programming language being
 mutated\footnote{While this is a minor concern for languages such as C
   that are relatively stable, it means that a mutation tool may fail
   to parse C++ 2020, and is particularly problematic for somewhat
-  fast-moving languages such as Rust.}.  Of course, many open source
-projects are abandoned, and academic software has a long history of
-being available and supported only so long as a graduate student is
-working on a thesis or a particular grant is being funded.  Still,
-there appears to be a significant risk in relying on any mutation tools other
+  fast-moving languages such as Rust.}.  There
+appears to be a significant risk in relying on any mutation tools other
 than the most widely used and well-supported, such as PIT.
 
 Moreover, newer languages, including ones with considerable interest
@@ -296,7 +293,7 @@ The contributions of this paper are therefore:
     developers to write project-specific rules easily without
     having to modify a mutation tool's implementation.
 
-          \item A proposal to use parser-parser combinators to improve the
+          \item A proposal to use parser parser combinators to improve the
       efficiency and expressive power of that approach, and an
       evaluation of the gains thus achieved.
 
@@ -436,9 +433,48 @@ constructs common to e.g.,  Java, C, and C++ ({{\tt if}, {\tt while},
   Implementing Java mutation, given universal and C-like rules, may
   require no more than a handful of additional rules.
 
-  Figure~\ref{fig:rules} shows examples of universal, C-like, and
-  language specific rules for a few languages, taken directly from our
-  implementation.  
+\begin{table}[hbtp]
+\centering
+\caption{Rule Examples}
+\label{tab:rules}
+\resizebox{\columnwidth}{!}{%
+
+  \begin{tabular}{|l|l|l|}
+    \hline
+    Universal & C-Like & Language-Specific \\
+    \hline
+{\tt < ==> >} & else ==> & synchronized ==> \\ 
+{\tt < ==> ==} & {\tt if (\textbackslash(.*\textbackslash)) ==> if (!\textbackslash 1)} &
+                                                                 {\tt (\^{}\textbackslash s*)(\textbackslash S+.*\textbackslash n) ==> \textbackslash 1pass}\\
+{\tt < ==> <=} & {\tt if (\textbackslash(.*\textbackslash)) ==> if (1==1)} & any\_of ==> all\_of\\
+\hline
+
+\end{tabular}
+}
+
+\end{table}
+  
+  
+  Table~\ref{tab:rules} shows examples of universal, C-like, and
+  language-specific rules for a few languages, taken directly from our
+  implementation.  In all cases, the form of a rule is: {\tt regexp
+    ==> replacement}, using Python regular expression and replacement syntax.
+
+  The first column shows universal rules applied to
+  all languages, here drawn from the large set of transformations for
+  less-than comparisons.  The second column shows somewhat more
+  complex rules, for removing elses (which always leaves valid code in
+  C-like languages, but with the else clause always executing) and for
+  replacing if conditions with, respectively, a negation and a
+  constantly true expression.  Finally, the last column shows
+  language-specific rules, for, respectively, Java, Python (statement
+  deletion, including a {\tt pass} and respecting indentation level),
+  and C++.  The last rule was contributed by a user using our tool to
+  perform mutation testing on the bitcoin core implementation.  For a
+  C++ program, all of the rules in the first two columns will be
+  applied, as well as the last rule in the third column.  For a Python
+  program, however, only the first column of rules and the second rule
+  in the last column apply, as Python is not sufficiently ``C-like''.
 
 
 \subsection{Incremental Mutation}
@@ -535,13 +571,13 @@ always write a simple script to check...
 
 \begin{itemize}
 
-  \item{RQ1:}  How does the use of parser-parser combinators modify 
+  \item{RQ1:}  How does the use of parser parser combinators modify 
     the efficiency (in terms of invalid mutants) and effectiveness (in
     terms of mutation score and equivalent mutants) of the universal
     approach to mutant generation?
 
 \item{RQ2:}  How does the univeral approach, using regular expressions
-  or parser-combinator combinator rules, compare to existing
+  or parser parser combinator rules, compare to existing
   single-language mutation tools, in terms of number of generated
   mutants, mutation scores, equivalent mutants, and other evaluation measures used in the literature?
 
@@ -606,7 +642,7 @@ which it has no rules, Haskell.
       & LittleDarwin & 22359 \\ \hline
       Rust & Cargo-Mutants & 7020 \\\hline
       C++ & Dextool & 38611 \\\hline
-      ALL & universalmutator & 2244 \\\hline
+      ALL & universalmutator & 2680 \\\hline
   \end{tabular}
   \end{table}
   
@@ -951,8 +987,8 @@ which it has no rules, Haskell.
      where l = filter (< x) xs
            r = filter ( >= x) xs
 \end{code}
-\caption{Example from MuCheck Paper}
 \label{fig;haskell}
+\caption{Example from MuCheck Paper}
 \end{figure}
 
 Figure~\ref{fig:haskell} shows a simple Haskell program, the
@@ -1058,7 +1094,7 @@ languages, and provided an evaluation against PIT for a single toy
 Java program.  The present paper provides the full idea and context,
 provides empirical data for universal mutant generation on real world
 programs over four languages,
-and introduces the idea of using parser-parser combinators to improve
+and introduces the idea of using parser parser combinators to improve
 on regular expression-based generation.
 
 \section{Conclusions and Future Work}
