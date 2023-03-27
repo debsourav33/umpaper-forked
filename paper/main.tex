@@ -67,8 +67,7 @@ basicstyle=\ttfamily\bfseries\footnotesize,
 
 %% The "title" command has an optional parameter,
 %% allowing the author to define a "short title" to be used in page headers.
-\title{Program Mutation is Just Program Transformation: \\ A
-  Universal Approach to Mutant Generation}
+\title{Syntax is all You Need: A Universal-Language\\Approach to Mutant Generation}
 
 %%
 %% The "author" command and its associated commands are used to define
@@ -203,12 +202,35 @@ working on a thesis or a particular grant is being funded.  Still,
 there appears to be a significant risk in relying on any mutation tools other
 than the most widely used and well-supported, such as PIT.
 
-...
+Moreover, newer languages, including ones with considerable interest
+in the development community, often lack mutation testing tools.  Even
+languages with a long history may long lack a working mutation testing
+tool; e.g., it was not until 2014 that Haskell had such a tool
+\cite{mucheck}.  Furthermore, that tool may no longer  be
+supported (the last commits or package updates were in 2015), and it
+is not clear that a successor tool has appeared in the ensuing years.
 
+A great deal of research effort has been devoted to devising clever
+schemes for reducing the computational burden of mutation testing over
+the years; in practice, however, the recent adoption of mutation
+testing arguably relies more on the availability of vast (cloud) computing
+resources than any particular approach from the literature, beyond
+heuristic restrictions on the mutants used (e.g., one per line, or
+only some siimple operators).   On the other hand, almost no
+research has addressed perhaps the most central issue of
+mutation testing: in the absence of a working mutation testing
+tool for the language in which one is developing software, one cannot
+obtain the benefits of mutation testing.  The absence of such tools is
+due to the high human cost of developing and maintaining mutation
+testing tools.  Ideally, mutation testing would be available for
+\emph{any} newly proposed programming language, as soon as that
+language has any community of users at all.  In the present
+state-of-the-art, however, it may be years before even rudimentary
+tools appear, and they may ``disappear'' shortly there-after.
 
 In this paper, we argue that developing a large number of mutation
 testing tools, each requiring its own development community, workflow
-for mutation, and effort to keep up with language changes, is
+for mutation, and effort to keep up with language changes, is fundamentally
 unnecessary.  The core problem of mutation testing,
 \emph{mutant generation}, is simply a particular instance of the
 problem of \emph{program transformation}.  Program transformation
@@ -259,7 +281,8 @@ program transformation provides two major benefits:
       agnostic program transformation can be applied to the problem of
       mutant generation, making it easy to express mutation operators
       that operate across many languages, and efficient to generate
-      mutants.
+      valid mutants even in the absence of language-specific
+      development effort.
       \end{enumerate}
 
 The contributions of this paper are therefore:
@@ -269,7 +292,7 @@ The contributions of this paper are therefore:
     based on generalized description of multi-lingual program transformations
     that allows a single tool to handle mutant generation for
     essentially all programming languages.  This approach also makes
-    mutation testing easy to extend for new languages and even allows
+    mutation testing almost trivial to extend to most new languages and even allows
     developers to write project-specific rules easily without
     having to modify a mutation tool's implementation.
 
@@ -514,8 +537,13 @@ always write a simple script to check...
   or parser-combinator combinator rules, compare to existing
   single-language mutation tools, in terms of number of generated
   mutants, mutation scores, equivalent mutants, and other evaluation measures used in the literature?
-    
-  \end{itemize} 
+
+\end{itemize}
+
+In addition to these core research questions, evaluated over six files
+from six real-world projects for four languages, we also present a
+case study, applying our implementation to a program in a language for
+which it has no rules, Haskell.
 
 \subsection{Regular Expressions vs. Parser Parser Combinators}
 
@@ -885,6 +913,57 @@ always write a simple script to check...
 \end{tabular}
 }
 \end{table}
+
+\subsection{Haskell Case Study}
+
+\begin{figure}
+\begin{code}
+ qsort :: [ Int] -> [ Int ]
+ qsort [] = []
+ qsort (x: xs ) = qsort l ++ [x] ++ qsort r
+     where l = filter (< x) xs
+           r = filter ( >= x) xs
+\end{code}
+\caption{Example from MuCheck Paper}
+\label{fig;haskell}
+\end{figure}
+
+Figure~\ref{fig:haskell} shows a simple Haskell program, the
+motivating example in the paper presenting the MuCheck \cite{mucheck}
+mutation testing tool for Haskell.  As noted in the introduction, to our
+knowledge MuCheck is the first (and perhaps only) mutation tool for
+Haskell code.  MuCheck has not been updated since 2015.
+To see how our approach fares when mutating code in a language for
+which 1) it has no specific rules and 2) the assumption of a simple
+C-like syntax does not hold, we applied our implementation to this example.
+
+Using regular expressions, and only the universal rules, our tool
+generates 10 valid mutants and 34 invalid mutants of the code (22.73\%
+valid mutants).  Comby produces an identical 10 valid mutants, but 65
+invalid mutants (13.33\% validity).  These mutants produce a mutation
+score of 0.8 for the two properties defined in the original MuCheck
+paper.  In other words, like MuCheck, our tool is able to
+determine that the properties provided are insufficient.  In
+particular, while they check idempotence and that the result is
+sorted, they do not check that the result of {\tt qsort} is a permutaton of the input
+list.  The MuCheck paper only provides mutation scores for the two
+properties independently.  For idempotence, MuCheck gives a mutation
+score of 0.84, and our implementation yields a score of 0.8.  Checking
+only sortedness, MuCheck yields a score of 0.61, while our approach
+produces an even lower score of 0.4.  Our lower
+scores are not due to equivalent mutants: adding a property to check
+that the sorted list is a permutation of the original list, all
+mutants generated by our approach can be killed.
+
+Of course, our implementation does not provide the small set of Haskell-specific
+mutations provided by MuCheck (e.g., type-aware function replacement).  It nonetheless produces clearly useful
+mutants, even for a language arguably radically different from those
+for which the universal rules were developed.  In short, our approach
+likely provides users of a new language working, if sub-optimal, mutation testing,
+\emph{even if no effort has been expended to define rules for the
+  language at all}.
+
+\section{Discussion}
 
 \section{Related Work}
 
