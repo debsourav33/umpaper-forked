@@ -429,7 +429,70 @@ New mutant generation is only required for new lines of code and
 modified lines of code.  To the extent development is incremental,
 therefore, mutant generation can also be incremental.
 
-\section{Using Parser Parser Combinators Instead of Regular Expressions}
+\section{Beyond Regular Expressions with Parser Parser Combinators}
+% Better to frame this as "Beyond regex with PPC" than "PPC instead of RE" 
+% instead of RE" because RE pattern matching can be implemented by PPCs,
+% they are just pattern matching functions that can be restricted to lexical
+% RE-style matching too, and, e.g., comby embeds PCRE regex matching support,
+% as a parser combinator). In this sense, PPCs _really are_ a better/more
+% general/more universal matching engine abstraction at the expressivity level
+% where we care about mutating source syntax with CFG properties.
+
+We implement a lightweight parser-driven approach that attunes mutation
+operators to language-general syntax-aware transformations. For example, our
+operators can ensure syntactically well-formed outputs (e.g., transformations
+must preserve balanced parentheses or braces). More generally, operators are
+sensitive to coarse-grained context-free grammar properties. These operators go
+beyond the expressivity of regular expressions (which are typically limited to
+lexical transformations) to generate \emph{varied} and \emph{valid}
+programs during mutation testing.
+
+Parser parser combinators~\cite{vanTonderPPC} is a recent approach enabling
+syntax-transformation for multiple languages, and (we show) an apt choice for
+mutation testing operators. This key idea is to replace code constructs
+common to many languages (e.g., multi-line code blocks delineated by braces)
+with simple declarative patterns. Using parser combinators for coarse syntax
+matching avoids complexity of integrating heterogeneous rewrite tools for
+mutation testing (e.g., one for Java, one for C++) and human effort to
+implement language-specific mutation operators (e.g., where the user has to
+learn to write operators for each language tool). The mechanization and
+expressive properties of parser parser combinators is covered in prior
+literature~\cite{vanTonderPPC}; in this paper we demonstrate that their application is
+uniquely effective for universal source-based mutation testing. In particular,
+build mutation operators with \texttt{comby},\footnote{https://comby.dev} the tool that implements parser parser
+combinators to declaratively match and rewrite source code syntax. 
+
+Comby is especially suited for matching multi-line code blocks and
+disambiguating code from comments and strings---constructs that otherwise
+confound and complicate regular expression patterns. Comby supports over 40
+languages and implements a generic parser for additional languages to recognize
+these syntactic constructs. The following is a brief overview of Comby
+definitions and syntax for mutation operators implemented in our approach:
+
+\begin{itemize}
+
+\item \texttt{\small:[hole]} syntax matches source code assigned to a variable \emph{hole}. Holes match all characters (including whitespace) lazily up to its suffix (analogous to \texttt{\small.*?} in regex), but only \emph{within} its level of balanced delimiters. For example, \texttt{\small\{:[hole]\}} will match all characters inside balanced braces. By default, parentheses and square brackets are also treated as balanced delimiters, as applicable to most languages. 
+
+\item \texttt{\small ":[x]"} matches the body of a well-quoted string. Unlike \texttt{\small :[x]} (without quotes), the quoted variety implies that a data string may be any value, including strings that contain unbalanced parentheses, like \texttt{\small "item)"}.
+
+\item \texttt{\small:[hole:e]} matches words like \texttt{\small hello} and contiguous well-balanced expression-like syntax, like \texttt{\small print("hello world")} or \texttt{\small (a + b)}. It stops matching at whitespace boundaries, and so does not match a string like \texttt{\small a + b}. It also does not match unbalanced code syntax like \texttt{\small foo)} in typical languages where expressions are expected to be well-balanced.
+
+\item \texttt{\small :[[hole]]} matches alphanumeric characters in source code (similar to \texttt{\small\textbackslash w+} in regex).
+
+\item When a variable \emph{hole} occurs multiple times in a match template, the matched matched values be equal.
+
+\item Non-whitespace characters are matched literally.
+
+\item Contiguous whitespace (e.g., spaces and newline) match contiguous whitespace in the source code. That is, match templates are sensitive to the \emph{presence} of whitespace, but \emph{not} the exact layout of spaces (i.e., the number of spaces may not correspond exactly between match template and source code).
+
+\item Matching is insensitive to comments. Comments are parsed as whitespace when matching non-hole syntax in the match template.
+
+\end{itemize}
+
+Comby provides mechanisms to further define custom match syntax and behavior
+beyond these standard patterns.\footnote{https://comby.dev/docs/advanced-usage\#custom-language-definitions} \texttt{Comby} patterns can also embed regular expressions, subsuming their
+expressive power to enable regex-based mutation operators intermixed with
+context-free syntax properties.\footnote{https://comby.dev/docs/basic-usage\#using-regular-expressions}
 
 \section{Implementation}
 
