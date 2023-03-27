@@ -67,7 +67,7 @@ basicstyle=\ttfamily\bfseries\footnotesize,
 
 %% The "title" command has an optional parameter,
 %% allowing the author to define a "short title" to be used in page headers.
-\title{Syntax is all You Need: A Universal-Language\\Approach to Mutant Generation}
+\title{Syntax Is All You Need: A Universal-Language\\Approach to Mutant Generation}
 
 %%
 %% The "author" command and its associated commands are used to define
@@ -312,10 +312,16 @@ The contributions of this paper are therefore:
        specific languages (and which can effectively mutate an
        essentially unlimited number of other languages).
 
+       \item A small case study showing that our approach produces
+         useful results, even without the definition of
+         language-specific rules, for Haskell, a language arguably
+         well outside the language paradigms we considered when
+         developing the universal mutation rules.
+
 \end{enumerate}
 
 
-\section{The Universal Source-Based Approach}
+\section{The Universal Language Source-Based Approach}
 
 The key insight of this paper is that \emph{most mutation operators
   proposed in the literature do not in fact require parsing of source
@@ -475,13 +481,14 @@ syntax-transformation for multiple languages, and (we show) an apt choice for
 mutation testing operators. This key idea is to replace code constructs
 common to many languages (e.g., multi-line code blocks delineated by braces)
 with simple declarative patterns. Using parser combinators for coarse syntax
-matching avoids complexity of integrating heterogeneous rewrite tools for
+matching avoids the complexity of integrating heterogeneous rewrite tools for
 mutation testing (e.g., one for Java, one for C++) and human effort to
 implement language-specific mutation operators (e.g., where the user has to
 learn to write operators for each language tool). The mechanization and
 expressive properties of parser parser combinators is covered in prior
 literature~\cite{vanTonderPPC}; in this paper we demonstrate that their application is
-uniquely effective for universal source-based mutation testing. In particular,
+uniquely effective for universal source-based mutation testing. In
+particular, we
 build mutation operators with \texttt{comby},\footnote{https://comby.dev} the tool that implements parser parser
 combinators to declaratively match and rewrite source code syntax. 
 
