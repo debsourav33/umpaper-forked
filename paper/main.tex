@@ -554,22 +554,22 @@ which it has no rules, Haskell.
 \label{tab:table_cpp1}
 \resizebox{\columnwidth}{!}{%
 
-\begin{tabular}{|c|c|c|c|c|c|}
+\begin{tabular}{|c|c|c|r|r|r|}
 \hline
  & \multicolumn{2}{c|}{} & \textbf{Valid} & \textbf{Invalid} & \textbf{Valid \%}  \\ \hline
-\multirow{2}{*}{ompl} & \multicolumn{2}{c|}{Regex} & 595 & 1938 & 23.49\%  \\\cline{2-6}
-    & \multicolumn{2}{c|}{Comby} & 564 & 1610 & 25.94\% \\ \hline
-\multirow{2}{*}{libgraphqlparser} & \multicolumn{2}{c|}{Regex} & 157 & 584 & 21.19\% \\\cline{2-6}
-    & \multicolumn{2}{c|}{Comby} & 131 & 309 & 29.77\% \\ \hline
-\multirow{2}{*}{rethinkdb\_rebirth} & \multicolumn{2}{c|}{Regex} & 545 & 1701 & 24.27\% \\\cline{2-6}
-    & \multicolumn{2}{c|}{Comby} & 492 & 1517 & 24.49\% \\ \hline
+\multirow{2}{*}{ompl} & \multicolumn{2}{c|}{Regex} & 595 \hspace{8pt} & 1938 \hspace{8pt} & 23.49\%  \\\cline{2-6}
+    & \multicolumn{2}{c|}{Comby} & 564 \hspace{8pt} & 1610 \hspace{8pt} & 25.94\% \\ \hline
+\multirow{2}{*}{libgraphqlparser} & \multicolumn{2}{c|}{Regex} & 157 \hspace{8pt} & 584 \hspace{8pt} & 21.19\% \\\cline{2-6}
+    & \multicolumn{2}{c|}{Comby} & 131 \hspace{8pt} & 309 \hspace{8pt} & 29.77\% \\ \hline
+\multirow{2}{*}{rethinkdb\_rebirth} & \multicolumn{2}{c|}{Regex} & 545 \hspace{8pt} & 1701 \hspace{8pt} & 24.27\% \\\cline{2-6}
+    & \multicolumn{2}{c|}{Comby} & 492 \hspace{8pt} & 1517 \hspace{8pt} & 24.49\% \\ \hline
     
-\multirow{2}{*}{xoreos} & \multicolumn{2}{c|}{Regex} & 2419 & 1457 & 62.41\% \\\cline{2-6}
-    & \multicolumn{2}{c|}{Comby} & 2280 & 1017 & 69.15\% \\ \hline
-\multirow{2}{*}{libxmljs} & \multicolumn{2}{c|}{Regex} & 881 & 3108 & 22.09\% \\\cline{2-6}
-    & \multicolumn{2}{c|}{Comby} & 790 & 3218 & 19.71\% \\ \hline
-\multirow{2}{*}{tiny-differentiable-simulator} & \multicolumn{2}{c|}{Regex} & 747 & 535 & 58.27\% \\\cline{2-6}
-    & \multicolumn{2}{c|}{Comby} & 770 & 444 & 63.43\% \\ \hline
+\multirow{2}{*}{xoreos} & \multicolumn{2}{c|}{Regex} & 2419 \hspace{8pt} & 1457 \hspace{8pt} & 62.41\% \\\cline{2-6}
+    & \multicolumn{2}{c|}{Comby} & 2280 \hspace{8pt} & 1017 \hspace{8pt} & 69.15\% \\ \hline
+\multirow{2}{*}{libxmljs} & \multicolumn{2}{c|}{Regex} & 881 \hspace{8pt} & 3108 \hspace{8pt} & 22.09\% \\\cline{2-6}
+    & \multicolumn{2}{c|}{Comby} & 790 \hspace{8pt} & 3218 \hspace{8pt} & 19.71\% \\ \hline
+\multirow{2}{*}{tiny-differentiable-simulator} & \multicolumn{2}{c|}{Regex} & 747 \hspace{8pt} & 535 \hspace{8pt} & 58.27\% \\\cline{2-6}
+    & \multicolumn{2}{c|}{Comby} & 770 \hspace{8pt} & 444 \hspace{8pt} & 63.43\% \\ \hline
 
 \multirow{6}{*}{Overall} & \multirow{3}{*}{Regex} & Mean & 890.67 &	1553.83 & 35.28\%\\\cline{3-6}
     &   &  Median & 671.00 & 1579.00 & 23.88\%  \\\cline{3-6}
@@ -584,6 +584,26 @@ which it has no rules, Haskell.
 
 \end{table}
 
+\begin{table}[hbtp]
+  \centering
+  \caption{Overview of Mutation Testing Tools. universalmutator has singificantly fewer lines of code than any of the single language tools.}
+  \label{tab:mutationtools}
+  
+  \begin{tabular}{|c|c|r|}
+  \hline
+  \textbf{Language} & \textbf{Tool} & \textbf{LOC}  \\
+  \hline
+  \multirow{2}{*}{Python}  & Mutmut &	3870  \\\cline{2-3}
+      & cosmic-ray & 4599 \\ \hline
+  \multirow{2}{*}{Java}  & PIT &	59577  \\\cline{2-3}
+      & LittleDarwin & 22359 \\ \hline
+      Rust & Cargo-Mutants & 7020 \\\hline
+      C++ & Dextool & 38611 \\\hline
+      ALL & universalmutator & 2244 \\\hline
+  \end{tabular}
+  \end{table}
+  
+
 % ---------------- JAVA table UM Only--------------------------
 \begin{table}[hbtp]
 \centering
@@ -591,22 +611,22 @@ which it has no rules, Haskell.
 \label{tab:table_java1}
 \resizebox{\columnwidth}{!}{%
 
-\begin{tabular}{|c|c|c|c|c|c|}
+\begin{tabular}{|c|c|c|r|r|r|}
 \hline
  & \multicolumn{2}{c|}{} & \textbf{Valid} & \textbf{Invalid} & \textbf{Valid \%}  \\ \hline
-\multirow{2}{*}{pebble} & \multicolumn{2}{c|}{Regex} & 86 & 928 & 8.48\%  \\\cline{2-6}
-    & \multicolumn{2}{c|}{Comby} & 85 & 667 & 11.30\% \\ \hline
-\multirow{2}{*}{spring-hateoas} & \multicolumn{2}{c|}{Regex} & 248 & 2231 & 10.00\% \\\cline{2-6}
-    & \multicolumn{2}{c|}{Comby} & 172 & 1212 & 12.43\% \\ \hline
-\multirow{2}{*}{javacc} & \multicolumn{2}{c|}{Regex} & 542 & 1346 & 28.70\% \\\cline{2-6}
-    & \multicolumn{2}{c|}{Comby} & 494 & 782 & 38.71\% \\ \hline
+\multirow{2}{*}{pebble} & \multicolumn{2}{c|}{Regex} & 86 \hspace{8pt} & 928 \hspace{8pt} & 8.48\%  \\\cline{2-6}
+    & \multicolumn{2}{c|}{Comby} & 85 \hspace{8pt} & 667 \hspace{8pt} & 11.30\% \\ \hline
+\multirow{2}{*}{spring-hateoas} & \multicolumn{2}{c|}{Regex} & 248 \hspace{8pt} & 2231 \hspace{8pt} & 10.00\% \\\cline{2-6}
+    & \multicolumn{2}{c|}{Comby} & 172 \hspace{8pt} & 1212 \hspace{8pt} & 12.43\% \\ \hline
+\multirow{2}{*}{javacc} & \multicolumn{2}{c|}{Regex} & 542 \hspace{8pt} & 1346 \hspace{8pt} & 28.70\% \\\cline{2-6}
+    & \multicolumn{2}{c|}{Comby} & 494 \hspace{8pt} & 782 \hspace{8pt} & 38.71\% \\ \hline
     
-\multirow{2}{*}{coffee-gb} & \multicolumn{2}{c|}{Regex} & 224 & 1703 & 11.63\% \\\cline{2-6}
-    & \multicolumn{2}{c|}{Comby} & 174 & 624 & 21.80\% \\ \hline
-\multirow{2}{*}{egads} & \multicolumn{2}{c|}{Regex} & 624 & 1830 & 25.43\% \\\cline{2-6}
-    & \multicolumn{2}{c|}{Comby} & 597 & 566 & 51.33\% \\ \hline
-\multirow{2}{*}{apk-parser} & \multicolumn{2}{c|}{Regex} & 351 & 1232 & 22.17\% \\\cline{2-6}
-    & \multicolumn{2}{c|}{Comby} & 333 & 866 & 27.77\% \\ \hline
+\multirow{2}{*}{coffee-gb} & \multicolumn{2}{c|}{Regex} & 224 \hspace{8pt} & 1703 \hspace{8pt} & 11.63\% \\\cline{2-6}
+    & \multicolumn{2}{c|}{Comby} & 174 \hspace{8pt} & 624 \hspace{8pt} & 21.80\% \\ \hline
+\multirow{2}{*}{egads} & \multicolumn{2}{c|}{Regex} & 624 \hspace{8pt} & 1830 \hspace{8pt} & 25.43\% \\\cline{2-6}
+    & \multicolumn{2}{c|}{Comby} & 597 \hspace{8pt} & 566 \hspace{8pt} & 51.33\% \\ \hline
+\multirow{2}{*}{apk-parser} & \multicolumn{2}{c|}{Regex} & 351 \hspace{8pt} & 1232 \hspace{8pt} & 22.17\% \\\cline{2-6}
+    & \multicolumn{2}{c|}{Comby} & 333 \hspace{8pt} & 866 \hspace{8pt} & 27.77\% \\ \hline
 
 \multirow{6}{*}{Overall} & \multirow{3}{*}{Regex} & Mean & 345.83 & 1545.00  & 17.74\%\\\cline{3-6}
     &   &  Median & 299.50 & 1524.50 & 16.90\%  \\\cline{3-6}
@@ -630,22 +650,22 @@ which it has no rules, Haskell.
 \label{tab:table_python1}
 \resizebox{\columnwidth}{!}{%
 
-\begin{tabular}{|c|c|c|c|c|c|c|}
+\begin{tabular}{|c|c|c|r|r|r|r|}
 \hline
  & \multicolumn{2}{c|}{} & \textbf{Valid} & \textbf{Invalid} & \textbf{Redundant} & \textbf{Valid \%}  \\ \hline
-\multirow{2}{*}{keract} & \multicolumn{2}{c|}{Regex} & 1655 & 1600 &	729 & 41.53\%  \\\cline{2-7}
-    & \multicolumn{2}{c|}{Comby} & 1471 & 1063 & 533 & 47.96\% \\ \hline
-\multirow{2}{*}{dtw} & \multicolumn{2}{c|}{Regex} & 973 & 566 & 567 & 46.20\% \\\cline{2-7}
-    & \multicolumn{2}{c|}{Comby} & 866 & 330 & 639 &	47.19\% \\ \hline
-\multirow{2}{*}{notion-sdk-py} & \multicolumn{2}{c|}{Regex} & 196 & 760 & 82 & 18.89\% \\\cline{2-7}
-    & \multicolumn{2}{c|}{Comby} & 196 & 701 & 122 & 19.23\% \\ \hline
+\multirow{2}{*}{keract} & \multicolumn{2}{c|}{Regex} & 1655 \hspace{8pt} & 1600 \hspace{8pt} &	729 \hspace{8pt} & 41.53\%  \\\cline{2-7}
+    & \multicolumn{2}{c|}{Comby} & 1471 \hspace{8pt} & 1063 \hspace{8pt} & 533 \hspace{8pt} & 47.96\% \\ \hline
+\multirow{2}{*}{dtw} & \multicolumn{2}{c|}{Regex} & 973 \hspace{8pt} & 566 \hspace{8pt} & 567 \hspace{8pt} & 46.20\% \\\cline{2-7}
+    & \multicolumn{2}{c|}{Comby} & 866 \hspace{8pt} & 330 \hspace{8pt} & 639 \hspace{8pt} &	47.19\% \\ \hline
+\multirow{2}{*}{notion-sdk-py} & \multicolumn{2}{c|}{Regex} & 196 \hspace{8pt} & 760 \hspace{8pt} & 82 \hspace{8pt} & 18.89\% \\\cline{2-7}
+    & \multicolumn{2}{c|}{Comby} & 196 \hspace{8pt} & 701 \hspace{8pt} & 122 \hspace{8pt} & 19.23\% \\ \hline
     
-\multirow{2}{*}{{\makecell{atlassian-python \\ api}}} & \multicolumn{2}{c|}{Regex} & 302	& 1002 & 207 &	19.99\% \\\cline{2-7}
-    & \multicolumn{2}{c|}{Comby} & 333 & 635 & 351 & 25.25\% \\ \hline
-\multirow{2}{*}{ESD} & \multicolumn{2}{c|}{Regex} & 1859	& 2767 & 1642 & 29.46\% \\\cline{2-7}
-    & \multicolumn{2}{c|}{Comby} & 1712 & 1548 &	614 & 44.18\% \\ \hline
-\multirow{2}{*}{fiber} & \multicolumn{2}{c|}{Regex} & 493 & 909 & 163 & 31.08\% \\\cline{2-7}
-    & \multicolumn{2}{c|}{Comby} & 458 & 767	& 241 & 31.24\% \\ \hline
+\multirow{2}{*}{{\makecell{atlassian-python \\ api}}} & \multicolumn{2}{c|}{Regex} & 302 \hspace{8pt}	& 1002 \hspace{8pt} & 207 \hspace{8pt} &	19.99\% \\\cline{2-7}
+    & \multicolumn{2}{c|}{Comby} & 333 \hspace{8pt} & 635 \hspace{8pt} & 351 \hspace{8pt} & 25.25\% \\ \hline
+\multirow{2}{*}{ESD} & \multicolumn{2}{c|}{Regex} & 1859 \hspace{8pt}	& 2767 \hspace{8pt} & 1642 \hspace{8pt} & 29.46\% \\\cline{2-7}
+    & \multicolumn{2}{c|}{Comby} & 1712 \hspace{8pt} & 1548 \hspace{8pt} &	614 \hspace{8pt} & 44.18\% \\ \hline
+\multirow{2}{*}{fiber} & \multicolumn{2}{c|}{Regex} & 493 \hspace{8pt} & 909 \hspace{8pt} & 163 \hspace{8pt} & 31.08\% \\\cline{2-7}
+    & \multicolumn{2}{c|}{Comby} & 458 \hspace{8pt} & 767 \hspace{8pt}	& 241 \hspace{8pt} & 31.24\% \\ \hline
 
 \multirow{6}{*}{Overall} & \multirow{3}{*}{Regex} & Mean & 913.00 & 1267.33 & 565.00 & 31.19\%   \\\cline{3-7}
     &   &  Median & 733.00 & 955.50 & 387.00 & 30.27\%  \\\cline{3-7}
@@ -668,22 +688,22 @@ which it has no rules, Haskell.
 \label{tab:table_rust1}
 \resizebox{\columnwidth}{!}{%
 
-\begin{tabular}{|c|c|c|c|c|c|}
+\begin{tabular}{|c|c|c|r|r|r|}
 \hline
  & \multicolumn{2}{c|}{} & \textbf{Valid} & \textbf{Invalid} & \textbf{Valid \%}  \\ \hline
-\multirow{2}{*}{cargo release} & \multicolumn{2}{c|}{Regex} & 851 &	1163 & 42.25\%  \\\cline{2-6}
-    & \multicolumn{2}{c|}{Comby} & 1690 & 711 & 70.39\% \\ \hline
-\multirow{2}{*}{passerine} & \multicolumn{2}{c|}{Regex} & 213 & 2081 & 9.29\% \\\cline{2-6}
-    & \multicolumn{2}{c|}{Comby} & 173 & 1518 & 10.23\% \\ \hline
-\multirow{2}{*}{typos} & \multicolumn{2}{c|}{Regex} & 386 & 1534 & 20.10\% \\\cline{2-6}
-    & \multicolumn{2}{c|}{Comby} & 366 & 1199 &	 23.39\% \\ \hline
+\multirow{2}{*}{cargo release} & \multicolumn{2}{c|}{Regex} & 851 \hspace{8pt} &	1163 \hspace{8pt} & 42.25\%  \\\cline{2-6}
+    & \multicolumn{2}{c|}{Comby} & 1690 \hspace{8pt} & 711 \hspace{8pt} & 70.39\% \\ \hline
+\multirow{2}{*}{passerine} & \multicolumn{2}{c|}{Regex} & 213 \hspace{8pt} & 2081 \hspace{8pt} & 9.29\% \\\cline{2-6}
+    & \multicolumn{2}{c|}{Comby} & 173 \hspace{8pt} & 1518 \hspace{8pt} & 10.23\% \\ \hline
+\multirow{2}{*}{typos} & \multicolumn{2}{c|}{Regex} & 386 \hspace{8pt} & 1534 \hspace{8pt} & 20.10\% \\\cline{2-6}
+    & \multicolumn{2}{c|}{Comby} & 366 \hspace{8pt} & 1199 \hspace{8pt} &	 23.39\% \\ \hline
     
-\multirow{2}{*}{ord} & \multicolumn{2}{c|}{Regex} & 762	& 2096 & 26.66\% \\\cline{2-6}
-    & \multicolumn{2}{c|}{Comby} & 643 & 1669 & 27.81\% \\ \hline
-\multirow{2}{*}{bazuka} & \multicolumn{2}{c|}{Regex} & 451 & 1103 & 29.02\% \\\cline{2-6}
-    & \multicolumn{2}{c|}{Comby} & 402 & 920 & 30.41\% \\ \hline
-\multirow{2}{*}{strum} & \multicolumn{2}{c|}{Regex} & 51 & 377	& 11.92\% \\\cline{2-6}
-    & \multicolumn{2}{c|}{Comby} & 50 & 318	& 13.51\% \\ \hline
+\multirow{2}{*}{ord} & \multicolumn{2}{c|}{Regex} & 762 \hspace{8pt}	& 2096 \hspace{8pt} & 26.66\% \\\cline{2-6}
+    & \multicolumn{2}{c|}{Comby} & 643 \hspace{8pt} & 1669 \hspace{8pt} & 27.81\% \\ \hline
+\multirow{2}{*}{bazuka} & \multicolumn{2}{c|}{Regex} & 451 \hspace{8pt} & 1103 \hspace{8pt} & 29.02\% \\\cline{2-6}
+    & \multicolumn{2}{c|}{Comby} & 402 \hspace{8pt} & 920 \hspace{8pt} & 30.41\% \\ \hline
+\multirow{2}{*}{strum} & \multicolumn{2}{c|}{Regex} & 51 \hspace{8pt} & 377 \hspace{8pt}	& 11.92\% \\\cline{2-6}
+    & \multicolumn{2}{c|}{Comby} & 50 \hspace{8pt} & 318 \hspace{8pt}	& 13.51\% \\ \hline
 
 \multirow{6}{*}{Overall} & \multirow{3}{*}{Regex} & Mean & 452.33 & 1392.33	& 23.21\%\\\cline{3-6}
     &   &  Median & 418.50 & 1348.50 & 23.38\%  \\\cline{3-6}
@@ -711,7 +731,7 @@ which it has no rules, Haskell.
 \caption{C++ (UniversalMutator vs. Dextool)}
 \label{tab:table_cpp2}
 \resizebox{\columnwidth}{!}{
-\begin{tabular}{|c|c|c|c|c|c|}
+\begin{tabular}{|c|c|r|r|r|r|}
 \hline
  &  & \textbf{Killed} & \textbf{Not Killed} &  \makecell{\textbf{Mutation} \\ \textbf{Score}} & \textbf{Equivalent \%} \\ \hline
 
@@ -759,7 +779,7 @@ which it has no rules, Haskell.
 \caption{Java (UniversalMutator vs. PIT vs. LittleDarwin)}
 \label{tab:table_java2}
 \resizebox{\columnwidth}{!}{
-\begin{tabular}{|c|c|c|c|c|c|}
+\begin{tabular}{|c|c|r|r|r|r|}
 \hline
  &  & \textbf{Killed} & \textbf{Not Killed} &  \makecell{\textbf{Mutation} \\ \textbf{Score}} & \textbf{Equivalent \%} \\ \hline
 
@@ -815,7 +835,7 @@ which it has no rules, Haskell.
 \caption{Python (UniversalMutator vs. Mutmut vs. CosmicRay)}
 \label{tab:table_python2}
 \resizebox{\columnwidth}{!}{
-\begin{tabular}{|c|c|c|c|c|c|}
+\begin{tabular}{|c|c|r|r|r|r|}
 \hline
  &  & \textbf{Killed} & \textbf{Not Killed} &  \makecell{\textbf{Mutation} \\ \textbf{Score}} & \textbf{Equivalent \%} \\ \hline
 
@@ -873,7 +893,7 @@ which it has no rules, Haskell.
 \caption{Rust (UniversalMutator vs. Cargo-Mutants)}
 \label{tab:table_rust2}
 \resizebox{\columnwidth}{!}{
-\begin{tabular}{|c|c|c|c|c|c|}
+\begin{tabular}{|c|c|r|r|r|r|}
 \hline
  &  & \textbf{Killed} & \textbf{Not Killed} &  \makecell{\textbf{Mutation} \\ \textbf{Score}} & \textbf{Equivalent \%} \\ \hline
 
