@@ -67,7 +67,7 @@ basicstyle=\ttfamily\bfseries\footnotesize,
 
 %% The "title" command has an optional parameter,
 %% allowing the author to define a "short title" to be used in page headers.
-\title{Syntax Is All You Need: A Universal-Language\\Approach to Mutant Generation}
+\title{Syntax Is All You Need: A Universal-Language Approach to Mutant Generation}
 
 %%
 %% The "author" command and its associated commands are used to define
@@ -132,7 +132,7 @@ can effectively generate source-level mutants for essentially
 any-language approach can be overcome, without the need to parse
 specific languages.  We compare the universal program transformation
 approach to mutation to existing tools, and demonstrate the advantages
-of using parser-parser combinators to improve on a simple regular-expression
+of using parser parser combinators to improve on a simple regular-expression
 based approach to generation.  
 \end{abstract}
 
@@ -195,20 +195,25 @@ fixes or changes to address changes to the programming language being
 mutated\footnote{While this is a minor concern for languages such as C
   that are relatively stable, it means that a mutation tool may fail
   to parse C++ 2020, and is particularly problematic for somewhat
-  fast-moving languages such as Rust.}.  Of course, many open source
-projects are abandoned, and academic software has a long history of
-being available and supported only so long as a graduate student is
-working on a thesis or a particular grant is being funded.  Still,
-there appears to be a significant risk in relying on any mutation tools other
+  fast-moving languages such as Rust.}.  There
+appears to be a significant risk in relying on any mutation tools other
 than the most widely used and well-supported, such as PIT.
 
 Moreover, newer languages, including ones with considerable interest
 in the development community, often lack mutation testing tools.  Even
 languages with a long history may long lack a working mutation testing
 tool; e.g., it was not until 2014 that Haskell had such a tool
-\cite{mucheck}.  Furthermore, that tool may no longer  be
-supported (the last commits or package updates were in 2015), and it
-is not clear that a successor tool has appeared in the ensuing years.
+\cite{mucheck}.  Furthermore, that tool is no longer
+supported\footnote{The last commits or package updates were in 2015, and the
+primary author confirms that changes to {\tt haskell-src-ext} since
+introduced render it unusable at present.}, and it
+appears that no successor tool has appeared in the ensuing
+years\footnote{There is FitSpec \cite{FitSpec}, which is maintained,
+  but FitSpec does not perform traditional mutation testing or produce
+  source code (or bytecode) mutants; it rather
+  performs black-box type-aware mutation of function return values.}.
+Haskell developers (until now, see below) have no option for
+performing true mutation testing.
 
 A great deal of research effort has been devoted to devising clever
 schemes for reducing the computational burden of mutation testing over
@@ -275,8 +280,7 @@ program transformation provides two major benefits:
     need for many   maintenance activities related to parsing code;
     such changes need to be made only when a change to the language
     would introduce new mutation operators or modify existing ones.
-    The local nature of operators tends to make the second case in
-    particular very rare.
+    The local nature of operators tends to make the second case very rare.
     \item The existing literature on multi-lingual or language
       agnostic program transformation can be applied to the problem of
       mutant generation, making it easy to express mutation operators
@@ -296,7 +300,7 @@ The contributions of this paper are therefore:
     developers to write project-specific rules easily without
     having to modify a mutation tool's implementation.
 
-          \item A proposal to use parser-parser combinators to improve the
+          \item A proposal to use parser parser combinators to improve the
       efficiency and expressive power of that approach, and an
       evaluation of the gains thus achieved.
 
@@ -436,9 +440,49 @@ constructs common to e.g.,  Java, C, and C++ ({{\tt if}, {\tt while},
   Implementing Java mutation, given universal and C-like rules, may
   require no more than a handful of additional rules.
 
-  Figure~\ref{fig:rules} shows examples of universal, C-like, and
-  language specific rules for a few languages, taken directly from our
-  implementation.  
+\begin{table}[hbtp]
+\centering
+\caption{Rule Examples}
+\label{tab:rules}
+\resizebox{\columnwidth}{!}{%
+
+  \begin{tabular}{|l|l|l|}
+    \hline
+    Universal & C-Like & Language-Specific \\
+    \hline
+{\tt < ==> >} &{\tt  else ==>} & {\tt synchronized ==>} \\ 
+{\tt < ==> ==} & {\tt if (\textbackslash(.*\textbackslash)) ==> if (!\textbackslash 1)} &
+                                                                 {\tt (\^{}\textbackslash s*)(\textbackslash S+.*\textbackslash n) ==> \textbackslash 1pass}\\
+{\tt < ==> <=} & {\tt if (\textbackslash(.*\textbackslash)) ==> if
+                 (1==1)} & {\tt any\_of ==> all\_of}\\
+\hline
+
+\end{tabular}
+}
+
+\end{table}
+  
+  
+  Table~\ref{tab:rules} shows examples of universal, C-like, and
+  language-specific rules for a few languages, taken directly from our
+  implementation.  In all cases, the form of a rule is: {\tt regexp
+    ==> replacement}, using Python regular expression and replacement syntax.
+
+  The first column shows universal rules applied to
+  all languages, here drawn from the large set of transformations for
+  less-than comparisons.  The second column shows somewhat more
+  complex rules, for removing elses (which always leaves valid code in
+  C-like languages, but with the else clause always executing) and for
+  replacing if conditions with, respectively, a negation and a
+  constantly true expression.  Finally, the last column shows
+  language-specific rules, for, respectively, Java, Python (statement
+  deletion, including a {\tt pass} and respecting indentation level),
+  and C++.  The last rule was contributed by a user using our tool to
+  perform mutation testing on the bitcoin core implementation.  For a
+  C++ program, all of the rules in the first two columns will be
+  applied, as well as the last rule in the third column.  For a Python
+  program, however, only the first column of rules and the second rule
+  in the last column apply, as Python is not sufficiently ``C-like''.
 
 
 \subsection{Incremental Mutation}
@@ -526,33 +570,135 @@ context-free syntax properties.\footnote{https://comby.dev/docs/basic-usage\#usi
 
 \section{Implementation}
 
-Our approach also makes introducing advanced techniques such as
-Trivial Compiler Equivalence (TCE) into a mutation workflow easy.
-While we support TCE for some languages inside the tool, a user can
-always write a simple script to check...
+We implemented our approach in a mutation testing tool, written in
+about 2,200 lines of Python.  The rules defining mutation operators
+for a set of languages including C, C++, Python, Java, Lisp, Swift,
+Rust, Solidity, Fe, Vyper, JavaScript, and Go, required another 436
+lines; this is the total for comby and regexp-based rules, so each
+version requires only 218 lines of rule definitions.  The tool makes
+use of parser parser combinators via the {\tt comby-python} module.
+
+While many tools provide a GUI front-end, or integrate to a particular
+testing library, we chose to focus on an easily configured CLI,
+allowing a user to specify the commmands used to build mutants or
+run tests.  While less convenient in the case where there is a good
+fit between a tool's integrations and a project's environment, we
+found this flexibility useful even when limiting considerations to a
+single language.  For example, the widely used PIT system is strongly tied to
+certain versions of JUnit, and mutating projects using a different
+testing infrastructure, or an older JUnit, can be difficult.  Our
+approach also is suitable for use in CI and other automated
+environments.
+
+The tool attempts to automatically identify which rule sets to use in
+mutating a source file, but can also be instructed to run fewer or
+more rule sets, and allows users to supply their own custom rule sets.
+
+For the most part we expect users to provide build commands, but do
+support automatic compilation and comparison of mutants for Python,
+Solidity, Fe, Vyper, Swift, Rust, and Java, including Trivial Compiler
+Equivalence \cite{TCE} checks for redundancy of mutants.  These
+default handlers can always be over-ridden if they do not work with a
+particular build setup (for Python, the approach almost always works,
+but in the case of multi-file projects in other languages, it ususally
+requires some manual setup).
+
+The tool also provides a number of utilities, including mechanisms for
+incorporating code coverage into mutant selection, integration with a
+Python automated testing tool, prioritization of unkilled mutants to
+show dis-similar mutants early in a ranking (similar to the FPF
+approach to identifying unique bugs found in fuzzing
+\cite{10.1145/2491956.2462173}), and tools for pruning a class of
+mutants based on some criteria (e.g., removing all mutants of logging
+statements from a set of generated mutants).
+
+Our tool has been available as an open source project on GitHub (with
+over 100 stars to date) and
+available for installation via Python pip for
+some time, has received contributions from users not involved in
+our project, and has been adopted by at least one flagship project
+(over 19K stars) as
+its officially recommended mutation tool.  We omit details for
+purposes of blinding.
 
 \section{Experimental Evaluation}
 
 \begin{itemize}
 
-  \item{RQ1:}  How does the use of parser-parser combinators modify 
+  \item{RQ1:}  How does the use of parser parser combinators modify 
     the efficiency (in terms of invalid mutants) and effectiveness (in
     terms of mutation score and equivalent mutants) of the universal
     approach to mutant generation?
 
 \item{RQ2:}  How does the univeral approach, using regular expressions
-  or parser-combinator combinator rules, compare to existing
+  or parser parser combinator rules, compare to existing
   single-language mutation tools, in terms of number of generated
   mutants, mutation scores, equivalent mutants, and other evaluation measures used in the literature?
 
 \end{itemize}
 
-In addition to these core research questions, evaluated over six files
-from six real-world projects for four languages, we also present a
+
+Both research questions were addressed by generating and running
+mutants for a set of four programming languages: C++, Java, Python,
+and Rust.  The criteria for language selection was as follows: C++,
+Java, and Python are among the most widely used programming languages
+at present.  Furthermore, C++, unlike C, can be notoriously hard to
+parse, making development of mutation tools that use an AST and
+properly consider mutants of, e.g., code inside a template,
+difficult.  Java is the language in which mutation testing has been
+studied most extensively in recent literature, and PIT is almost
+certainly the most popular and widely used mutation tool.  Python long
+suffered from a lack of working and maintained mutation tools, despite
+a large number of abandoned efforts, though at present it is served by
+multiple maintained, AST-based tools.  Finally, Rust is an ``emerging
+language'' with few tools targeting it.
+
+To evaluate both RQ1 and RQ2 we assembled a set of 24 source files,
+six from each language.  We first selected, using the GitHub search
+API and manual examination, six GitHub
+projects for each language meeting a set of criteria:
+
+\begin{enumerate}
+\item The project must have a minimum of 1,000 stars.
+  \item The percentage of source languages other than the target
+    language must be small.
+  \item There must be an executable test suite where all tests pass.
+    \item The project must be relatively easy to build, without a
+      large set of external dependencies.
+      \item In addition, for Java, we required use of maven.
+      \end{enumerate}
+
+      Files were then selected by picking for each project, the
+      largest source file that was less than 20KB in size.  If that
+      file was no covered by the test suite, the next closest to 20KB in order
+      was chosen.  Finally, if no source file under 20KB existed or
+      was covered by tests, the smallest file larger than 20KB covered
+      by tests was selected.
+
+
+We additionally present a small
 case study, applying our implementation to a program in a language for
-which it has no rules, Haskell.
+which it has \emph{no} rules, Haskell.  The case study concerns a
+fairly trivial example, but was chosen due to being the only program
+for which data was available as to the effectiveness of the tool we
+compared against (since that tool no longer works).
 
 \subsection{Regular Expressions vs. Parser Parser Combinators}
+
+While the primary advantages of using parser parser combinators as a
+basis for mutant generation are in expressiveness and ease of use,
+particularly rule readability, a second advantage is a reduction in
+the number of invalid mutants generated.
+
+Tables~\ref{tab:table_cpp1}-\ref{tab:table_rust1} compare generated
+mutants for ``Regex'' and ``Comby'' modes of our tool.  Invalid
+mutants are mutants that the tool produces, but which fail to
+compile.  The cost of each such mutant is usually small,
+since compilation generally fails early for trivial reasons (e.g.,
+{\tt break} or {\tt continue} outside a loop), 
+but reducing the number of such mutants directly reduces the cost of
+initial mutant generation, and generally indicates a better
+``understanding'' of the source being mutated.
 
 % ---------------- C++ table UM Only--------------------------
 \begin{table}[hbtp]
@@ -590,26 +736,6 @@ which it has no rules, Haskell.
 }
 
 \end{table}
-
-\begin{table*}[hbtp]
-  \centering
-  \caption{Overview of Mutation Testing Tools. universalmutator has singificantly fewer lines of code than any of the single language tools.}
-  \label{tab:mutationtools}
-  
-  \begin{tabular}{|c|c|c|r|}
-  \hline
-  \textbf{Language} & \textbf{Tool} & \textbf{URL} & \textbf{LOC}  \\
-  \hline
-  \multirow{2}{*}{Python}  & Mutmut & https://github.com/boxed/mutmut & 3870  \\\cline{2-4}
-      & cosmic-ray & https://github.com/sixty-north/cosmic-ray & 4599 \\ \hline
-  \multirow{2}{*}{Java}  & PIT & https://github.com/hcoles/pitest & 59577  \\\cline{2-4}
-      & LittleDarwin & https://github.com/aliparsai/LittleDarwin & 22359 \\ \hline
-      Rust & Cargo-Mutants & https://github.com/sourcefrog/cargo-mutants & 7020 \\\hline
-      C++ & Dextool & https://github.com/joakim-brannstrom/dextool & 38611 \\\hline
-      ALL & universalmutator & https://github.com/agroce/universalmutator & 2244 \\\hline
-  \end{tabular}
-  \end{table*}
-  
 
 % ---------------- JAVA table UM Only--------------------------
 \begin{table}[hbtp]
@@ -726,16 +852,91 @@ which it has no rules, Haskell.
 }
 \end{table}
 
+The mean and median percentage of mutants that are valid is higher for
+Comby for all languages.  On average, even for a single modestly sized
+file, using parser combinator combinators saves 100-600 failed
+compilations.
 
+The number of valid mutants is usually
+slightly smaller for Comby, but Comby actually produces a larger mean
+(but not median) number of mutants for Rust, due to one project where
+Comby produces a much larger number of valid mutants.  As discussed 
+below, mutation scores and mutant equivalence rates are similar for
+both modes.
+
+In sum, in addition to providing a major advantage in expressiveness
+(the ability to easily define complex multi-line mutations that
+preserve structure, e.g. going beyond statement deletion to block
+deletion), parser parser combinators offer a notable gain in the
+efficiency of initial mutant generation, with no apparent loss of overall effectiveness.
 
 \subsection{Universal Source-Based Mutation vs. Previous Approaches}
 
+\begin{table*}[hbtp]
+    \centering
+    \caption{Overview of Mutation Testing Tools. universalmutator has singificantly fewer lines of code than any of the single language tools.}
+    \label{tab:mutationtools}
+    
+    \begin{tabular}{|c|c|c|r|}
+    \hline
+    \textbf{Language} & \textbf{Tool} & \textbf{URL} & \textbf{LOC}  \\
+    \hline
+    \multirow{2}{*}{Python}  & Mutmut & https://github.com/boxed/mutmut & 3870  \\\cline{2-4}
+        & cosmic-ray & https://github.com/sixty-north/cosmic-ray & 4599 \\ \hline
+    \multirow{2}{*}{Java}  & PIT & https://github.com/hcoles/pitest & 59577  \\\cline{2-4}
+        & LittleDarwin & https://github.com/aliparsai/LittleDarwin & 22359 \\ \hline
+        Rust & Cargo-Mutants & https://github.com/sourcefrog/cargo-mutants & 7020 \\\hline
+        C++ & Dextool & https://github.com/joakim-brannstrom/dextool & 38611 \\\hline
+        ALL & universalmutator & https://github.com/agroce/universalmutator & 2244 \\\hline
+    \end{tabular}
+    \end{table*}
+    
+Table \ref{tab:mutationtools} shows the set of tools compared.  We
+attempted to identify well-maintained and commonly used open
+source tools for each
+language chosen.  The tools cover a number of paradigms; for the most
+part we did not choose bytecode based tools, since these often make it
+difficult or impossible to mutate a single source file.  PIT, however,
+provides this functionality and is perhaps the paradigmatic bytecode
+based mutation tool.  Only Dextool, for C++, implements the
+\emph{mutant schema} \cite{untch1993mutation} approach often advocated
+in the research literature, where a single metaprogram is produced
+and, e.g., environment variabes are used to control which particular
+version of a program actually executes.  Using a schema has the major
+advantage of dramatically reducing the time required to compile
+mutants.  We speculate, however, that the fact that the approach is
+somewhat complex to implement for some kinds of mutants, and
+furthermore fails if even one invalid mutant is generated, has
+prevented most developers of non-academic tools from adopting it.
+
+The most striking thing about this table, and a strong support for
+the central argument of this paper, is that our implementation, which
+covers \emph{all the languages considered plus a number of additional
+languages}, is \emph{the smallest of the tools by a margin of over 1,000 LOC},
+and can be extended to handle additional languages with minimal
+effort.  Each currently supported language requires about 15 rules on
+average, though these must be implemented as both Regex and Comby
+rules if both modes are to be used for the language.
+
+The central question is: does using a universal approach produce
+notably less effective mutation testing?  Or, to put it another way,
+does the substantial effort required to develop and maintain a
+mutation tool for a single language pay off in obvious advantages in
+mutation testing results?
+Tables~\ref{tab:table_cpp2}-\ref{tab:table_rust2} show the results of
+mutation testing for the generated mutants for our tool, in both Regex
+and Comby modes, and the above-listed tools for each of the four
+studied languages.
+
+We estimated mutant equivalency when possible by examining a sample of
+10 randomly selected unkilled mutants for each file.  For some tools,
+human inspection of the individual unkilled mutants was not feasible.
 
 % ---------------- C++ table (UM vs Others)--------------------------
 
 \begin{table}[htbp]
 \centering
-\caption{C++ (UniversalMutator vs. Dextool)}
+\caption{C++ (Our Implementation vs. Dextool)}
 \label{tab:table_cpp2}
 \resizebox{\columnwidth}{!}{
 \begin{tabular}{|c|c|r|r|r|r|}
@@ -770,7 +971,7 @@ which it has no rules, Haskell.
     &   &  \multicolumn{2}{c|}{Median} & 0.09 & 15.00\% \\\cline{3-6}
     &   &  \multicolumn{2}{c|}{Std. Dev} & 0.37 & 13.66\% \\\cline{2-6}
 
- & \multirow{3}{*}{Cargo-Mutants} & \multicolumn{2}{c|}{Mean} & 0.33 & N/A\\\cline{3-6}
+ & \multirow{3}{*}{Dextool} & \multicolumn{2}{c|}{Mean} & 0.33 & N/A\\\cline{3-6}
     &   &  \multicolumn{2}{c|}{Median} & 0.29 & N/A \\\cline{3-6}
     &   &  \multicolumn{2}{c|}{Std. Dev} & 0.38 & N/A \\ \hline
     
@@ -783,53 +984,53 @@ which it has no rules, Haskell.
 
 \begin{table}[htbp]
 \centering
-\caption{Java (UniversalMutator vs. PIT vs. LittleDarwin)}
+\caption{Java (Our Implementation vs. PIT vs. LittleDarwin)}
 \label{tab:table_java2}
 \resizebox{\columnwidth}{!}{
 \begin{tabular}{|c|c|r|r|r|r|}
 \hline
  &  & \textbf{Killed} & \textbf{Not Killed} &  \makecell{\textbf{Mutation} \\ \textbf{Score}} & \textbf{Equivalent \%} \\ \hline
 
- \multirow{4}{*}{\small pebble} & Regex & 70 & 16 & 0.81 & - \\\cline{2-6}
-    & Comby & 68 & 17 & 0.80 & - \\\cline{2-6}
-    & PIT & 19 & 1 & 0.95 & - \\ \cline{2-6}
-    & LittleDarwin & 8 & 0 & 1.00 & - \\ \hline
-\multirow{4}{*}{\small spring-hateoas} & Regex & 82 & 166 & 0.33 & - \\\cline{2-6}
-    & Comby & 65 & 111 & 0.37 & - \\ \cline{2-6}
-    & PIT & 82 & 32 & 0.28 & - \\ \cline{2-6}
-    & LittleDarwin & 15 & 23 & 0.39 & - \\ \hline
-\multirow{4}{*}{\small javacc} & Regex & 123 & 419 & 0.23 & - \\\cline{2-6}
-    & Comby & 103 & 400 & 0.21 & - \\ \cline{2-6}
-    & PIT & 30 & 113 & 0.21 & -\\ \cline{2-6}
-    & LittleDarwin & 64 & 18 & 0.78 & - \\ \hline
-\multirow{4}{*}{\small coffee-gb} & Regex & 48 & 176 & 0.21 & - \\\cline{2-6}
-    & Comby & 40 & 134 & 0.23 & - \\ \cline{2-6}
-    & PIT & 32 & 4 & 0.89 & - \\ \cline{2-6}
-    & LittleDarwin & 11 & 18 & 0.38 & -\\ \hline
-\multirow{4}{*}{\small egads} & Regex & 442 & 182 & 0.71 & - \\\cline{2-6}
-    & Comby & 422 & 200 & 0.71 & - \\ \cline{2-6}
-    & PIT & 87 & 20 & 0.81 & - \\ \cline{2-6}
-    & LittleDarwin & 74 & 11 & 0.87 & - \\ \hline
-\multirow{4}{*}{\small apk-parser} & Regex & 26 & 325 & 0.07 & \\\cline{2-6}
-    & Comby & 26 & 312 & 0.08 & -\\ \cline{2-6}
-    & PIT & 14 & 75  & 0.16 & -\\ \cline{2-6}
-    & LittleDarwin & 3 & 30 & 0.09 & -\\ \hline
+ \multirow{4}{*}{\small pebble} & Regex & 70 & 16 & 0.81 & 50\% \\\cline{2-6}
+    & Comby & 68 & 17 & 0.80 & 20\% \\\cline{2-6}
+    & PIT & 19 & 1 & 0.95 & N/A \\ \cline{2-6}
+    & LittleDarwin & 8 & 0 & 1.00 & 0\% \\ \hline
+\multirow{4}{*}{\small spring-hateoas} & Regex & 82 & 166 & 0.33 & 0\% \\\cline{2-6}
+    & Comby & 65 & 111 & 0.37 & 0\% \\ \cline{2-6}
+    & PIT & 82 & 32 & 0.28 & N/A\% \\ \cline{2-6}
+    & LittleDarwin & 15 & 23 & 0.39 & 0\% \\ \hline
+\multirow{4}{*}{\small javacc} & Regex & 123 & 419 & 0.23 & 0\% \\\cline{2-6}
+    & Comby & 103 & 400 & 0.21 & 0\% \\ \cline{2-6}
+    & PIT & 30 & 113 & 0.21 & N/A\\ \cline{2-6}
+    & LittleDarwin & 64 & 18 & 0.78 & 0\%\\ \hline
+\multirow{4}{*}{\small coffee-gb} & Regex & 48 & 176 & 0.21 & 0\%\\\cline{2-6}
+    & Comby & 40 & 134 & 0.23 & 0\% \\ \cline{2-6}
+    & PIT & 32 & 4 & 0.89 & N/A \\ \cline{2-6}
+    & LittleDarwin & 11 & 18 & 0.38 & 0\%\\ \hline
+\multirow{4}{*}{\small egads} & Regex & 442 & 182 & 0.71 & 20\% \\\cline{2-6}
+    & Comby & 422 & 200 & 0.71 & 10\% \\ \cline{2-6}
+    & PIT & 87 & 20 & 0.81 & N/A \\ \cline{2-6}
+    & LittleDarwin & 74 & 11 & 0.87 & 0\% \\ \hline
+\multirow{4}{*}{\small apk-parser} & Regex & 26 & 325 & 0.07 & 10\%\\\cline{2-6}
+    & Comby & 26 & 312 & 0.08 & 0\%\\ \cline{2-6}
+    & PIT & 14 & 75  & 0.16 & N/A\\ \cline{2-6}
+    & LittleDarwin & 3 & 30 & 0.09 & 0\%\\ \hline
     
-\multirow{12}{*}{Overall} & \multirow{3}{*}{Regex} & \multicolumn{2}{c|}{Mean} & 0.39  & -\\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Median} & 0.28 & - \\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.30 & - \\\cline{2-6}
+\multirow{12}{*}{Overall} & \multirow{3}{*}{Regex} & \multicolumn{2}{c|}{Mean} & 0.39  & 13.33\%\\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Median} & 0.28 & 5.00\% \\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.30 & 19.66\% \\\cline{2-6}
 
- & \multirow{3}{*}{Comby} & \multicolumn{2}{c|}{Mean} & 0.40 & -\\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Median} & 0.30 & - \\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.29 & - \\\cline{2-6}
+ & \multirow{3}{*}{Comby} & \multicolumn{2}{c|}{Mean} & 0.40 & 5.00\%\\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Median} & 0.30 & 0.00\% \\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.29 & 8.37\%\\\cline{2-6}
 
- & \multirow{3}{*}{PIT} & \multicolumn{2}{c|}{Mean} & 0.55 & -\\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Median} & 0.55 & - \\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.37 & - \\\cline{2-6}
+ & \multirow{3}{*}{PIT} & \multicolumn{2}{c|}{Mean} & 0.55 & N/A\\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Median} & 0.55 & N/A \\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.37 & N/A \\\cline{2-6}
     
- & \multirow{3}{*}{LittleDarwin} & \multicolumn{2}{c|}{Mean} & 0.59 & -\\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Median} & 0.59 & - \\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.35 & - \\ \hline
+ & \multirow{3}{*}{LittleDarwin} & \multicolumn{2}{c|}{Mean} & 0.59 & 0.00\%\\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Median} & 0.59 & 0.00\%\\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.35 & 0.00\%\\ \hline
     
 \end{tabular}
 }
@@ -839,54 +1040,54 @@ which it has no rules, Haskell.
 
 \begin{table}[htbp]
 \centering
-\caption{Python (UniversalMutator vs. Mutmut vs. CosmicRay)}
+\caption{Python (Our Implementation vs. Mutmut vs. CosmicRay)}
 \label{tab:table_python2}
 \resizebox{\columnwidth}{!}{
 \begin{tabular}{|c|c|r|r|r|r|}
 \hline
  &  & \textbf{Killed} & \textbf{Not Killed} &  \makecell{\textbf{Mutation} \\ \textbf{Score}} & \textbf{Equivalent \%} \\ \hline
 
- \multirow{4}{*}{\small keract} & Regex & 463 & 1192 & 0.28 & - \\\cline{2-6}
-    & Comby & 383 & 1088 & 0.26 & - \\\cline{2-6}
-    & Mutmut & 349 & 133 & 0.72 & - \\ \cline{2-6}
-    & CosmicRay & 250 & 671 & 0.27 & - \\ \hline
-\multirow{3}{*}{\small dtw} & Regex & 506 & 467 & 0.52 & - \\\cline{2-6}
-    & Comby & 475 & 391 & 0.55 & - \\ \cline{2-6}
-    & Mutmut & 118 & 152 & 0.44 & - \\ \cline{2-6}
-    & CosmicRay & 328 & 385 & 0.46 & - \\ \hline
-\multirow{3}{*}{\small notion-sdk-py} & Regex & 112 & 84 & 0.57 & - \\\cline{2-6}
-    & Comby & 118 & 78 & 0.60 & - \\ \cline{2-6}
-    & Mutmut & 41 & 22 & 0.65 & -\\ \cline{2-6}
-    & CosmicRay & 23 & 29 & 0.44 & - \\ \hline
+ \multirow{4}{*}{\small keract} & Regex & 463 & 1192 & 0.28 & 0\% \\\cline{2-6}
+    & Comby & 383 & 1088 & 0.26 & 10\% \\\cline{2-6}
+    & Mutmut & 349 & 133 & 0.72 & 10\% \\ \cline{2-6}
+    & CosmicRay & 250 & 671 & 0.27 & 10\% \\ \hline
+\multirow{3}{*}{\small dtw} & Regex & 506 & 467 & 0.52 & 10\% \\\cline{2-6}
+    & Comby & 475 & 391 & 0.55 & 10\% \\ \cline{2-6}
+    & Mutmut & 118 & 152 & 0.44 & 0\% \\ \cline{2-6}
+    & CosmicRay & 328 & 385 & 0.46 & 20\% \\ \hline
+\multirow{3}{*}{\small notion-sdk-py} & Regex & 112 & 84 & 0.57 & 10\% \\\cline{2-6}
+    & Comby & 118 & 78 & 0.60 & 20\% \\ \cline{2-6}
+    & Mutmut & 41 & 22 & 0.65 & 0\%\\ \cline{2-6}
+    & CosmicRay & 23 & 29 & 0.44 & 0\%\\ \hline
     
-\multirow{3}{*}{\makecell{\small atlassian-python \\ api}} & Regex & 193 & 109 & 0.64 & - \\\cline{2-6}
-    & Comby & 207 & 126 & 0.62 & - \\ \cline{2-6}
-    & Mutmut & 123 & 51 & 0.71 & - \\ \cline{2-6}
-    & CosmicRay & 78 & 28 & 0.74 & - \\ \hline
-\multirow{3}{*}{\small ESD} & Regex & 132 & 1727 & 0.07 & - \\\cline{2-6}
-    & Comby & 121 & 1591 & 0.07 & - \\ \cline{2-6}
-    & Mutmut & 57 & 663 & 0.08 & - \\ \cline{2-6}
-    & CosmicRay & 63 & 950 & 0.06 & - \\ \hline
-\multirow{3}{*}{\small fiber} & Regex & 307 & 186 & 0.62 & \\\cline{2-6}
-    & Comby & 291 & 167 & 0.64 & -\\ \cline{2-6}
-    & Mutmut & 127 & 95 & 0.57 & -\\ \cline{2-6}
-    & CosmicRay & 259 & 61 & 0.81 & -\\ \hline
+\multirow{3}{*}{\makecell{\small atlassian-python \\ api}} & Regex & 193 & 109 & 0.64 & 20\%\\\cline{2-6}
+    & Comby & 207 & 126 & 0.62 & 40\% \\ \cline{2-6}
+    & Mutmut & 123 & 51 & 0.71 & 10\% \\ \cline{2-6}
+    & CosmicRay & 78 & 28 & 0.74 & 10\% \\ \hline
+\multirow{3}{*}{\small ESD} & Regex & 132 & 1727 & 0.07 & 30\%\\\cline{2-6}
+    & Comby & 121 & 1591 & 0.07 & 10\%\\ \cline{2-6}
+    & Mutmut & 57 & 663 & 0.08 & 0\%\\ \cline{2-6}
+    & CosmicRay & 63 & 950 & 0.06 & 10\%\\ \hline
+\multirow{3}{*}{\small fiber} & Regex & 307 & 186 & 0.62 & 10\%\\\cline{2-6}
+    & Comby & 291 & 167 & 0.64 & 20\%\\ \cline{2-6}
+    & Mutmut & 127 & 95 & 0.57 & 40\%\\ \cline{2-6}
+    & CosmicRay & 259 & 61 & 0.81 & 0\%\\ \hline
     
-\multirow{12}{*}{Overall} & \multirow{3}{*}{Regex} & \multicolumn{2}{c|}{Mean} & 0.45  & -\\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Median} & 0.55 & - \\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.23 & - \\\cline{2-6}
+\multirow{12}{*}{Overall} & \multirow{3}{*}{Regex} & \multicolumn{2}{c|}{Mean} & 0.45  & 13.00\%\\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Median} & 0.55 & 10.00\%\\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.23 & 10.33\%\\\cline{2-6}
 
- & \multirow{3}{*}{Comby} & \multicolumn{2}{c|}{Mean} & 0.46 & -\\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Median} & 0.58 & - \\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.24 & - \\\cline{2-6}
+ & \multirow{3}{*}{Comby} & \multicolumn{2}{c|}{Mean} & 0.46 & 18.00\%\\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Median} & 0.58 & 15.00\%\\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.24 & 11.69\%\\\cline{2-6}
 
- & \multirow{3}{*}{Mutmut} & \multicolumn{2}{c|}{Mean} & 0.53 & -\\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Median} & 0.61 & - \\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.24 & - \\\cline{2-6}
+ & \multirow{3}{*}{Mutmut} & \multicolumn{2}{c|}{Mean} & 0.53 & 10.00\%\\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Median} & 0.61 & 5.00\%\\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.24 & 15.49\%\\\cline{2-6}
     
- & \multirow{3}{*}{CosmicRay} & \multicolumn{2}{c|}{Mean} & 0.46 & -\\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Median} & 0.45 & - \\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.28 & - \\ \hline
+ & \multirow{3}{*}{CosmicRay} & \multicolumn{2}{c|}{Mean} & 0.46 & 8.33\%\\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Median} & 0.45 & 10.00\%\\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.28 & 7.53\%\\ \hline
     
 \end{tabular}
 }
@@ -897,54 +1098,100 @@ which it has no rules, Haskell.
 
 \begin{table}[htbp]
 \centering
-\caption{Rust (UniversalMutator vs. Cargo-Mutants)}
+\caption{Rust (Our Implementation vs. Cargo-Mutants)}
 \label{tab:table_rust2}
 \resizebox{\columnwidth}{!}{
 \begin{tabular}{|c|c|r|r|r|r|}
 \hline
  &  & \textbf{Killed} & \textbf{Not Killed} &  \makecell{\textbf{Mutation} \\ \textbf{Score}} & \textbf{Equivalent \%} \\ \hline
 
- \multirow{3}{*}{\small cargo release} & Regex & 721 & 130 & 0.85 & - \\\cline{2-6}
-    & Comby & 1344 & 346 & 0.80 & - \\\cline{2-6}
-    & Cargo-Mutants & 2	& 3 & 0.40 & - \\ \hline
-\multirow{3}{*}{\small passerine} & Regex & 122 & 91 & 0.57 & - \\\cline{2-6}
-    & Comby & 90 & 83 & 0.52 & - \\ \cline{2-6}
-    & Cargo-Mutants & 0	& 0 & 0 & - \\ \hline
-\multirow{3}{*}{\small typos} & Regex & 295 & 91 & 0.76 & - \\\cline{2-6}
-    & Comby & 283 & 83 & 0.77 & - \\ \cline{2-6}
-    & Cargo-Mutants & 5 & 1 & 0.83 & -\\ \hline
+ \multirow{3}{*}{\small cargo release} & Regex & 721 & 130 & 0.85 & 0\% \\\cline{2-6}
+    & Comby & 1344 & 346 & 0.80 & 0\% \\\cline{2-6}
+    & Cargo-Mutants & 2	& 3 & 0.40 & 0\% \\ \hline
+\multirow{3}{*}{\small passerine} & Regex & 122 & 91 & 0.57 & 20\% \\\cline{2-6}
+    & Comby & 90 & 83 & 0.52 & 50\% \\ \cline{2-6}
+    & Cargo-Mutants & 0	& 0 & 0 & 0\% \\ \hline
+\multirow{3}{*}{\small typos} & Regex & 295 & 91 & 0.76 & 40\% \\\cline{2-6}
+    & Comby & 283 & 83 & 0.77 & 20\%\\ \cline{2-6}
+    & Cargo-Mutants & 5 & 1 & 0.83 & 0\%\\ \hline
     
-\multirow{3}{*}{\small ord} & Regex & 558 & 204 & 0.73 & - \\\cline{2-6}
-    & Comby & 533 & 110 & 0.83 & - \\ \cline{2-6}
-    & Cargo-Mutants & 6 & 0 & 1.00 & - \\ \hline
-\multirow{3}{*}{\small bazuka} & Regex & 281 & 170 & 0.62 & - \\\cline{2-6}
-    & Comby & 291 & 111 & 0.73 & - \\ \cline{2-6}
-    & Cargo-Mutants & 0 & 0 & 0 & - \\ \hline
-\multirow{3}{*}{\small strum} & Regex & 8 & 43 & 0.16 & \\\cline{2-6}
-    & Comby & 11 & 39 & 0.22 & -\\ \cline{2-6}
-    & Cargo-Mutants & 2 & 0 & 1.00 & -\\ \hline
+\multirow{3}{*}{\small ord} & Regex & 558 & 204 & 0.73 & 10\% \\\cline{2-6}
+    & Comby & 533 & 110 & 0.83 & 20\% \\ \cline{2-6}
+    & Cargo-Mutants & 6 & 0 & 1.00 & 0\% \\ \hline
+\multirow{3}{*}{\small bazuka} & Regex & 281 & 170 & 0.62 & 40\% \\\cline{2-6}
+    & Comby & 291 & 111 & 0.73 & 0\% \\ \cline{2-6}
+    & Cargo-Mutants & 0 & 0 & 0 & 0\% \\ \hline
+\multirow{3}{*}{\small strum} & Regex & 8 & 43 & 0.16 & 10\%\\\cline{2-6}
+    & Comby & 11 & 39 & 0.22 & 40\%\\ \cline{2-6}
+    & Cargo-Mutants & 2 & 0 & 1.00 & 0\%\\ \hline
     
-\multirow{9}{*}{Overall} & \multirow{3}{*}{Regex} & \multicolumn{2}{c|}{Mean} & 0.62  & -\\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Median} & 0.68 & - \\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.24 & - \\\cline{2-6}
+\multirow{9}{*}{Overall} & \multirow{3}{*}{Regex} & \multicolumn{2}{c|}{Mean} & 0.62  & 20.00\%\\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Median} & 0.68 & 15.00\%\\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.24 & 16.73\% \\\cline{2-6}
 
- & \multirow{3}{*}{Comby} & \multicolumn{2}{c|}{Mean} & 0.64 & -\\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Median} & 0.75 & - \\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.25 & - \\\cline{2-6}
+ & \multirow{3}{*}{Comby} & \multicolumn{2}{c|}{Mean} & 0.64 & 22.00\%\\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Median} & 0.75 & 20.00\% \\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.25 & 20.41\% \\\cline{2-6}
 
- & \multirow{3}{*}{Cargo-Mutants} & \multicolumn{2}{c|}{Mean} & 0.54 & -\\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Median} & 0.62 & - \\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.47 & - \\ \hline
+ & \multirow{3}{*}{Cargo-Mutants} & \multicolumn{2}{c|}{Mean} & 0.54 & 0.00\%\\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Median} & 0.62 & 0.00\% \\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.47 & 0.00\%\\ \hline
     
     
 \end{tabular}
 }
 \end{table}
 
+Previous studies comparing mutation tools for Java
+\cite{MajorPIT,gopinath2017does,CommACMJavaTool} found that results
+for individual projects often varied considerably across tools without
+indicating a clear advantage for one tool over another.  Our primary
+criteria for comparing tools is whether there is an overall pattern of
+clearly less-effective mutation for our approach.  Below, we discuss
+the question for each language separately.  Each section also
+addresses briefly the question of whether Regex and Comby modes
+perform differently in terms of mutation score and equivalent mutants,
+which is relevant to RQ1.
+
+\subsubsection{C++}
+
+We found only one tool that allowed single-file mutation and worked
+reliably for C++.  Dextool generally produced fewer mutants than
+either mode of our tool, and for some projects produced an extremely
+small number of mutants.  For example, for the {\tt
+  tiny-differentiable-simulator} project, Dextool only produced a
+total of 61 mutants, and gave a much higher mutation score than our
+two modes.  Our tools produced more than 600 additional unkilled
+mutants, and none of the inspected mutants were equivalent.
+Similarly, Dextool only found 2 unkilled mutants for the {\tt
+  libgraphqlparser} project.  We doubt that the set of test weaknesses
+in the code is adequately represented by such a small number of
+mutants when our tools were able to produce significantly more
+unkilled mutants.  Even assuming Dextool's mutants are never
+equivalent (highly unlikely) and supposing that a third of our
+generated mutants are equivalent, it seems likely that Dextool is
+missing important mutants in some cases.  Overall, mean mutation
+scores were similar for Dextool and both modes of our tool, while
+median mutation scores were much lower for our tools, which produced
+many more unkilled mutants for some projects.  For C++, there seems to
+be no reason to suspect that the universal approach is producing
+sub-par mutation testing.
+
+Comparing Regex and Comby modes, mutation scores are very similar, as
+are estimated equivalency rates, though Comby produces a somewhat
+larger number and percentage of equivalent mutants.  
+
+\subsubsection{Java}
+
+\subsubsection{Python}
+
+\subsubsection{Rust}
+
 \subsection{Haskell Case Study}
 
 \begin{figure}
-\begin{code}
+
+  \begin{code}
  qsort :: [ Int] -> [ Int ]
  qsort [] = []
  qsort (x: xs ) = qsort l ++ [x] ++ qsort r
@@ -952,7 +1199,8 @@ which it has no rules, Haskell.
            r = filter ( >= x) xs
 \end{code}
 \caption{Example from MuCheck Paper}
-\label{fig;haskell}
+\label{fig:haskell}
+
 \end{figure}
 
 Figure~\ref{fig:haskell} shows a simple Haskell program, the
@@ -967,7 +1215,15 @@ C-like syntax does not hold, we applied our implementation to this example.
 Using regular expressions, and only the universal rules, our tool
 generates 10 valid mutants and 34 invalid mutants of the code (22.73\%
 valid mutants).  Comby produces an identical 10 valid mutants, but 65
-invalid mutants (13.33\% validity).  These mutants produce a mutation
+invalid mutants (13.33\% validity).  Both tools produce a large number
+of invalid mutants here due to including rules such as adding {\tt
+  break} and {\tt continue} that are sufficiently widespread in
+applicability to be included in our ``universal'' set but do not apply
+to Haskell; we believe that comby's awareness of Haskell syntax in
+this case actually gives it \emph{more} opportunities to apply such
+inapplicable mutants.
+
+These mutants produce a mutation
 score of 0.8 for the two properties defined in the original MuCheck
 paper.  In other words, like MuCheck, our tool is able to
 determine that the properties provided are insufficient.  In
@@ -1058,7 +1314,7 @@ languages, and provided an evaluation against PIT for a single toy
 Java program.  The present paper provides the full idea and context,
 provides empirical data for universal mutant generation on real world
 programs over four languages,
-and introduces the idea of using parser-parser combinators to improve
+and introduces the idea of using parser parser combinators to improve
 on regular expression-based generation.
 
 \section{Conclusions and Future Work}
