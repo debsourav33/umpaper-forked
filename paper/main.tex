@@ -707,35 +707,37 @@ initial mutant generation, and generally indicates a better
 \label{tab:table_cpp1}
 \resizebox{\columnwidth}{!}{%
 
-\begin{tabular}{|c|c|c|r|r|r|}
+\begin{tabular}{|c|c|c|r|r|r|c|}
 \hline
- & \multicolumn{2}{c|}{} & \textbf{Valid} & \textbf{Invalid} & \textbf{Valid \%}  \\ \hline
-\multirow{2}{*}{ompl} & \multicolumn{2}{c|}{Regex} & 595 \hspace{8pt} & 1938 \hspace{8pt} & 23.49\%  \\\cline{2-6}
-    & \multicolumn{2}{c|}{Comby} & 564 \hspace{8pt} & 1610 \hspace{8pt} & 25.94\% \\ \hline
-\multirow{2}{*}{libgraphqlparser} & \multicolumn{2}{c|}{Regex} & 157 \hspace{8pt} & 584 \hspace{8pt} & 21.19\% \\\cline{2-6}
-    & \multicolumn{2}{c|}{Comby} & 131 \hspace{8pt} & 309 \hspace{8pt} & 29.77\% \\ \hline
-\multirow{2}{*}{rethinkdb\_rebirth} & \multicolumn{2}{c|}{Regex} & 545 \hspace{8pt} & 1701 \hspace{8pt} & 24.27\% \\\cline{2-6}
-    & \multicolumn{2}{c|}{Comby} & 492 \hspace{8pt} & 1517 \hspace{8pt} & 24.49\% \\ \hline
+ & \multicolumn{2}{c|}{} & \textbf{Valid} & \textbf{Invalid} & \textbf{Valid \%} & \textbf{LOC} \\ \hline
+\multirow{2}{*}{ompl} & \multicolumn{2}{c|}{Regex} & 595 \hspace{8pt} & 1938 \hspace{8pt} & 23.49\% & \multirow{2}{*}{525} \\\cline{2-6}
+    & \multicolumn{2}{c|}{Comby} & 564 \hspace{8pt} & 1610 \hspace{8pt} & 25.94\% &  \\ \hline
+\multirow{2}{*}{libgraphqlparser} & \multicolumn{2}{c|}{Regex} & 157 \hspace{8pt} & 584 \hspace{8pt} & 21.19\% & \multirow{2}{*}{137}\\\cline{2-6}
+    & \multicolumn{2}{c|}{Comby} & 131 \hspace{8pt} & 309 \hspace{8pt} & 29.77\% & \\ \hline
+\multirow{2}{*}{rethinkdb\_rebirth} & \multicolumn{2}{c|}{Regex} & 545 \hspace{8pt} & 1701 \hspace{8pt} & 24.27\% & \multirow{2}{*}{471}\\\cline{2-6}
+    & \multicolumn{2}{c|}{Comby} & 492 \hspace{8pt} & 1517 \hspace{8pt} & 24.49\% & \\ \hline
     
-\multirow{2}{*}{xoreos} & \multicolumn{2}{c|}{Regex} & 2419 \hspace{8pt} & 1457 \hspace{8pt} & 62.41\% \\\cline{2-6}
-    & \multicolumn{2}{c|}{Comby} & 2280 \hspace{8pt} & 1017 \hspace{8pt} & 69.15\% \\ \hline
-\multirow{2}{*}{libxmljs} & \multicolumn{2}{c|}{Regex} & 881 \hspace{8pt} & 3108 \hspace{8pt} & 22.09\% \\\cline{2-6}
-    & \multicolumn{2}{c|}{Comby} & 790 \hspace{8pt} & 3218 \hspace{8pt} & 19.71\% \\ \hline
-\multirow{2}{*}{tiny-differentiable-simulator} & \multicolumn{2}{c|}{Regex} & 747 \hspace{8pt} & 535 \hspace{8pt} & 58.27\% \\\cline{2-6}
-    & \multicolumn{2}{c|}{Comby} & 770 \hspace{8pt} & 444 \hspace{8pt} & 63.43\% \\ \hline
+\multirow{2}{*}{xoreos} & \multicolumn{2}{c|}{Regex} & 2419 \hspace{8pt} & 1457 \hspace{8pt} & 62.41\% & \multirow{2}{*}{732}\\\cline{2-6}
+    & \multicolumn{2}{c|}{Comby} & 2280 \hspace{8pt} & 1017 \hspace{8pt} & 69.15\% & \\ \hline
+\multirow{2}{*}{libxmljs} & \multicolumn{2}{c|}{Regex} & 881 \hspace{8pt} & 3108 \hspace{8pt} & 22.09\% & \multirow{2}{*}{630}\\\cline{2-6}
+    & \multicolumn{2}{c|}{Comby} & 790 \hspace{8pt} & 3218 \hspace{8pt} & 19.71\% & \\ \hline
+\multirow{2}{*}{tiny-differentiable-simulator} & \multicolumn{2}{c|}{Regex} & 747 \hspace{8pt} & 535 \hspace{8pt} & 58.27\% & \multirow{2}{*}{195}\\\cline{2-6}
+    & \multicolumn{2}{c|}{Comby} & 770 \hspace{8pt} & 444 \hspace{8pt} & 63.43\% & \\ \hline
 
-\multirow{6}{*}{Overall} & \multirow{3}{*}{Regex} & Mean & 890.67 &	1553.83 & 35.28\%\\\cline{3-6}
-    &   &  Median & 671.00 & 1579.00 & 23.88\%  \\\cline{3-6}
-    &   &  Std. Dev & 787.62 & 956.31 & 19.48\%  \\\cline{2-6}
+\multirow{6}{*}{Overall} & \multirow{3}{*}{Regex} & Mean & 890.67 &	1553.83 & 35.28\% & \\\cline{3-6}
+    &   &  Median & 671.00 & 1579.00 & 23.88\%  & \\\cline{3-6}
+    &   &  Std. Dev & 787.62 & 956.31 & 19.48\% & \\\cline{2-6}
 
- & \multirow{3}{*}{Comby} & Mean & 837.83 & 1352.50 & 38.75\% \\\cline{3-6}
-    &   &  Median & 667.00 & 1267.00 & 27.86\%  \\\cline{3-6}
-    &   &  Std. Dev & 745.78 & 1058.33	& 21.66\%  \\\hline
+ & \multirow{3}{*}{Comby} & Mean & 837.83 & 1352.50 & 38.75\% & \\\cline{3-6}
+    &   &  Median & 667.00 & 1267.00 & 27.86\% & \\\cline{3-6}
+    &   &  Std. Dev & 745.78 & 1058.33	& 21.66\% & \\\hline
 
 \end{tabular}
 }
 
 \end{table}
+
+  
 
 % ---------------- JAVA table UM Only--------------------------
 \begin{table}[hbtp]
@@ -744,30 +746,30 @@ initial mutant generation, and generally indicates a better
 \label{tab:table_java1}
 \resizebox{\columnwidth}{!}{%
 
-\begin{tabular}{|c|c|c|r|r|r|}
+\begin{tabular}{|c|c|c|r|r|r|c|}
 \hline
- & \multicolumn{2}{c|}{} & \textbf{Valid} & \textbf{Invalid} & \textbf{Valid \%}  \\ \hline
-\multirow{2}{*}{pebble} & \multicolumn{2}{c|}{Regex} & 86 \hspace{8pt} & 928 \hspace{8pt} & 8.48\%  \\\cline{2-6}
-    & \multicolumn{2}{c|}{Comby} & 85 \hspace{8pt} & 667 \hspace{8pt} & 11.30\% \\ \hline
-\multirow{2}{*}{spring-hateoas} & \multicolumn{2}{c|}{Regex} & 248 \hspace{8pt} & 2231 \hspace{8pt} & 10.00\% \\\cline{2-6}
-    & \multicolumn{2}{c|}{Comby} & 172 \hspace{8pt} & 1212 \hspace{8pt} & 12.43\% \\ \hline
-\multirow{2}{*}{javacc} & \multicolumn{2}{c|}{Regex} & 542 \hspace{8pt} & 1346 \hspace{8pt} & 28.70\% \\\cline{2-6}
-    & \multicolumn{2}{c|}{Comby} & 494 \hspace{8pt} & 782 \hspace{8pt} & 38.71\% \\ \hline
+ & \multicolumn{2}{c|}{} & \textbf{Valid} & \textbf{Invalid} & \textbf{Valid \%} & \textbf{LOC}\\ \hline
+\multirow{2}{*}{pebble} & \multicolumn{2}{c|}{Regex} & 86 \hspace{8pt} & 928 \hspace{8pt} & 8.48\%  & \multirow{2}{*}{279}\\\cline{2-6}
+    & \multicolumn{2}{c|}{Comby} & 85 \hspace{8pt} & 667 \hspace{8pt} & 11.30\% & \\ \hline
+\multirow{2}{*}{spring-hateoas} & \multicolumn{2}{c|}{Regex} & 248 \hspace{8pt} & 2231 \hspace{8pt} & 10.00\% & \multirow{2}{*}{397}\\\cline{2-6}
+    & \multicolumn{2}{c|}{Comby} & 172 \hspace{8pt} & 1212 \hspace{8pt} & 12.43\% & \\ \hline
+\multirow{2}{*}{javacc} & \multicolumn{2}{c|}{Regex} & 542 \hspace{8pt} & 1346 \hspace{8pt} & 28.70\% & \multirow{2}{*}{363}\\\cline{2-6}
+    & \multicolumn{2}{c|}{Comby} & 494 \hspace{8pt} & 782 \hspace{8pt} & 38.71\% & \\ \hline
     
-\multirow{2}{*}{coffee-gb} & \multicolumn{2}{c|}{Regex} & 224 \hspace{8pt} & 1703 \hspace{8pt} & 11.63\% \\\cline{2-6}
-    & \multicolumn{2}{c|}{Comby} & 174 \hspace{8pt} & 624 \hspace{8pt} & 21.80\% \\ \hline
-\multirow{2}{*}{egads} & \multicolumn{2}{c|}{Regex} & 624 \hspace{8pt} & 1830 \hspace{8pt} & 25.43\% \\\cline{2-6}
-    & \multicolumn{2}{c|}{Comby} & 597 \hspace{8pt} & 566 \hspace{8pt} & 51.33\% \\ \hline
-\multirow{2}{*}{apk-parser} & \multicolumn{2}{c|}{Regex} & 351 \hspace{8pt} & 1232 \hspace{8pt} & 22.17\% \\\cline{2-6}
-    & \multicolumn{2}{c|}{Comby} & 333 \hspace{8pt} & 866 \hspace{8pt} & 27.77\% \\ \hline
+\multirow{2}{*}{coffee-gb} & \multicolumn{2}{c|}{Regex} & 224 \hspace{8pt} & 1703 \hspace{8pt} & 11.63\% & \multirow{2}{*}{463}\\\cline{2-6}
+    & \multicolumn{2}{c|}{Comby} & 174 \hspace{8pt} & 624 \hspace{8pt} & 21.80\% & \\ \hline
+\multirow{2}{*}{egads} & \multicolumn{2}{c|}{Regex} & 624 \hspace{8pt} & 1830 \hspace{8pt} & 25.43\% & \multirow{2}{*}{252}\\\cline{2-6}
+    & \multicolumn{2}{c|}{Comby} & 597 \hspace{8pt} & 566 \hspace{8pt} & 51.33\% & \\ \hline
+\multirow{2}{*}{apk-parser} & \multicolumn{2}{c|}{Regex} & 351 \hspace{8pt} & 1232 \hspace{8pt} & 22.17\% & \multirow{2}{*}{324}\\\cline{2-6}
+    & \multicolumn{2}{c|}{Comby} & 333 \hspace{8pt} & 866 \hspace{8pt} & 27.77\% & \\ \hline
 
-\multirow{6}{*}{Overall} & \multirow{3}{*}{Regex} & Mean & 345.83 & 1545.00  & 17.74\%\\\cline{3-6}
-    &   &  Median & 299.50 & 1524.50 & 16.90\%  \\\cline{3-6}
-    &   &  Std. Dev & 203.86 & 467.98 & 8.73\%  \\\cline{2-6}
+\multirow{6}{*}{Overall} & \multirow{3}{*}{Regex} & Mean & 345.83 & 1545.00  & 17.74\%& \\\cline{3-6}
+    &   &  Median & 299.50 & 1524.50 & 16.90\%  & \\\cline{3-6}
+    &   &  Std. Dev & 203.86 & 467.98 & 8.73\%  & \\\cline{2-6}
 
- & \multirow{3}{*}{Comby} & Mean & 309.17 & 786.17 & 27.22\% \\\cline{3-6}
-    &   &  Median & 253.50 & 724.50 & 24.79\%  \\\cline{3-6}
-    &   &  Std. Dev & 202.44 & 235.24  & 15.59\%  \\\hline
+ & \multirow{3}{*}{Comby} & Mean & 309.17 & 786.17 & 27.22\% & \\\cline{3-6}
+    &   &  Median & 253.50 & 724.50 & 24.79\%  & \\\cline{3-6}
+    &   &  Std. Dev & 202.44 & 235.24  & 15.59\%  & \\\hline
 
 
 \end{tabular}
@@ -783,30 +785,30 @@ initial mutant generation, and generally indicates a better
 \label{tab:table_python1}
 \resizebox{\columnwidth}{!}{%
 
-\begin{tabular}{|c|c|c|r|r|r|r|}
+\begin{tabular}{|c|c|c|r|r|r|r|c|}
 \hline
- & \multicolumn{2}{c|}{} & \textbf{Valid} & \textbf{Invalid} & \textbf{Redundant} & \textbf{Valid \%}  \\ \hline
-\multirow{2}{*}{keract} & \multicolumn{2}{c|}{Regex} & 1655 \hspace{8pt} & 1600 \hspace{8pt} &	729 \hspace{8pt} & 41.53\%  \\\cline{2-7}
-    & \multicolumn{2}{c|}{Comby} & 1471 \hspace{8pt} & 1063 \hspace{8pt} & 533 \hspace{8pt} & 47.96\% \\ \hline
-\multirow{2}{*}{dtw} & \multicolumn{2}{c|}{Regex} & 973 \hspace{8pt} & 566 \hspace{8pt} & 567 \hspace{8pt} & 46.20\% \\\cline{2-7}
-    & \multicolumn{2}{c|}{Comby} & 866 \hspace{8pt} & 330 \hspace{8pt} & 639 \hspace{8pt} &	47.19\% \\ \hline
-\multirow{2}{*}{notion-sdk-py} & \multicolumn{2}{c|}{Regex} & 196 \hspace{8pt} & 760 \hspace{8pt} & 82 \hspace{8pt} & 18.89\% \\\cline{2-7}
-    & \multicolumn{2}{c|}{Comby} & 196 \hspace{8pt} & 701 \hspace{8pt} & 122 \hspace{8pt} & 19.23\% \\ \hline
+ & \multicolumn{2}{c|}{} & \textbf{Valid} & \textbf{Invalid} & \textbf{Redundant} & \textbf{Valid \%} & \textbf{LOC} \\ \hline
+\multirow{2}{*}{keract} & \multicolumn{2}{c|}{Regex} & 1655 \hspace{8pt} & 1600 \hspace{8pt} &	729 \hspace{8pt} & 41.53\%  & \multirow{2}{*}{402}\\\cline{2-7}
+    & \multicolumn{2}{c|}{Comby} & 1471 \hspace{8pt} & 1063 \hspace{8pt} & 533 \hspace{8pt} & 47.96\% & \\ \hline
+\multirow{2}{*}{dtw} & \multicolumn{2}{c|}{Regex} & 973 \hspace{8pt} & 566 \hspace{8pt} & 567 \hspace{8pt} & 46.20\% & \multirow{2}{*}{118}\\\cline{2-7}
+    & \multicolumn{2}{c|}{Comby} & 866 \hspace{8pt} & 330 \hspace{8pt} & 639 \hspace{8pt} &	47.19\% & \\ \hline
+\multirow{2}{*}{notion-sdk-py} & \multicolumn{2}{c|}{Regex} & 196 \hspace{8pt} & 760 \hspace{8pt} & 82 \hspace{8pt} & 18.89\% & \multirow{2}{*}{189}\\\cline{2-7}
+    & \multicolumn{2}{c|}{Comby} & 196 \hspace{8pt} & 701 \hspace{8pt} & 122 \hspace{8pt} & 19.23\% & \\ \hline
     
-\multirow{2}{*}{{\makecell{atlassian-python \\ api}}} & \multicolumn{2}{c|}{Regex} & 302 \hspace{8pt}	& 1002 \hspace{8pt} & 207 \hspace{8pt} &	19.99\% \\\cline{2-7}
-    & \multicolumn{2}{c|}{Comby} & 333 \hspace{8pt} & 635 \hspace{8pt} & 351 \hspace{8pt} & 25.25\% \\ \hline
-\multirow{2}{*}{ESD} & \multicolumn{2}{c|}{Regex} & 1859 \hspace{8pt}	& 2767 \hspace{8pt} & 1642 \hspace{8pt} & 29.46\% \\\cline{2-7}
-    & \multicolumn{2}{c|}{Comby} & 1712 \hspace{8pt} & 1548 \hspace{8pt} &	614 \hspace{8pt} & 44.18\% \\ \hline
-\multirow{2}{*}{fiber} & \multicolumn{2}{c|}{Regex} & 493 \hspace{8pt} & 909 \hspace{8pt} & 163 \hspace{8pt} & 31.08\% \\\cline{2-7}
-    & \multicolumn{2}{c|}{Comby} & 458 \hspace{8pt} & 767 \hspace{8pt}	& 241 \hspace{8pt} & 31.24\% \\ \hline
+\multirow{2}{*}{{\makecell{atlassian-python \\ api}}} & \multicolumn{2}{c|}{Regex} & 302 \hspace{8pt}	& 1002 \hspace{8pt} & 207 \hspace{8pt} &	19.99\% & \multirow{2}{*}{236}\\\cline{2-7}
+    & \multicolumn{2}{c|}{Comby} & 333 \hspace{8pt} & 635 \hspace{8pt} & 351 \hspace{8pt} & 25.25\% & \\ \hline
+\multirow{2}{*}{ESD} & \multicolumn{2}{c|}{Regex} & 1859 \hspace{8pt}	& 2767 \hspace{8pt} & 1642 \hspace{8pt} & 29.46\% & \multirow{2}{*}{698}\\\cline{2-7}
+    & \multicolumn{2}{c|}{Comby} & 1712 \hspace{8pt} & 1548 \hspace{8pt} &	614 \hspace{8pt} & 44.18\% & \\ \hline
+\multirow{2}{*}{fiber} & \multicolumn{2}{c|}{Regex} & 493 \hspace{8pt} & 909 \hspace{8pt} & 163 \hspace{8pt} & 31.08\% & \multirow{2}{*}{358}\\\cline{2-7}
+    & \multicolumn{2}{c|}{Comby} & 458 \hspace{8pt} & 767 \hspace{8pt}	& 241 \hspace{8pt} & 31.24\% & \\ \hline
 
-\multirow{6}{*}{Overall} & \multirow{3}{*}{Regex} & Mean & 913.00 & 1267.33 & 565.00 & 31.19\%   \\\cline{3-7}
-    &   &  Median & 733.00 & 955.50 & 387.00 & 30.27\%  \\\cline{3-7}
-    &   &  Std. Dev & 708.93 & 813.35 & 584.79 & 11.06\%  \\\cline{2-7}
+\multirow{6}{*}{Overall} & \multirow{3}{*}{Regex} & Mean & 913.00 & 1267.33 & 565.00 & 31.19\%  & \\\cline{3-7}
+    &   &  Median & 733.00 & 955.50 & 387.00 & 30.27\%  & \\\cline{3-7}
+    &   &  Std. Dev & 708.93 & 813.35 & 584.79 & 11.06\%  & \\\cline{2-7}
 
- & \multirow{3}{*}{Comby} & Mean & 839.33 & 840.67 & 416.67 & 35.84\% \\\cline{3-7}
-    &   &  Median & 662.00 & 734.00 & 442.00 & 37.71\%  \\\cline{3-7}
-    &   &  Std. Dev & 628.79 & 418.99 & 211.62 & 12.28\%  \\\hline
+ & \multirow{3}{*}{Comby} & Mean & 839.33 & 840.67 & 416.67 & 35.84\% & \\\cline{3-7}
+    &   &  Median & 662.00 & 734.00 & 442.00 & 37.71\%  & \\\cline{3-7}
+    &   &  Std. Dev & 628.79 & 418.99 & 211.62 & 12.28\%  & \\\hline
 
 \end{tabular}
 
@@ -821,30 +823,30 @@ initial mutant generation, and generally indicates a better
 \label{tab:table_rust1}
 \resizebox{\columnwidth}{!}{%
 
-\begin{tabular}{|c|c|c|r|r|r|}
+\begin{tabular}{|c|c|c|r|r|r|c|}
 \hline
- & \multicolumn{2}{c|}{} & \textbf{Valid} & \textbf{Invalid} & \textbf{Valid \%}  \\ \hline
-\multirow{2}{*}{cargo release} & \multicolumn{2}{c|}{Regex} & 851 \hspace{8pt} &	1163 \hspace{8pt} & 42.25\%  \\\cline{2-6}
-    & \multicolumn{2}{c|}{Comby} & 1690 \hspace{8pt} & 711 \hspace{8pt} & 70.39\% \\ \hline
-\multirow{2}{*}{passerine} & \multicolumn{2}{c|}{Regex} & 213 \hspace{8pt} & 2081 \hspace{8pt} & 9.29\% \\\cline{2-6}
-    & \multicolumn{2}{c|}{Comby} & 173 \hspace{8pt} & 1518 \hspace{8pt} & 10.23\% \\ \hline
-\multirow{2}{*}{typos} & \multicolumn{2}{c|}{Regex} & 386 \hspace{8pt} & 1534 \hspace{8pt} & 20.10\% \\\cline{2-6}
-    & \multicolumn{2}{c|}{Comby} & 366 \hspace{8pt} & 1199 \hspace{8pt} &	 23.39\% \\ \hline
+ & \multicolumn{2}{c|}{} & \textbf{Valid} & \textbf{Invalid} & \textbf{Valid \%} &  \textbf{LOC} \\ \hline
+\multirow{2}{*}{cargo release} & \multicolumn{2}{c|}{Regex} & 851 \hspace{8pt} &	1163 \hspace{8pt} & 42.25\%  & \multirow{2}{*}{346}\\\cline{2-6}
+    & \multicolumn{2}{c|}{Comby} & 1690 \hspace{8pt} & 711 \hspace{8pt} & 70.39\% & \\ \hline
+\multirow{2}{*}{passerine} & \multicolumn{2}{c|}{Regex} & 213 \hspace{8pt} & 2081 \hspace{8pt} & 9.29\% & \multirow{2}{*}{376}\\\cline{2-6}
+    & \multicolumn{2}{c|}{Comby} & 173 \hspace{8pt} & 1518 \hspace{8pt} & 10.23\% & \\ \hline
+\multirow{2}{*}{typos} & \multicolumn{2}{c|}{Regex} & 386 \hspace{8pt} & 1534 \hspace{8pt} & 20.10\% & \multirow{2}{*}{463}\\\cline{2-6}
+    & \multicolumn{2}{c|}{Comby} & 366 \hspace{8pt} & 1199 \hspace{8pt} &	 23.39\% & \\ \hline
     
-\multirow{2}{*}{ord} & \multicolumn{2}{c|}{Regex} & 762 \hspace{8pt}	& 2096 \hspace{8pt} & 26.66\% \\\cline{2-6}
-    & \multicolumn{2}{c|}{Comby} & 643 \hspace{8pt} & 1669 \hspace{8pt} & 27.81\% \\ \hline
-\multirow{2}{*}{bazuka} & \multicolumn{2}{c|}{Regex} & 451 \hspace{8pt} & 1103 \hspace{8pt} & 29.02\% \\\cline{2-6}
-    & \multicolumn{2}{c|}{Comby} & 402 \hspace{8pt} & 920 \hspace{8pt} & 30.41\% \\ \hline
-\multirow{2}{*}{strum} & \multicolumn{2}{c|}{Regex} & 51 \hspace{8pt} & 377 \hspace{8pt}	& 11.92\% \\\cline{2-6}
-    & \multicolumn{2}{c|}{Comby} & 50 \hspace{8pt} & 318 \hspace{8pt}	& 13.51\% \\ \hline
+\multirow{2}{*}{ord} & \multicolumn{2}{c|}{Regex} & 762 \hspace{8pt}	& 2096 \hspace{8pt} & 26.66\% & \multirow{2}{*}{533}\\\cline{2-6}
+    & \multicolumn{2}{c|}{Comby} & 643 \hspace{8pt} & 1669 \hspace{8pt} & 27.81\% & \\ \hline
+\multirow{2}{*}{bazuka} & \multicolumn{2}{c|}{Regex} & 451 \hspace{8pt} & 1103 \hspace{8pt} & 29.02\% & \multirow{2}{*}{285}\\\cline{2-6}
+    & \multicolumn{2}{c|}{Comby} & 402 \hspace{8pt} & 920 \hspace{8pt} & 30.41\% & \\ \hline
+\multirow{2}{*}{strum} & \multicolumn{2}{c|}{Regex} & 51 \hspace{8pt} & 377 \hspace{8pt}	& 11.92\% & \multirow{2}{*}{90}\\\cline{2-6}
+    & \multicolumn{2}{c|}{Comby} & 50 \hspace{8pt} & 318 \hspace{8pt}	& 13.51\% & \\ \hline
 
-\multirow{6}{*}{Overall} & \multirow{3}{*}{Regex} & Mean & 452.33 & 1392.33	& 23.21\%\\\cline{3-6}
-    &   &  Median & 418.50 & 1348.50 & 23.38\%  \\\cline{3-6}
-    &   &  Std. Dev & 309.05 & 656.76 & 12.16\%  \\\cline{2-6}
+\multirow{6}{*}{Overall} & \multirow{3}{*}{Regex} & Mean & 452.33 & 1392.33	& 23.21\% & \\\cline{3-6}
+    &   &  Median & 418.50 & 1348.50 & 23.38\%  & \\\cline{3-6}
+    &   &  Std. Dev & 309.05 & 656.76 & 12.16\%  & \\\cline{2-6}
 
- & \multirow{3}{*}{Comby} & Mean & 554.00 & 1055.83	& 29.29\% \\\cline{3-6}
-    &   &  Median & 384.00 & 1059.50	& 25.60\%  \\\cline{3-6}
-    &   &  Std. Dev & 592.63 & 508.30 & 21.63\%  \\\hline
+ & \multirow{3}{*}{Comby} & Mean & 554.00 & 1055.83	& 29.29\% & \\\cline{3-6}
+    &   &  Median & 384.00 & 1059.50	& 25.60\%  & \\\cline{3-6}
+    &   &  Std. Dev & 592.63 & 508.30 & 21.63\%  & \\\hline
 
 
 \end{tabular}
@@ -1026,7 +1028,7 @@ mutants is good, and a rate below 10\% is very good.
     & LittleDarwin & 8 & 0 & 1.00 & 0\% \\ \hline
 \multirow{4}{*}{\small spring-hateoas} & Regex & 82 & 166 & 0.33 & 0\% \\\cline{2-6}
     & Comby & 65 & 111 & 0.37 & 0\% \\ \cline{2-6}
-    & PIT & 82 & 32 & 0.28 & N/A\% \\ \cline{2-6}
+    & PIT & 82 & 32 & 0.28 & N/A \\ \cline{2-6}
     & LittleDarwin & 15 & 23 & 0.39 & 0\% \\ \hline
 \multirow{4}{*}{\small javacc} & Regex & 123 & 419 & 0.23 & 0\% \\\cline{2-6}
     & Comby & 103 & 400 & 0.21 & 0\% \\ \cline{2-6}
