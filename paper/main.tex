@@ -133,7 +133,10 @@ any-language approach can be overcome, without the need to parse
 specific languages.  We compare the universal program transformation
 approach to mutation to existing tools, and demonstrate the advantages
 of using parser parser combinators to improve on a simple regular-expression
-based approach to generation.  
+based approach to generation.  Finally, we show that our approach
+can provide effective mutant generation even for a language for which
+it lacks any language-specific operators, and that is not very similar
+in syntax to any language it has been applied to previously.
 \end{abstract}
 
 
@@ -208,7 +211,7 @@ supported\footnote{The last commits or package updates were in 2015, and the
 primary author confirms that changes to {\tt haskell-src-ext} since
 introduced render it unusable at present.}, and it
 appears that no successor tool has appeared in the ensuing
-years\footnote{There is FitSpec \cite{FitSpec}, which is maintained,
+years\footnote{There is FitSpec~\cite{FitSpec}, which is maintained,
   but FitSpec does not perform traditional mutation testing or produce
   source code (or bytecode) mutants; it rather
   performs black-box type-aware mutation of function return values.}.
@@ -597,7 +600,7 @@ more rule sets, and allows users to supply their own custom rule sets.
 For the most part we expect users to provide build commands, but do
 support automatic compilation and comparison of mutants for Python,
 Solidity, Fe, Vyper, Swift, Rust, and Java, including Trivial Compiler
-Equivalence \cite{TCE} checks for redundancy of mutants.  These
+Equivalence~\cite{TCE} checks for redundancy of mutants.  These
 default handlers can always be over-ridden if they do not work with a
 particular build setup (for Python, the approach almost always works,
 but in the case of multi-file projects in other languages, it ususally
@@ -906,7 +909,7 @@ part we did not choose bytecode based tools, since these often make it
 difficult or impossible to mutate a single source file.  PIT, however,
 provides this functionality and is perhaps the paradigmatic bytecode
 based mutation tool.  Only Dextool, for C++, implements the
-\emph{mutant schema} \cite{untch1993mutation} approach often advocated
+\emph{mutant schema}~\cite{untch1993mutation} approach often advocated
 in the research literature, where a single metaprogram is produced
 and, e.g., environment variabes are used to control which particular
 version of a program actually executes.  Using a schema has the major
@@ -953,11 +956,11 @@ these numbers can be put in the perspective of rates reported in the
 literature.  Reports of equivalent mutant percentages in the
 literature sometimes report the percent of \emph{all} mutants
 (including killed mutants, which obviously cannot be equivalent) that
-are equivalent.  We follow Schuler and Zeller \cite{EquivMut} in
+are equivalent.  We follow Schuler and Zeller~\cite{EquivMut} in
 reporting the percentage of \emph{unkilled} mutants that were found to
 be equivalent.  Schuler and Zeller found about 45\% of unkilled
 mutants of Java programs to be equivalent.  Other reports of lower
-rates, e.g, 9\% \cite{offutt1997automatically} or 7\% \cite{TCE}, report the percent of
+rates, e.g, 9\%~\cite{offutt1997automatically} or 7\%~\cite{TCE}, report the percent of
 \emph{all} mutants, and so translate to much higher rates of
 equivalency for unkilled mutants.  We therefore suggest that as a
 fraction of unkilled mutants, a rate of 30\% or fewer equivalent
@@ -1260,7 +1263,17 @@ tools, but clearly fall into the same broad similarity of behavior
 reported for high-quality mutation tools in the literature comparing
 Java mutation tools.   The tools with very low or zero equivalency rates, furthermore,
 are very conservative in mutation generation, and often simply don't
-produce many mutants.
+produce many mutants.  In fact, inspection of the non-comment source
+lines as measured by CLOC shown in Tables~\ref{tab:table_java1} and
+\ref{tab:table_java2} and Tables~\ref{tab:table_rust1} and
+\ref{tab:table_rust2} shows that for many programs, LittleDarwin and
+Cargo-Mutants generated \emph{much less than one mutant per actual
+  line code}.  Such a conservative approach is likely to produce few
+or no actionable (unkilled and non-equivalent) mutants for a program
+with a very good, high-coverage test suite.  But such suites are
+arguably the ones where mutation testing offers the most promise, by
+allowing the detection of very subtle remaining holes in tests for
+high-criticality software.
 
 We speculate that our somewhat lower scores and possibly higher
 equivalenc rates derive from the simple fact that we generate more
@@ -1277,7 +1290,7 @@ execution counts other than one and zero.  Few other tools introduce
 one into the other.  These mutants are often equivalent, but also
 sometimes expose subtle weaknesses in a test suite, in our
 experience.  In general, we take our philosophy of mutation from the
-proposal by Gopinath et al. \cite{Limits,gopinath2017mutation} that
+proposal by Gopinath et al.~\cite{Limits,gopinath2017mutation} that
 expanding the set of mutation operations and classes of such
 operations, in the long run, is more important than using only a small
 set of ``good'' operators, in that the end-goal of mutation testing is
@@ -1311,7 +1324,7 @@ our approach to mutant generation.
 \end{figure}
 
 Figure~\ref{fig:haskell} shows a simple Haskell program, the
-motivating example in the paper presenting the MuCheck \cite{mucheck}
+motivating example in the paper presenting the MuCheck~\cite{mucheck}
 mutation testing tool for Haskell.  As noted in the introduction, to our
 knowledge MuCheck is the first (and perhaps only) mutation tool for
 Haskell code.  MuCheck has not been updated since 2015.
@@ -1353,6 +1366,20 @@ likely provides users of a new language working, if sub-optimal, mutation testin
 \emph{even if no effort has been expended to define rules for the
   language at all}.
 
+\section{Threats to Validity}
+
+Our study only examined 24 total source files, from 24 different projects, across four different
+languages.  None of these files were very large, though they were of
+sizes common to many source files in projects across GitHub, and none
+were less than about 100 non-comment lines of code.  More importantly,
+there is no simple objective way to determine if a mutation testing
+tool is ``as good as'' another tool, in an even approximate sense.
+Previous studies of the topic have considered that so long as a tool
+generates a significant number of non-equivalent unkilled mutants, and
+produces a mutation score not extremely differnt than for other tools,
+it is a useful mutation testing tool.  Further, there is no
+established acceptable tradeoff between generating more mutants and
+accepting a higher cost of compilation and execution for mutants.
 
 \section{Related Work}
 
@@ -1420,10 +1447,29 @@ languages, and provided an evaluation against PIT for a single toy
 Java program.  The present paper provides the full idea and context,
 provides empirical data for universal mutant generation on real world
 programs over four languages,
-and introduces the idea of using parser parser combinators to improve
-on regular expression-based generation.
+and introduces the idea of using parser parser combinators to go
+beyond regular expression-based generation.
 
 \section{Conclusions and Future Work}
+
+We conclude that, by using a hierarchical, source-based approach,
+either relying on a pure-text regular expression definition of
+mutation operators or a richer parser parser combinator transformation
+definition, it is possibly to implement effective, easily extensible
+mutation testing for essentially \emph{all} commonly used programming
+languages, and many non-so-commonly-used programming languages, in
+fewer lines of code than any single-language tool we examined.  This
+approach fundamentally relies on the insight that program mutation is
+just a restricted instance of the general problem of program
+transformation, where transformations are highly syntactic (rather
+than semantics-aware) and highly localized.
+
+As future work, we plan to give users more control over which mutation
+operators are used, with controls common to multiple languages.  We
+add that our approach in general seems to be a good fit to modern
+large software projects, which are often
+multilingual~\cite{Multilingual}: a single mutation tool can be used
+for an entire project.
 
 \bibliographystyle{ACM-Reference-Format}
 \bibliography{bibliography}
