@@ -67,7 +67,7 @@ basicstyle=\ttfamily\bfseries\footnotesize,
 
 %% The "title" command has an optional parameter,
 %% allowing the author to define a "short title" to be used in page headers.
-\title{Syntax Is All You Need: A Universal-Language\\Approach to Mutant Generation}
+\title{Syntax Is All You Need: A Universal-Language Approach to Mutant Generation}
 
 %%
 %% The "author" command and its associated commands are used to define
@@ -570,10 +570,37 @@ context-free syntax properties.\footnote{https://comby.dev/docs/basic-usage\#usi
 
 \section{Implementation}
 
-Our approach also makes introducing advanced techniques such as
-Trivial Compiler Equivalence (TCE) into a mutation workflow easy.
-While we support TCE for some languages inside the tool, a user can
-always write a simple script to check...
+We implemented our approach in a mutation testing tool, written in
+about 2,200 lines of Python.  The rules defining mutation operators
+for a set of languages including C, C++, Python, Java, Lisp, Swift,
+Rust, Solidity, Fe, Vyper, JavaScript, and Go, required another 436
+lines; this is the total for comby and regexp-based rules, so each
+version requires only 218 lines of rule definitions.
+
+While many tools provide a GUI front-end, or integrate to a particular
+testing library, we chose to focus on an easily configured CLI,
+allowing a user to specify the commmands used to build mutants or
+run tests.  While less convenient in the case where there is a good
+fit between a tool's integrations and a project's environment, we
+found this flexibility useful even when limiting considerations to a
+single language.  For example, the widely used PIT system is strongly tied to
+certain versions of JUnit, and mutating projects using a different
+testing infrastructure, or an older JUnit, can be difficult.  Our
+approach also is suitable for use in CI and other automated environments.
+
+For the most part we expect users to provide build commands, but do
+support automatic compilation and comparison of mutants for Python,
+Solidity, Fe, Vyper, Swift, Rust, and Java, including Trivial Compiler
+Equivalence \cite{TCE} checks for redundancy of mutants.  These
+default handlers can always be over-ridden if they do not work with a
+particular build setup.
+
+Our tool has been available as an open source project on GitHub and
+available for installation via Python pip for
+some time, has received contributions from users not involved in
+our project, and been adopted by at least one very large project as
+the officially recommended mutation tool.  We omit details for
+purposes of blinding.
 
 \section{Experimental Evaluation}
 
@@ -591,12 +618,23 @@ always write a simple script to check...
 
 \end{itemize}
 
-In addition to these core research questions, evaluated over six files
-from six real-world projects for four languages, we also present a
+
+Both research questions were addressed by generating and running
+mutants for a set of four programming languages: C++, Java, Python,
+and Rust.  We picked six projects with 1) a large number of GitHub
+stars and 2) an easy-to-execute, passing test suite for each language,
+and then chose the largest source file below 20KB in size from each project to mutate.  Limiting
+mutation to one large but not extremely large file made is easier to compare generated mutants and
+manually inspect for mutant equivalency.  The only bias to file
+selection was size, which we do not believe should affect our results
+significantly.
+
+We additionally present a small
 case study, applying our implementation to a program in a language for
-which it has no rules, Haskell.
+which it has \emph{no} rules, Haskell.
 
 \subsection{Regular Expressions vs. Parser Parser Combinators}
+
 
 % ---------------- C++ table UM Only--------------------------
 \begin{table}[hbtp]
@@ -635,24 +673,6 @@ which it has no rules, Haskell.
 
 \end{table}
 
-\begin{table}[hbtp]
-  \centering
-  \caption{Overview of Mutation Testing Tools. universalmutator has singificantly fewer lines of code than any of the single language tools.}
-  \label{tab:mutationtools}
-  
-  \begin{tabular}{|c|c|r|}
-  \hline
-  \textbf{Language} & \textbf{Tool} & \textbf{LOC}  \\
-  \hline
-  \multirow{2}{*}{Python}  & Mutmut &	3870  \\\cline{2-3}
-      & cosmic-ray & 4599 \\ \hline
-  \multirow{2}{*}{Java}  & PIT &	59577  \\\cline{2-3}
-      & LittleDarwin & 22359 \\ \hline
-      Rust & Cargo-Mutants & 7020 \\\hline
-      C++ & Dextool & 38611 \\\hline
-      ALL & universalmutator & 2680 \\\hline
-  \end{tabular}
-  \end{table}
   
 
 % ---------------- JAVA table UM Only--------------------------
@@ -773,6 +793,30 @@ which it has no rules, Haskell.
 
 
 \subsection{Universal Source-Based Mutation vs. Previous Approaches}
+
+
+\begin{table}[hbtp]
+  \centering
+  \caption{Overview of Mutation Testing Tools.}
+  \label{tab:mutationtools}
+  
+  \begin{tabular}{|c|c|r|}
+  \hline
+  \textbf{Language} & \textbf{Tool} & \textbf{LOC}  \\
+  \hline
+  \multirow{2}{*}{Python}  & Mutmut &	3870  \\\cline{2-3}
+      & cosmic-ray & 4599 \\ \hline
+  \multirow{2}{*}{Java}  & PIT &	59577  \\\cline{2-3}
+      & LittleDarwin & 22359 \\ \hline
+      Rust & Cargo-Mutants & 7020 \\\hline
+      C++ & Dextool & 38611 \\\hline
+      ALL & universalmutator & 2680 \\\hline
+  \end{tabular}
+\end{table}
+
+Table \ref{tab:mutationtools} shows the set of tools compared.  We
+attempted to identify well-maintained and commonly used tools for each
+language chosen.
 
 
 % ---------------- C++ table (UM vs Others)--------------------------
