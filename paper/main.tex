@@ -858,7 +858,7 @@ language chosen.
     &   &  \multicolumn{2}{c|}{Median} & 0.09 & 15.00\% \\\cline{3-6}
     &   &  \multicolumn{2}{c|}{Std. Dev} & 0.37 & 13.66\% \\\cline{2-6}
 
- & \multirow{3}{*}{Cargo-Mutants} & \multicolumn{2}{c|}{Mean} & 0.33 & N/A\\\cline{3-6}
+ & \multirow{3}{*}{Dextool} & \multicolumn{2}{c|}{Mean} & 0.33 & N/A\\\cline{3-6}
     &   &  \multicolumn{2}{c|}{Median} & 0.29 & N/A \\\cline{3-6}
     &   &  \multicolumn{2}{c|}{Std. Dev} & 0.38 & N/A \\ \hline
     
@@ -878,46 +878,46 @@ language chosen.
 \hline
  &  & \textbf{Killed} & \textbf{Not Killed} &  \makecell{\textbf{Mutation} \\ \textbf{Score}} & \textbf{Equivalent \%} \\ \hline
 
- \multirow{4}{*}{\small pebble} & Regex & 70 & 16 & 0.81 & - \\\cline{2-6}
-    & Comby & 68 & 17 & 0.80 & - \\\cline{2-6}
-    & PIT & 19 & 1 & 0.95 & - \\ \cline{2-6}
-    & LittleDarwin & 8 & 0 & 1.00 & - \\ \hline
-\multirow{4}{*}{\small spring-hateoas} & Regex & 82 & 166 & 0.33 & - \\\cline{2-6}
-    & Comby & 65 & 111 & 0.37 & - \\ \cline{2-6}
-    & PIT & 82 & 32 & 0.28 & - \\ \cline{2-6}
-    & LittleDarwin & 15 & 23 & 0.39 & - \\ \hline
-\multirow{4}{*}{\small javacc} & Regex & 123 & 419 & 0.23 & - \\\cline{2-6}
-    & Comby & 103 & 400 & 0.21 & - \\ \cline{2-6}
-    & PIT & 30 & 113 & 0.21 & -\\ \cline{2-6}
-    & LittleDarwin & 64 & 18 & 0.78 & - \\ \hline
-\multirow{4}{*}{\small coffee-gb} & Regex & 48 & 176 & 0.21 & - \\\cline{2-6}
-    & Comby & 40 & 134 & 0.23 & - \\ \cline{2-6}
-    & PIT & 32 & 4 & 0.89 & - \\ \cline{2-6}
-    & LittleDarwin & 11 & 18 & 0.38 & -\\ \hline
-\multirow{4}{*}{\small egads} & Regex & 442 & 182 & 0.71 & - \\\cline{2-6}
-    & Comby & 422 & 200 & 0.71 & - \\ \cline{2-6}
-    & PIT & 87 & 20 & 0.81 & - \\ \cline{2-6}
-    & LittleDarwin & 74 & 11 & 0.87 & - \\ \hline
-\multirow{4}{*}{\small apk-parser} & Regex & 26 & 325 & 0.07 & \\\cline{2-6}
-    & Comby & 26 & 312 & 0.08 & -\\ \cline{2-6}
-    & PIT & 14 & 75  & 0.16 & -\\ \cline{2-6}
-    & LittleDarwin & 3 & 30 & 0.09 & -\\ \hline
+ \multirow{4}{*}{\small pebble} & Regex & 70 & 16 & 0.81 & 50\% \\\cline{2-6}
+    & Comby & 68 & 17 & 0.80 & 20\% \\\cline{2-6}
+    & PIT & 19 & 1 & 0.95 & N/A \\ \cline{2-6}
+    & LittleDarwin & 8 & 0 & 1.00 & 0\% \\ \hline
+\multirow{4}{*}{\small spring-hateoas} & Regex & 82 & 166 & 0.33 & 0\% \\\cline{2-6}
+    & Comby & 65 & 111 & 0.37 & 0\% \\ \cline{2-6}
+    & PIT & 82 & 32 & 0.28 & N/A\% \\ \cline{2-6}
+    & LittleDarwin & 15 & 23 & 0.39 & 0\% \\ \hline
+\multirow{4}{*}{\small javacc} & Regex & 123 & 419 & 0.23 & 0\% \\\cline{2-6}
+    & Comby & 103 & 400 & 0.21 & 0\% \\ \cline{2-6}
+    & PIT & 30 & 113 & 0.21 & N/A\\ \cline{2-6}
+    & LittleDarwin & 64 & 18 & 0.78 & 0\%\\ \hline
+\multirow{4}{*}{\small coffee-gb} & Regex & 48 & 176 & 0.21 & 0\%\\\cline{2-6}
+    & Comby & 40 & 134 & 0.23 & 0\% \\ \cline{2-6}
+    & PIT & 32 & 4 & 0.89 & N/A \\ \cline{2-6}
+    & LittleDarwin & 11 & 18 & 0.38 & 0\%\\ \hline
+\multirow{4}{*}{\small egads} & Regex & 442 & 182 & 0.71 & 20\% \\\cline{2-6}
+    & Comby & 422 & 200 & 0.71 & 10\% \\ \cline{2-6}
+    & PIT & 87 & 20 & 0.81 & N/A \\ \cline{2-6}
+    & LittleDarwin & 74 & 11 & 0.87 & 0\% \\ \hline
+\multirow{4}{*}{\small apk-parser} & Regex & 26 & 325 & 0.07 & 10\%\\\cline{2-6}
+    & Comby & 26 & 312 & 0.08 & 0\%\\ \cline{2-6}
+    & PIT & 14 & 75  & 0.16 & N/A\\ \cline{2-6}
+    & LittleDarwin & 3 & 30 & 0.09 & 0\%\\ \hline
     
-\multirow{12}{*}{Overall} & \multirow{3}{*}{Regex} & \multicolumn{2}{c|}{Mean} & 0.39  & -\\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Median} & 0.28 & - \\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.30 & - \\\cline{2-6}
+\multirow{12}{*}{Overall} & \multirow{3}{*}{Regex} & \multicolumn{2}{c|}{Mean} & 0.39  & 13.33\%\\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Median} & 0.28 & 5.00\% \\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.30 & 19.66\% \\\cline{2-6}
 
- & \multirow{3}{*}{Comby} & \multicolumn{2}{c|}{Mean} & 0.40 & -\\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Median} & 0.30 & - \\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.29 & - \\\cline{2-6}
+ & \multirow{3}{*}{Comby} & \multicolumn{2}{c|}{Mean} & 0.40 & 5.00\%\\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Median} & 0.30 & 0.00\% \\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.29 & 8.37\%\\\cline{2-6}
 
- & \multirow{3}{*}{PIT} & \multicolumn{2}{c|}{Mean} & 0.55 & -\\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Median} & 0.55 & - \\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.37 & - \\\cline{2-6}
+ & \multirow{3}{*}{PIT} & \multicolumn{2}{c|}{Mean} & 0.55 & N/A\\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Median} & 0.55 & N/A \\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.37 & N/A \\\cline{2-6}
     
- & \multirow{3}{*}{LittleDarwin} & \multicolumn{2}{c|}{Mean} & 0.59 & -\\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Median} & 0.59 & - \\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.35 & - \\ \hline
+ & \multirow{3}{*}{LittleDarwin} & \multicolumn{2}{c|}{Mean} & 0.59 & 0.00\%\\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Median} & 0.59 & 0.00\%\\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.35 & 0.00\%\\ \hline
     
 \end{tabular}
 }
@@ -934,47 +934,47 @@ language chosen.
 \hline
  &  & \textbf{Killed} & \textbf{Not Killed} &  \makecell{\textbf{Mutation} \\ \textbf{Score}} & \textbf{Equivalent \%} \\ \hline
 
- \multirow{4}{*}{\small keract} & Regex & 463 & 1192 & 0.28 & - \\\cline{2-6}
-    & Comby & 383 & 1088 & 0.26 & - \\\cline{2-6}
-    & Mutmut & 349 & 133 & 0.72 & - \\ \cline{2-6}
-    & CosmicRay & 250 & 671 & 0.27 & - \\ \hline
-\multirow{3}{*}{\small dtw} & Regex & 506 & 467 & 0.52 & - \\\cline{2-6}
-    & Comby & 475 & 391 & 0.55 & - \\ \cline{2-6}
-    & Mutmut & 118 & 152 & 0.44 & - \\ \cline{2-6}
-    & CosmicRay & 328 & 385 & 0.46 & - \\ \hline
-\multirow{3}{*}{\small notion-sdk-py} & Regex & 112 & 84 & 0.57 & - \\\cline{2-6}
-    & Comby & 118 & 78 & 0.60 & - \\ \cline{2-6}
-    & Mutmut & 41 & 22 & 0.65 & -\\ \cline{2-6}
-    & CosmicRay & 23 & 29 & 0.44 & - \\ \hline
+ \multirow{4}{*}{\small keract} & Regex & 463 & 1192 & 0.28 & 0\% \\\cline{2-6}
+    & Comby & 383 & 1088 & 0.26 & 10\% \\\cline{2-6}
+    & Mutmut & 349 & 133 & 0.72 & 10\% \\ \cline{2-6}
+    & CosmicRay & 250 & 671 & 0.27 & 10\% \\ \hline
+\multirow{3}{*}{\small dtw} & Regex & 506 & 467 & 0.52 & 10\% \\\cline{2-6}
+    & Comby & 475 & 391 & 0.55 & 10\% \\ \cline{2-6}
+    & Mutmut & 118 & 152 & 0.44 & 0\% \\ \cline{2-6}
+    & CosmicRay & 328 & 385 & 0.46 & 20\% \\ \hline
+\multirow{3}{*}{\small notion-sdk-py} & Regex & 112 & 84 & 0.57 & 10\% \\\cline{2-6}
+    & Comby & 118 & 78 & 0.60 & 20\% \\ \cline{2-6}
+    & Mutmut & 41 & 22 & 0.65 & 0\%\\ \cline{2-6}
+    & CosmicRay & 23 & 29 & 0.44 & 0\%\\ \hline
     
-\multirow{3}{*}{\makecell{\small atlassian-python \\ api}} & Regex & 193 & 109 & 0.64 & - \\\cline{2-6}
-    & Comby & 207 & 126 & 0.62 & - \\ \cline{2-6}
-    & Mutmut & 123 & 51 & 0.71 & - \\ \cline{2-6}
-    & CosmicRay & 78 & 28 & 0.74 & - \\ \hline
-\multirow{3}{*}{\small ESD} & Regex & 132 & 1727 & 0.07 & - \\\cline{2-6}
-    & Comby & 121 & 1591 & 0.07 & - \\ \cline{2-6}
-    & Mutmut & 57 & 663 & 0.08 & - \\ \cline{2-6}
-    & CosmicRay & 63 & 950 & 0.06 & - \\ \hline
-\multirow{3}{*}{\small fiber} & Regex & 307 & 186 & 0.62 & \\\cline{2-6}
-    & Comby & 291 & 167 & 0.64 & -\\ \cline{2-6}
-    & Mutmut & 127 & 95 & 0.57 & -\\ \cline{2-6}
-    & CosmicRay & 259 & 61 & 0.81 & -\\ \hline
+\multirow{3}{*}{\makecell{\small atlassian-python \\ api}} & Regex & 193 & 109 & 0.64 & 20\%\\\cline{2-6}
+    & Comby & 207 & 126 & 0.62 & 40\% \\ \cline{2-6}
+    & Mutmut & 123 & 51 & 0.71 & 10\% \\ \cline{2-6}
+    & CosmicRay & 78 & 28 & 0.74 & 10\% \\ \hline
+\multirow{3}{*}{\small ESD} & Regex & 132 & 1727 & 0.07 & 30\%\\\cline{2-6}
+    & Comby & 121 & 1591 & 0.07 & 10\%\\ \cline{2-6}
+    & Mutmut & 57 & 663 & 0.08 & 0\%\\ \cline{2-6}
+    & CosmicRay & 63 & 950 & 0.06 & 10\%\\ \hline
+\multirow{3}{*}{\small fiber} & Regex & 307 & 186 & 0.62 & 10\%\\\cline{2-6}
+    & Comby & 291 & 167 & 0.64 & 20\%\\ \cline{2-6}
+    & Mutmut & 127 & 95 & 0.57 & 40\%\\ \cline{2-6}
+    & CosmicRay & 259 & 61 & 0.81 & 0\%\\ \hline
     
-\multirow{12}{*}{Overall} & \multirow{3}{*}{Regex} & \multicolumn{2}{c|}{Mean} & 0.45  & -\\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Median} & 0.55 & - \\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.23 & - \\\cline{2-6}
+\multirow{12}{*}{Overall} & \multirow{3}{*}{Regex} & \multicolumn{2}{c|}{Mean} & 0.45  & 13.00\%\\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Median} & 0.55 & 10.00\%\\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.23 & 10.33\%\\\cline{2-6}
 
- & \multirow{3}{*}{Comby} & \multicolumn{2}{c|}{Mean} & 0.46 & -\\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Median} & 0.58 & - \\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.24 & - \\\cline{2-6}
+ & \multirow{3}{*}{Comby} & \multicolumn{2}{c|}{Mean} & 0.46 & 18.00\%\\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Median} & 0.58 & 15.00\%\\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.24 & 11.69\%\\\cline{2-6}
 
- & \multirow{3}{*}{Mutmut} & \multicolumn{2}{c|}{Mean} & 0.53 & -\\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Median} & 0.61 & - \\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.24 & - \\\cline{2-6}
+ & \multirow{3}{*}{Mutmut} & \multicolumn{2}{c|}{Mean} & 0.53 & 10.00\%\\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Median} & 0.61 & 5.00\%\\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.24 & 15.49\%\\\cline{2-6}
     
- & \multirow{3}{*}{CosmicRay} & \multicolumn{2}{c|}{Mean} & 0.46 & -\\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Median} & 0.45 & - \\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.28 & - \\ \hline
+ & \multirow{3}{*}{CosmicRay} & \multicolumn{2}{c|}{Mean} & 0.46 & 8.33\%\\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Median} & 0.45 & 10.00\%\\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.28 & 7.53\%\\ \hline
     
 \end{tabular}
 }
@@ -992,37 +992,37 @@ language chosen.
 \hline
  &  & \textbf{Killed} & \textbf{Not Killed} &  \makecell{\textbf{Mutation} \\ \textbf{Score}} & \textbf{Equivalent \%} \\ \hline
 
- \multirow{3}{*}{\small cargo release} & Regex & 721 & 130 & 0.85 & - \\\cline{2-6}
-    & Comby & 1344 & 346 & 0.80 & - \\\cline{2-6}
-    & Cargo-Mutants & 2	& 3 & 0.40 & - \\ \hline
-\multirow{3}{*}{\small passerine} & Regex & 122 & 91 & 0.57 & - \\\cline{2-6}
-    & Comby & 90 & 83 & 0.52 & - \\ \cline{2-6}
-    & Cargo-Mutants & 0	& 0 & 0 & - \\ \hline
-\multirow{3}{*}{\small typos} & Regex & 295 & 91 & 0.76 & - \\\cline{2-6}
-    & Comby & 283 & 83 & 0.77 & - \\ \cline{2-6}
-    & Cargo-Mutants & 5 & 1 & 0.83 & -\\ \hline
+ \multirow{3}{*}{\small cargo release} & Regex & 721 & 130 & 0.85 & 0\% \\\cline{2-6}
+    & Comby & 1344 & 346 & 0.80 & 0\% \\\cline{2-6}
+    & Cargo-Mutants & 2	& 3 & 0.40 & 0\% \\ \hline
+\multirow{3}{*}{\small passerine} & Regex & 122 & 91 & 0.57 & 20\% \\\cline{2-6}
+    & Comby & 90 & 83 & 0.52 & 50\% \\ \cline{2-6}
+    & Cargo-Mutants & 0	& 0 & 0 & 0\% \\ \hline
+\multirow{3}{*}{\small typos} & Regex & 295 & 91 & 0.76 & 40\% \\\cline{2-6}
+    & Comby & 283 & 83 & 0.77 & 20\%\\ \cline{2-6}
+    & Cargo-Mutants & 5 & 1 & 0.83 & 0\%\\ \hline
     
-\multirow{3}{*}{\small ord} & Regex & 558 & 204 & 0.73 & - \\\cline{2-6}
-    & Comby & 533 & 110 & 0.83 & - \\ \cline{2-6}
-    & Cargo-Mutants & 6 & 0 & 1.00 & - \\ \hline
-\multirow{3}{*}{\small bazuka} & Regex & 281 & 170 & 0.62 & - \\\cline{2-6}
-    & Comby & 291 & 111 & 0.73 & - \\ \cline{2-6}
-    & Cargo-Mutants & 0 & 0 & 0 & - \\ \hline
-\multirow{3}{*}{\small strum} & Regex & 8 & 43 & 0.16 & \\\cline{2-6}
-    & Comby & 11 & 39 & 0.22 & -\\ \cline{2-6}
-    & Cargo-Mutants & 2 & 0 & 1.00 & -\\ \hline
+\multirow{3}{*}{\small ord} & Regex & 558 & 204 & 0.73 & 10\% \\\cline{2-6}
+    & Comby & 533 & 110 & 0.83 & 20\% \\ \cline{2-6}
+    & Cargo-Mutants & 6 & 0 & 1.00 & 0\% \\ \hline
+\multirow{3}{*}{\small bazuka} & Regex & 281 & 170 & 0.62 & 40\% \\\cline{2-6}
+    & Comby & 291 & 111 & 0.73 & 0\% \\ \cline{2-6}
+    & Cargo-Mutants & 0 & 0 & 0 & 0\% \\ \hline
+\multirow{3}{*}{\small strum} & Regex & 8 & 43 & 0.16 & 10\%\\\cline{2-6}
+    & Comby & 11 & 39 & 0.22 & 40\%\\ \cline{2-6}
+    & Cargo-Mutants & 2 & 0 & 1.00 & 0\%\\ \hline
     
-\multirow{9}{*}{Overall} & \multirow{3}{*}{Regex} & \multicolumn{2}{c|}{Mean} & 0.62  & -\\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Median} & 0.68 & - \\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.24 & - \\\cline{2-6}
+\multirow{9}{*}{Overall} & \multirow{3}{*}{Regex} & \multicolumn{2}{c|}{Mean} & 0.62  & 20.00\%\\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Median} & 0.68 & 15.00\%\\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.24 & 16.73\% \\\cline{2-6}
 
- & \multirow{3}{*}{Comby} & \multicolumn{2}{c|}{Mean} & 0.64 & -\\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Median} & 0.75 & - \\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.25 & - \\\cline{2-6}
+ & \multirow{3}{*}{Comby} & \multicolumn{2}{c|}{Mean} & 0.64 & 22.00\%\\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Median} & 0.75 & 20.00\% \\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.25 & 20.41\% \\\cline{2-6}
 
- & \multirow{3}{*}{Cargo-Mutants} & \multicolumn{2}{c|}{Mean} & 0.54 & -\\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Median} & 0.62 & - \\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.47 & - \\ \hline
+ & \multirow{3}{*}{Cargo-Mutants} & \multicolumn{2}{c|}{Mean} & 0.54 & 0.00\%\\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Median} & 0.62 & 0.00\% \\\cline{3-6}
+    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.47 & 0.00\%\\ \hline
     
     
 \end{tabular}
