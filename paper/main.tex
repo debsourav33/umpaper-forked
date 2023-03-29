@@ -801,7 +801,7 @@ libxmljs &630 &  $\frac{881}{3989}$ & 22.09\% & $\frac{790}{4008}$ & 19.71\% \\[
 tiny-diff.-simulator &  195 & $\frac{747}{1282}$ &58.27\% &$\frac{770}{1214}$ & 63.43\% \\[1ex]
 \bottomrule
 \end{tabularx}
- \begin{tabularx}{\columnwidth}{Xllrrr}
+\begin{tabularx}{\columnwidth}{Xllrrr}
                   & &       & Valid  & Invalid  & \% \\\midrule
  \multirow{6}{*}{\textbf{Overall}} & \multirow{3}{*}{Regex} & Mean     & 890.67 &  1553.83 & 35.28\% \\
 %                          & & Med.    & 671.00 & 1579.00  & 23.88\%   \\
@@ -909,34 +909,28 @@ tiny-diff.-simulator &  195 & $\frac{747}{1282}$ &58.27\% &$\frac{770}{1214}$ & 
 % }
 % \end{table}
 
-\iffalse
 \begin{table}[hbtp]
 \centering
-\caption{Regex vs. Comby for Python++, including redundant mutants.}
+{\small
+\caption{Regex vs. Comby for Python, including redundant mutants.}
 \label{tab:table_pyrust}
 \begin{tabularx}{\columnwidth}{X|r|rcr|rcr}
 \toprule\toprule
-\mc{6}{c}{\textbf{Python++}} \\\midrule
                  &                 & \multicolumn{3}{c|}{\textbf{Regex}}             &\multicolumn{3}{c}{\textbf{Comby}}  \\[1ex]
-\textbf{Project} & \textbf{LOC}    & redundant & $\frac{valid}{total}$ & \textbf{\%} & redundant & $\frac{valid}{total}$ &  \textbf{\%} \\[1ex]\midrule
+\textbf{Project} & \textbf{LOC}    & red.  & $\frac{valid}{total}$ & \textbf{\%} & red. & $\frac{valid}{total}$ &  \textbf{\%} \\[1ex]\midrule
 keract           & 402             & 729       & $\frac{1655}{3984}$   & 41.53\%     & 533       & $\frac{1471}{3067}$   & 47.96\% \\[1ex]
-dtw              & 118             & 567       & $\frac{973}{2106}$    & 46.20\%     & 639       & $\frac{866}{1836}$    & 47.19\% & \\[1ex]
-notion-sdk-py    & 189             & 82        & $\frac{196}{1038}$    & 18.89\%     & 122       & $\frac{196}{1019}$    & 19.23\% & \\[1ex]
-{\makecell{atlassian-python \\ api}} & 236 & $\frac{302}{1304}$  & 207  &	19.99\% & \multirow{2}{*}{236}\\\cline{2-7}
-       & \multicolumn{2}{c|}{Comby} & 333  & 635  & 351  & 25.25\% & \\ \hline
-ESD    & 698 & $\frac{1859}{4626}$  & 1642  & 29.46\% & \multirow{2}{*}{698}\\\cline{2-7}
-       & \multicolumn{2}{c|}{Comby} & 1712  & 1548  &	614  & 44.18\% & \\ \hline
-fiber  & 358 & $\frac{493}{1402}$  & 163  & 31.08\% & \multirow{2}{*}{358}\\\cline{2-7}
-       & \multicolumn{2}{c|}{Comby} & 458  & 767 	& 241  & 31.24\% & \\ \hline
-
-\multirow{6}{*}{Overall} & \multirow{3}{*}{Regex} & Mean & 913.00 & 1267.33 & 565.00 & 31.19\%  & \\\cline{3-7}
-    &   &  Std. Dev & 708.93 & 813.35 & 584.79 & 11.06\%  & \\\cline{2-7}
-
- & \multirow{3}{*}{Comby} & Mean & 839.33 & 840.67 & 416.67 & 35.84\% & \\\cline{3-7}
-    &   &  Std. Dev & 628.79 & 418.99 & 211.62 & 12.28\%  & \\\hline
+dtw              & ... \\
+%
 \end{tabularx}
+\begin{tabularx}{\columnwidth}{Xllrrrrrr}
+                  && &  Red.     & Valid  & Invalid  & \% \\\midrule
+\multirow{6}{*}{Overall} & \multirow{3}{*}{Regex} & Mean &  565.00 & 913.00 & 1267.33 & 31.19\%  & \\
+    &   &  Std. Dev & 584.79  & 708.93 & 813.35 & 11.06\%  \\
+ & \multirow{3}{*}{Comby} & Mean & 839.33 & 840.67 & 416.67 & 35.84\% \\
+  &   &  Std. Dev &  211.62 & 628.79 & 418.99 & 12.28\%   \\
+\end{tabularx}}
 \end{table}
-\fi
+
 % ---------------- Python table UM Only --------------------------
 
 \begin{table}[hbtp]
@@ -1187,6 +1181,42 @@ fraction of unkilled mutants, a rate of 30\% or fewer equivalent
 mutants is good, and a rate below 10\% is very good.
 
 % ---------------- C++ table (UM vs Others)--------------------------
+\iffalse
+\begin{table}[htbp]
+\centering
+\caption{C++ (Our Implementation vs. Dextool)}
+\label{tab:table_cpp2}
+\resizebox{\columnwidth}{!}{
+\begin{tabular}{|c|c|r|r|r|r|}
+\hline
+ & \multicolumn{3}{c|}{Comby}  & \multicolumn{3}{c|}{Dextool} \\ 
+ & $\frac{killed}{total}$ & \makecell{\textbf{Mutation} \\ \textbf{Score}} & \textbf{\% Equiv.} & $\frac{killed}{total}$ & \makecell{\textbf{Mutation} \\ \textbf{Score}} & \textbf{\% Equiv.} \\[1ex]\midrule
+ \multirow{3}{*}{\small ompl} & Comby & 41 & 523 & 0.07 & 40\% \\\cline{2-6}
+    & Dextool & 23 & 255 & 0.08 & N/A \\ \hline
+%\multirow{3}{*}{\small libgraphqlparser} & Comby & 116 & 15 & 0.89 & 20\% \\ \cline{2-6}
+%    & Dextool & 50 & 2 & 0.96 & N/A \\ \hline
+%\multirow{3}{*}{\small rethinkdb\_rebirth} & Comby & 49 & 443 & 0.10 & 20\% \\ \cline{2-6}
+%    & Dextool & 9 & 16 & 0.36 & N/A \\ \hline
+    
+%\multirow{3}{*}{\small xoreos} & Comby & 33 & 2247 & 0.01 & 10\% \\ \cline{2-6}
+%    & Dextool & 8 & 406 & 0.02 & N/A \\ \hline
+%\multirow{3}{*}{\small libxmljs}  & Comby & 507 & 283 & 0.64 & 10\% \\ \cline{2-6}
+%    & Dextool & 383 & 447 & 0.46 & N/A \\ \hline
+%\multirow{3}{*}{\small tiny-differentiable-simulator} & Comby & 32 & 738 & 0.04 & 0\% \\ \cline{2-6}
+%    & Dextool & 13 & 48 & 0.21 & N/A\\ \hline
+%    
+%\multirow{9}{*}{Overall}\multirow{3}{*}{Comby} & \multicolumn{2}{c|}{Mean} & 0.29 & 16.67\% \\\cline{3-6}
+%    &   &  \multicolumn{2}{c|}{Median} & 0.09 & 15.00\% \\\cline{3-6}
+%    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.37 & 13.66\% \\\cline{2-6}
+%
+% & \multirow{3}{*}{Dextool} & \multicolumn{2}{c|}{Mean} & 0.33 & N/A\\\cline{3-6}
+%    &   &  \multicolumn{2}{c|}{Median} & 0.29 & N/A \\\cline{3-6}
+%    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.38 & N/A \\ \hline
+\end{tabular}
+}
+\end{table}
+\fi
+
 
 \begin{table}[htbp]
 \centering
