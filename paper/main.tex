@@ -1059,62 +1059,6 @@ mutants is good, and a rate below 10\% is very good.
 \end{table}
 
 
-% ---------------- JAVA table (UM vs Others) --------------------------
-
-\begin{table}[htbp]
-\centering
-\caption{Java (Our Implementation vs. PIT vs. LittleDarwin)}
-\label{tab:table_java2}
-\resizebox{\columnwidth}{!}{
-\begin{tabular}{|c|c|r|r|r|r|}
-\hline
- &  & \textbf{Killed} & \textbf{Not Killed} &  \makecell{\textbf{Mutation} \\ \textbf{Score}} & \textbf{Equivalent \%} \\ \hline
-
- \multirow{4}{*}{\small pebble} & Regex & 70 & 16 & 0.81 & 50\% \\\cline{2-6}
-    & Comby & 68 & 17 & 0.80 & 20\% \\\cline{2-6}
-    & PIT & 19 & 1 & 0.95 & N/A \\ \cline{2-6}
-    & LittleDarwin & 8 & 0 & 1.00 & 0\% \\ \hline
-\multirow{4}{*}{\small spring-hateoas} & Regex & 82 & 166 & 0.33 & 0\% \\\cline{2-6}
-    & Comby & 65 & 111 & 0.37 & 0\% \\ \cline{2-6}
-    & PIT & 82 & 32 & 0.28 & N/A \\ \cline{2-6}
-    & LittleDarwin & 15 & 23 & 0.39 & 0\% \\ \hline
-\multirow{4}{*}{\small javacc} & Regex & 123 & 419 & 0.23 & 0\% \\\cline{2-6}
-    & Comby & 103 & 400 & 0.21 & 0\% \\ \cline{2-6}
-    & PIT & 30 & 113 & 0.21 & N/A\\ \cline{2-6}
-    & LittleDarwin & 64 & 18 & 0.78 & 0\%\\ \hline
-\multirow{4}{*}{\small coffee-gb} & Regex & 48 & 176 & 0.21 & 0\%\\\cline{2-6}
-    & Comby & 40 & 134 & 0.23 & 0\% \\ \cline{2-6}
-    & PIT & 32 & 4 & 0.89 & N/A \\ \cline{2-6}
-    & LittleDarwin & 11 & 18 & 0.38 & 0\%\\ \hline
-\multirow{4}{*}{\small egads} & Regex & 442 & 182 & 0.71 & 20\% \\\cline{2-6}
-    & Comby & 422 & 200 & 0.71 & 10\% \\ \cline{2-6}
-    & PIT & 87 & 20 & 0.81 & N/A \\ \cline{2-6}
-    & LittleDarwin & 74 & 11 & 0.87 & 0\% \\ \hline
-\multirow{4}{*}{\small apk-parser} & Regex & 26 & 325 & 0.07 & 10\%\\\cline{2-6}
-    & Comby & 26 & 312 & 0.08 & 0\%\\ \cline{2-6}
-    & PIT & 14 & 75  & 0.16 & N/A\\ \cline{2-6}
-    & LittleDarwin & 3 & 30 & 0.09 & 0\%\\ \hline
-    
-\multirow{12}{*}{Overall} & \multirow{3}{*}{Regex} & \multicolumn{2}{c|}{Mean} & 0.39  & 13.33\%\\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Median} & 0.28 & 5.00\% \\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.30 & 19.66\% \\\cline{2-6}
-
- & \multirow{3}{*}{Comby} & \multicolumn{2}{c|}{Mean} & 0.40 & 5.00\%\\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Median} & 0.30 & 0.00\% \\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.29 & 8.37\%\\\cline{2-6}
-
- & \multirow{3}{*}{PIT} & \multicolumn{2}{c|}{Mean} & 0.55 & N/A\\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Median} & 0.55 & N/A \\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.37 & N/A \\\cline{2-6}
-    
- & \multirow{3}{*}{LittleDarwin} & \multicolumn{2}{c|}{Mean} & 0.59 & 0.00\%\\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Median} & 0.59 & 0.00\%\\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.35 & 0.00\%\\ \hline
-    
-\end{tabular}
-}
-\end{table}
-
 
 
 
@@ -1124,7 +1068,7 @@ mutants is good, and a rate below 10\% is very good.
 \centering
 \caption{Java (Our Implementation vs. PIT vs. LittleDarwin). \claire{FIXME: explain why no eqv for PIT.} LittleDarwin produces no equivalent mutants.\claire{right?}}
 \label{tab:table_java2}
-\resizebox{\columnwidth}{!}{% again don't love it, but footnotesize is actually smaller than necessary here
+\resizebox{\columnwidth}{!}{% again don't love it, but footnotesize is actually smaller than necessary
 \begin{tabular}{l|rrr|rr|rr}
 \toprule
                  & \mc{3}{c|}{\textbf{Comby}}   & \mc{2}{c|}{\textbf{PIT}} & \mc{2}{c}{\textbf{LittleDarwin}} \\
