@@ -713,6 +713,8 @@ suffered from a lack of working and maintained mutation tools, despite
 a large number of abandoned efforts, though at present it is served by
 multiple maintained, AST-based tools.  Finally, Rust is an ``emerging
 language'' with few tools targeting it.
+\clg{Kinda want a table (or a pointer to tables) with projects per language.
+  Definitely want a pointer to at least Table 6, with the tools we compare to.}
 
 To evaluate both RQ1 and RQ2 we assembled a set of 24 source files,
 six from each language.  We first selected, using the GitHub search
@@ -760,6 +762,8 @@ since compilation generally fails early for trivial reasons (e.g.,
 but reducing the number of such mutants directly reduces the cost of
 initial mutant generation, and generally indicates a better
 ``understanding'' of the source being mutated.
+\clg{What are LOC in the tables?}
+
 
 % ---------------- C++ table UM Only--------------------------
 \begin{table}[hbtp]
@@ -942,10 +946,10 @@ efficiency of initial mutant generation, with no apparent loss of overall effect
 
 \begin{table*}[hbtp]
     \centering
-    \caption{Overview of Mutation Testing Tools. Our tool has singificantly fewer lines of code than any of the single language tools.}
+    \caption{Overview of Mutation Testing Tools. Our tool has significantly fewer lines of code than any of the single language tools.}
     \label{tab:mutationtools}
     
-    \begin{tabular}{|c|c|c|r|}
+    \begin{tabular}{|l|l|l|r|}
     \hline
     \textbf{Language} & \textbf{Tool} & \textbf{URL} & \textbf{LOC}  \\
     \hline
