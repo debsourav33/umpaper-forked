@@ -364,7 +364,7 @@ character is not another {\tt ``+''}.  This may still in some cases produce
 invalid mutants, but rejecting such mutants is easy, since they will fail
 to compile.  Of course, we pay the price of
 compiling each mutant at generation
-time.
+time.  
 
 On the positive side, this argues that we can replace a
 complex implementation requiring parsing and analysis with
@@ -762,7 +762,6 @@ since compilation generally fails early for trivial reasons (e.g.,
 but reducing the number of such mutants directly reduces the cost of
 initial mutant generation, and generally indicates a better
 ``understanding'' of the source being mutated.
-\clg{What are LOC in the tables?}
 
 
 % ---------------- C++ table UM Only--------------------------
@@ -1007,7 +1006,13 @@ generally similar, except for tools that produced very few mutants.
 We expect that our approach is generally slower for initial mutant
 generation, due to a higher number of invalid mutants, but that this
 cost is relatively small compared to the time required to compile and
-execute valid mutants for almost all projects.
+execute valid mutants for almost all projects.  An informal study of
+large Java projects by the author of the PIT gradle
+plugin\footnote{\url{https://solidsoft.wordpress.com/2017/09/19/how-fast-or-slow-mutation-testing-really-is/}}
+  suggests that even a successful compile of a typical project takes
+  somewhere between one-sixth to one-third the time required for
+  executing tests, and failed compiles are usually much
+  faster than successful ones.
 
 We estimated mutant equivalency when possible by examining a sample of
 10 randomly selected unkilled mutants for each file.  For some tools,
