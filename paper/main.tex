@@ -338,7 +338,7 @@ The contributions of this paper are therefore:
 \end{enumerate}
 
 
-\section{The Universal Language Source-Based Approach}
+\section{A Universal Language Syntax-Based Approach}
 
 The key insight of this paper is that \emph{most mutation operators
   proposed in the literature do not in fact require parsing of source
@@ -349,8 +349,9 @@ replace that string with {\tt ``x - y''}.  Instead, this change is
 guaranteed to be effected if we simply search the program, represented
 as a string, for all occurrences of  {\tt ``+''}, and produce for each
 such occurrence, a mutant where tha character is replaced by {\tt
-  ``-''}.  We can do the same for each pair of arithmetic operations,
-and thus trivially implement a large fraction of the classic Mothra~\cite{offutt1996experimental}
+  ``-''}.  Many languages express arithmetic as infix operators between
+expressions; if expressed syntactically, mutations for them can be expressed
+once, trivially implementing a large fraction of the classic Mothra~\cite{offutt1996experimental}
 mutation operators.
 
 The obvious objection to this simplistic approach is that unless we
@@ -358,37 +359,42 @@ parse the code to identify arithmetic expressions, some of these
 replacements will be invalid.  E.g., in a C++ program we will produce
 mutants like {\tt x-+} replacing {\tt x++}.  However, most of these
 instances can be avoided by slightly more judicious choice of search
-target: instances of {\tt ``+''} where the preceeding or following
-character is not another {\tt ``+''}, for instance.
-
-Of course, in some cases this will still leave us with invalid
-mutants.  However, rejecting such mutants is easy: the truly invalid
-mutants will fail to compile.  Of course, we must pay the price of
-checking each mutant to make sure that it does compile, at generation
+target, e.g., instances of {\tt ``+''} where the preceeding or following
+character is not another {\tt ``+''}.  This may still in some cases produce
+invalid mutants, but rejecting such mutants is easy, since they will fail
+to compile.  Of course, we pay the price of
+compiling each mutant at generation
 time.
 
-However, consider what has been gained by paying this cost.  We have
-replaced a complex implementation, that requires parsing source code,
-with an implementation that only requires string search-and-replace.
-One can imagine an implementation of the above approach to arithmetic
-operation replacement being implemented in as little as 10-20 lines of
-Python code, including a call to a compiler to check for invalid
-mutants.  Moreover, defining new mutation operators is not a matter of
-understanding a representation of a parsed program, but is essentially
+On the positive side, this argues that we can replace a
+complex implementation requiring parsing and analysis with
+withone that only requires string search-and-replace.
+Such an implementation on face can be done using much less code. 
+% It also allows for simpler definitions of 
+% One can imagine an implementation of the above approach to arithmetic
+% operation replacement being implemented in as little as 10-20 lines of
+% Python code, including a call to a compiler to check for invalid
+%mutants.  
+Moreover, defining new mutation operators is not a matter of
+understanding a parsed program representation, but is essentially
 a matter of providing two strings, where the second is a proposed
-replacement for the first.  Instead of code for arithmetic operator
-replacement, we can imagine the above hypothetical Python program
-reading in a file of thus expressed mutation operators, and
-implementing an unbounded number of operators in a minimalist fashion.
+replacement for the first.  This simplifies operator specification from
+implementation of
+tree transformations into a minimal list. 
+%Instead of code for arithmetic operator
+%replacement, we can imagine the above hypothetical Python program
+%reading in a file of thus expressed mutation operators, and
+%implementing an unbounded number of operators in a minimalist fashion.
 
-Of course, simple string replacement is not general enough to handle
+Of course, simple string replacement cannot handle
 many interesting mutations.  Consider the classic case of statement
 deletion, one of the most widely used and important mutation
-operators~\cite{deng2013empirical}.  What string can we replace with another string in order to
-delete a statement in a C program?  We would need an ``operator'' for
-each possible C statement.  However, if we allow the use of
-\emph{regular expression match and replace pairs} in place of simple
-strings, we can easily express this operator, with some precision:
+operators~\cite{deng2013empirical}. This cannot be concisely specified with string pairs. 
+%  What string can we replace with another string in order to
+% delete a statement in a C program?  We would need an ``operator'' for
+% each possible C statement. 
+However, if we allow the use of
+\emph{regular expression match and replace pairs}, we can express this operator, with some precision:
 
 \begin{verbatim}
 (^\s*)(\S+[^{}]+.*)\n ==> \1/*\2*/\n
@@ -399,31 +405,42 @@ strings with a possibly-empty amount of white space followed by a
 character pattern indicating a line of source code, with the same
 source code, preserving indentation, turned into a comment.
 
+\clg{I know we're walking a line on UM anonymity but I think we should cite it
+  here, just in the third person.}
 Using regular expressions to express mutants has many benefits.  While
 much more expressive than simple string replacement, regular
 expressions are familliar to most developers.  In principle,
 development of complex regular expressions for operators can even be
 performed by simply providing examples~\cite{bartoli2014automatic}  or
 describing the operator in natural
-language~\cite{zhong2018generating}.  Implementing a mutation
-generation tool for a language by providing the equivalent of our
-Python program above with a list of regular expression matches and
-replacements is clearly much easier than writing a mutation tool from
-scratch, and much easier to maintain and extend. 
+language~\cite{zhong2018generating}.  
+\clg{Just as a note (feel free to read and delete): I tried to cut out our
+  hypothetical Python program because I read it and was like OK well then why
+  didn't you write it? Or show me if it's so short? You know? And I felt like
+  the point could be made without it. I think reference to UM here does the
+  trick as well really}
+These approaches speak to the potential of string manipulation-based approaches
+for mutation testing, without the need for program parsing or analysis. 
+
+% generation tool for a language by providing the equivalent of our
+% Python program above with a list of regular expression matches and
+% replacements is clearly much easier than writing a mutation tool from
+% scratch, and much easier to maintain and extend. 
+% CLG: This claim feels strong to me even though I know you think it's true
+% because you did it. ;-) 
 
 \subsection{Hierarchies of Operator Applicability}
 
-Implementing mutant generation by providing a set of regular-expression
-based textual transformations for each target language, and using a
-single engine to apply rules to source files is certainly less
-difficult in terms of development and maintenance effort than building
-a tool for each language around a parser for that language.  However,
-even this approach ignores one of the primary benefits of a universal,
-text-based approach.  Consider the case of replacing instances of {\tt
+Regular expressions suggest a mechanism for textual transformation customized to
+multiple target languages, which could then share a single engine to apply rules
+to source files without the complexity of parsing. 
+However, we observe an additional property of mutation operators and mutation
+testing that speaks to the potential of a language-agnostic approach: many of the
+most widely used mutation operators in the literature are \emph{universal}.  For
+example, consider the case of replacing instances of {\tt
   ``+''}  with {\tt ``-''}.  This mutation is not tied to any
 particular language, but applies to \emph{almost all programming
-  languages in use.}  Many of the most widely used mutation operators
-in the literature are of this universal nature.  Others are not quite
+  languages in use.}  Others are not quite
 so widely applicable, but still apply to a large number of specific
 languages.  E.g., many programming languages share C's logical
 operators, though important exception such as Python and Lisp-family
@@ -432,7 +449,7 @@ languages do not.
 Implementing a tool for a language $L$ therefore, generally need not
 require writing rules for all mutation operators to be applied to $L$
 programs, but instead can proceed by process of 1) identifying $L$'s
-place in a \emph{hierarchy} of language \emph{famillies}, and then 2)
+place in a \emph{hierarchy} of language \emph{families}, and then 2)
 identifying additional operators needed for $L$ itself.  The first of
 these tasks is often trivial, as in practice there are only a few
 basic syntactic forms for languages, at the level needed to describe
@@ -442,7 +459,7 @@ example, most of the Mothra rules and statement deletion can be
 entirely handled without descending to the specific-language level at all.
 
 As an
-example, consider mutation of Java code.  Many Java mutants can be
+example, consider mutation of Java code.  Many typical Java mutants can be
 generated by the kind of ``universal'' rules (e.g., arithmetic
 operator replacements) considered above.  Other mutation operators
 suitable for Java source are provided by considering the set of
@@ -475,27 +492,45 @@ constructs common to e.g.,  Java, C, and C++ ({{\tt if}, {\tt while},
 
 \end{table}
   
-  
-  Table~\ref{tab:rules} shows examples of universal, C-like, and
-  language-specific rules for a few languages, taken directly from our
-  implementation.  In all cases, the form of a rule is: {\tt regexp
-    ==> replacement}, using Python regular expression and replacement syntax.
+\clg{OK this is confusing and I don't know how to fix it.  Two problems.  (1) we
+  haven't actually introduced a tool yet so talking about something from its
+  implementation is confusing.  We do have kind of a hypothetical tool, though
+  I've been removing specific references to it, because it wasn't clear enough
+  that it was supposed to represent our ACTUAL implementation and it was
+  confusing me.  If we'd like it to introduce an actual implementation, then we
+  might undo my changes there, but make it clear we're introducing an
+  implementation and not a thought experiment.  Problem (2) is that a lot of
+  this paper (and even the intro/abstract to date) is about using parser
+  combinators for this, not regular expressions.  So talking about using regular
+  expressions in our not-introduced implementation when alter we'll be talking
+  about parser combinators as a contribution is also confusing.  Beyond
+  ``concretize our hypothetical tool into introduicng actual tool, other
+  solutions I can think of are (1) forward ref a section of an implementation and expand slightly this
+  sentence to be like ``taken directly from our implementation of a regular
+  expression approach to syntactic mutation (Section FOO)'', or (2) be more abstract
+  about it here, like ``Table X shows examples of universal rules...we discuss
+  them further and how such rules are used in our implementation in Section
+  FOO.''.  Maybe those are the same I dunno.}
+Table~\ref{tab:rules} shows examples of universal, C-like, and
+language-specific rules for a few languages, taken directly from our
+implementation.  In all cases, the form of a rule is: {\tt regexp
+  ==> replacement}, using Python regular expression and replacement syntax.
 
-  The first column shows universal rules applied to
-  all languages, here drawn from the large set of transformations for
-  less-than comparisons.  The second column shows somewhat more
-  complex rules, for removing elses (which always leaves valid code in
-  C-like languages, but with the else clause always executing) and for
-  replacing if conditions with, respectively, a negation and a
-  constantly true expression.  Finally, the last column shows
-  language-specific rules, for, respectively, Java, Python (statement
-  deletion, including a {\tt pass} and respecting indentation level),
-  and C++.  The last rule was contributed by a user using our tool to
-  perform mutation testing on the bitcoin core implementation.  For a
-  C++ program, all of the rules in the first two columns will be
-  applied, as well as the last rule in the third column.  For a Python
-  program, however, only the first column of rules and the second rule
-  in the last column apply, as Python is not sufficiently ``C-like''.
+The first column shows universal rules applied to
+all languages, here drawn from the large set of transformations for
+less-than comparisons.  The second column shows somewhat more
+complex rules, for removing elses (which always leaves valid code in
+C-like languages, but with the else clause always executing) and for
+replacing if conditions with, respectively, a negation and a
+constantly true expression.  Finally, the last column shows
+language-specific rules, for, respectively, Java, Python (statement
+deletion, including a {\tt pass} and respecting indentation level),
+and C++.  The last rule was contributed by a user using our tool to
+perform mutation testing on the bitcoin core implementation.  For a
+C++ program, all of the rules in the first two columns will be
+applied, as well as the last rule in the third column.  For a Python
+program, however, only the first column of rules and the second rule
+in the last column apply, as Python is not sufficiently ``C-like''.
 
 
 \subsection{Incremental Mutation}
@@ -524,6 +559,19 @@ therefore, mutant generation can also be incremental.
 % general/more universal matching engine abstraction at the expressivity level
 % where we care about mutating source syntax with CFG properties.
 
+\clg{OK.  I think maybe ??? This section works better as a subsection in the
+  previous section, which can build to ``beyond...'' Then this text can/should
+  start with a TINY bit more transition from the regular expression thing we've
+  discussed so far to motivate comby ``instead'' (even though it's not really
+  instead.)  This is more a point for discussion than a unilateral decree, but
+  it feels like it flows better as a complete story.  Otherwise it's not super
+  clear what the point of Section 2 was, if Section 3 is the real thing we're
+  proposing? Is it? On that note, if we do this, I think we can/should move
+  ``Incremental Mutation'' down to implementation even if we didn't do it, just
+  as a point of discussion like ``oh btw we could do it if we wanted it's
+  easy.'' Otherwise it kind of disrupts the flow AND hierararies of operators
+  leads REALLY REALLY nicely into the parse parser combinator approach.}
+\clg{Either way regardless this needs a better starting transition haha.}
 We implement a lightweight parser-driven approach that attunes mutation
 operators to language-general syntax-aware transformations. For example, our
 operators can ensure syntactically well-formed outputs (e.g., transformations
