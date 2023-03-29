@@ -785,7 +785,7 @@ basis for mutant generation are in expressiveness and ease of use,
 particularly rule readability, a second advantage is a reduction in
 the number of invalid mutants generated.
 
-Tables~\ref{tab:table_cpp1}-\ref{tab:table_rust1} compare generated
+Table~\ref{tab:table_cpp1javarust} and Table~\ref{tab:table_python1} compare generated
 mutants for Regex and Comby modes of our tool.  Invalid
 mutants are mutants that the tool produces, but which fail to
 compile.  The cost of each such mutant is usually small,
@@ -795,19 +795,19 @@ but reducing the number of such mutants directly reduces the cost of
 initial mutant generation, and generally indicates a better
 ``understanding'' of the source being mutated.
 
-% ---------------- C++ table UM Only--------------------------
+% ---------------- C++/Java/Rust table UM Only--------------------------
 \begin{table}[hbtp]
 \centering
 \caption{Regex vs. Comby for C++ (top), Java (middle), and Rust (bottom). LOC describes the project files considered. Muts. is total number of mutants generated for those files. Invalid mutants are those that don't compile.}
-\label{tab:table_cpp1java}
+\label{tab:table_cpp1javarust}
 \begin{tabularx}{\columnwidth}{X|r|rr|rr}
 \bottomrule\toprule
 \mc{6}{c}{\textbf{C++}} \\\midrule
                  &              & \multicolumn{2}{c|}{\textbf{Regex}} &\multicolumn{2}{c}{\textbf{Comby}}  \\
 \textbf{Project} & \textbf{LOC} & \textbf{Muts.} & \textbf{\% Valid} & \textbf{Muts.} &  \textbf{\% Valid} \\\midrule
 ompl & 525 & 2533 & 23.49\% &  2174  & 25.94\%   \\
-libgraphqlparser& 137 & 741 & 21.19\%  & 440 & 29.77\% \\
-rethinkdb\_rebirth &471 & 2246 & 24.27\% & 2009 & 24.49\% \\
+{\small libgraphqlparser} & 137 & 741 & 21.19\%  & 440 & 29.77\% \\
+{\small rethinkdb\_rebirth} &471 & 2246 & 24.27\% & 2009 & 24.49\% \\
 xoreos & 732  & 3876  & 62.41\% & 3297 & 69.15\% \\
 libxmljs &630 &  3989 & 22.09\% & 4008 & 19.71\% \\[0.5ex]
 tiny-diff.-simulator &  195 & 1282 &58.27\% & 1214 & 63.43\% \\
@@ -863,14 +863,13 @@ strum            & 90           & 428     & 11.92\% & 368     & 13.58\% \\\botto
  %              &   & Med.     & 253.50 & 724.50 & 24.79\% \\
                &   & Std.Dev. & 592.63 & 508.30 & 21.63\%  \\\bottomrule
 \end{tabularx}
-
 \end{table}
 
 
 \begin{table}[hbtp]
 \centering
 {\footnotesize % feels bad man but it's definitely easier than most other alternatives
-\caption{Regex vs. Comby for Python.   LOC describes the project files considered. Muts. is total number of mutants generated for those files. \claire{FIXME: what's an invalid mutant for python?}  We can use TCE to check for redundant Python mutants, shown under ``Red.''}
+\caption{Regex vs. Comby for Python.   LOC describes the project files considered. Muts. is total number of mutants generated for those files. \clg{FIXME: what's an invalid mutant for python?}  We can use TCE to check for redundant Python mutants, shown under ``Red.''}
 \label{tab:table_python1}
 \begin{tabularx}{\columnwidth}{l|r|rcr|rcr}
 \toprule\toprule
@@ -1066,7 +1065,7 @@ mutants is good, and a rate below 10\% is very good.
 
 \begin{table}[htbp]
 \centering
-\caption{Java (Our Implementation vs. PIT vs. LittleDarwin). \claire{FIXME: explain why no eqv for PIT.} LittleDarwin produces no equivalent mutants.\claire{right?}}
+\caption{Java (Our Implementation vs. PIT vs. LittleDarwin). \clg{FIXME: explain why no eqv for PIT.} LittleDarwin produces no equivalent mutants.\clg{right?}}
 \label{tab:table_java2}
 \resizebox{\columnwidth}{!}{% again don't love it, but footnotesize is actually smaller than necessary
 \begin{tabular}{l|rrr|rr|rr}
@@ -1101,7 +1100,7 @@ apk-parser & 338 & 0.08 & 0\% & 89 & 0.16  & 33 & 0.09 \\
 \begin{tabular}{l|rrr|rrr|rrr}
 \toprule
                  & \mc{3}{c|}{\textbf{Comby}}   & \mc{3}{c|}{\textbf{Mutmut}} & \mc{3}{c}{\textbf{CosmicRay}} \\
-\textbf{Project} & \textbf{Muts} &  \makecell{\textbf{Mut.} \\ \textbf{Score}} & \textbf{\% Eqv}
+\textbf{Project} & \textbf{Muts.} &  \makecell{\textbf{Mut.} \\ \textbf{Score}} & \textbf{\% Eqv}
 & \textbf{Muts.} &  \makecell{\textbf{Mut.} \\ \textbf{Score}} & \textbf{\% Eqv} 
 & \textbf{Muts.} &  \makecell{\textbf{Mut.} \\ \textbf{Score}} & \textbf{\% Eqv} \\ \midrule
 \midrule
@@ -1118,72 +1117,22 @@ Fiber & 458 & 0.64 & 20\% & 222 & 0.57 & 40\% & 320 & 0.81 & 0\% \\\midrule
 \end{table*}
 
 
-% ---------------- Rust table (UM vs Others)--------------------------
-
-\begin{table}[htbp]
-\centering
-\caption{Rust (Our Implementation vs. Cargo-Mutants)}
-\label{tab:table_rust2}
-\resizebox{\columnwidth}{!}{
-\begin{tabular}{|c|c|r|r|r|r|}
-\hline
- &  & \textbf{Killed} & \textbf{Not Killed} &  \makecell{\textbf{Mutation} \\ \textbf{Score}} & \textbf{Equivalent \%} \\ \hline
-
- \multirow{3}{*}{\small cargo release} & Regex & 721 & 130 & 0.85 & 0\% \\\cline{2-6}
-    & Comby & 1344 & 346 & 0.80 & 0\% \\\cline{2-6}
-    & Cargo-Mutants & 2	& 3 & 0.40 & 0\% \\ \hline
-\multirow{3}{*}{\small passerine} & Regex & 122 & 91 & 0.57 & 20\% \\\cline{2-6}
-    & Comby & 90 & 83 & 0.52 & 50\% \\ \cline{2-6}
-    & Cargo-Mutants & 0	& 0 & 0 & 0\% \\ \hline
-\multirow{3}{*}{\small typos} & Regex & 295 & 91 & 0.76 & 40\% \\\cline{2-6}
-    & Comby & 283 & 83 & 0.77 & 20\%\\ \cline{2-6}
-    & Cargo-Mutants & 5 & 1 & 0.83 & 0\%\\ \hline
-    
-\multirow{3}{*}{\small ord} & Regex & 558 & 204 & 0.73 & 10\% \\\cline{2-6}
-    & Comby & 533 & 110 & 0.83 & 20\% \\ \cline{2-6}
-    & Cargo-Mutants & 6 & 0 & 1.00 & 0\% \\ \hline
-\multirow{3}{*}{\small bazuka} & Regex & 281 & 170 & 0.62 & 40\% \\\cline{2-6}
-    & Comby & 291 & 111 & 0.73 & 0\% \\ \cline{2-6}
-    & Cargo-Mutants & 0 & 0 & 0 & 0\% \\ \hline
-\multirow{3}{*}{\small strum} & Regex & 8 & 43 & 0.16 & 10\%\\\cline{2-6}
-    & Comby & 11 & 39 & 0.22 & 40\%\\ \cline{2-6}
-    & Cargo-Mutants & 2 & 0 & 1.00 & 0\%\\ \hline
-    
-\multirow{9}{*}{Overall} & \multirow{3}{*}{Regex} & \multicolumn{2}{c|}{Mean} & 0.62  & 20.00\%\\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Median} & 0.68 & 15.00\%\\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.24 & 16.73\% \\\cline{2-6}
-
- & \multirow{3}{*}{Comby} & \multicolumn{2}{c|}{Mean} & 0.64 & 22.00\%\\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Median} & 0.75 & 20.00\% \\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.25 & 20.41\% \\\cline{2-6}
-
- & \multirow{3}{*}{Cargo-Mutants} & \multicolumn{2}{c|}{Mean} & 0.54 & 0.00\%\\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Median} & 0.62 & 0.00\% \\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.47 & 0.00\%\\ \hline
-    
-    
-\end{tabular}
-}
-\end{table}
-
-
 
 \begin{table}[htbp]
 \centering
 {\small
 \caption{Rust (Our Implementation vs. Cargo-Mutants)}
 \label{tab:table_rust2}
-\begin{tabularx}{\columnwidth}{X|crr|crr}
-\hline
-        & \multicolumn{3}{c|}{Comby}  & \multicolumn{3}{c}{Cargo-Mutants} \\ 
-Project & Mutants & \makecell{\textbf{Mut.} \\ \textbf{Score}} & \textbf{\% Eqv.} & Mutants & \makecell{\textbf{Mut.} \\ \textbf{Score}} & \textbf{\% Eqv.} \\[1ex]\midrule
-\hline
+\begin{tabularx}{\columnwidth}{X|rrr|rrr}
+\toprule
+        & \multicolumn{3}{c|}{\textbf{Comby}}  & \multicolumn{3}{c}{\textbf{Cargo-Mutants}} \\ 
+\textbf{Project} & \textbf{Muts.} & \makecell{\textbf{Mut.} \\ \textbf{Score}} & \textbf{\% Eqv.} & \textbf{Muts.} & \makecell{\textbf{Mut.} \\ \textbf{Score}} & \textbf{\% Eqv.} \\\midrule
 cargo release & 1690 & 0.80 & 0\% & 5 & 0.40 & 0\%   \\
 passarine & 173 & 0.52 & 50\% & 0 & 0.00 & 0\%   \\
 typos & 366 & 0.77 & 20\% & 6 & 0.83 & 0\%   \\
 ord & 643 & 0.83 & 20\% & 6 & 1.00 & 0\%   \\
 bazuka & 402 & 0.73 & 0\% & 0 & 0.00 & 0\%   \\
-strum & 50 & 0.22 & 40\% & 2 & 1.00 & 0\%   \\
+strum & 50 & 0.22 & 40\% & 2 & 1.00 & 0\%   \\\midrule
 \textbf{Mean}   & 554.00 & 0.64 & 22.00\% & 3.17 & 0.54 & 0.00\%\\
 \textbf{Std. Dev} & 592.63 & 0.25 & 20.41\%   & 2.86 & 0.47 & 0.00\% \\\bottomrule
 \end{tabularx}
@@ -1274,8 +1223,8 @@ reported for high-quality mutation tools in the literature comparing
 Java mutation tools.   The tools with very low or zero equivalence rates, furthermore,
 are very conservative in mutation generation, and often simply don't
 produce many mutants.  In fact, inspection of the non-comment source
-lines as measured by CLOC shown in Tables~\ref{tab:table_java1} and
-\ref{tab:table_java2} and Tables~\ref{tab:table_rust1} and
+lines as measured by CLOC as compared to results as shown in Tables~\ref{tab:table_cpp1javarust},
+Tables~\ref{tab:table_java2} and 
 \ref{tab:table_rust2} shows that for many programs, LittleDarwin and
 Cargo-Mutants generated \emph{much less than one mutant per actual
   line code}.  Such a conservative approach is likely to produce few
