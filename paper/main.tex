@@ -789,7 +789,7 @@ initial mutant generation, and generally indicates a better
 \caption{Regex vs. Comby for C++ (top) and Java (bottom)}
 \label{tab:table_cpp1java}
 \begin{tabularx}{\columnwidth}{X|r|cr|cr}
-\toprule
+\toprule\toprule
 \mc{6}{c}{\textbf{C++}} \\\midrule
                  &              & \multicolumn{2}{c|}{\textbf{Regex}} &\multicolumn{2}{c}{\textbf{Comby}}  \\[1ex]
 \textbf{Project} & \textbf{LOC} & $\frac{valid}{total}$ & \textbf{\%} & $\frac{valid}{total}$ &  \textbf{\%} \\[1ex]\midrule
@@ -804,10 +804,10 @@ tiny-diff.-simulator &  195 & $\frac{747}{1282}$ &58.27\% &$\frac{770}{1214}$ & 
  \begin{tabularx}{\columnwidth}{Xllrrr}
                   & &       & Valid  & Invalid  & \% \\\midrule
  \multirow{6}{*}{\textbf{Overall}} & \multirow{3}{*}{Regex} & Mean     & 890.67 &  1553.83 & 35.28\% \\
-                          & & Med.    & 671.00 & 1579.00  & 23.88\%   \\
+%                          & & Med.    & 671.00 & 1579.00  & 23.88\%   \\
                           & & Std.Dev. & 787.62 & 956.31   & 19.48\%  \\\cline{2-6}
   & \multirow{3}{*}{Comby}  & Mean     & 837.83 & 1352.50 & 38.75\%  \\
-                         & & Med.    & 667.00 & 1267.00 & 27.86\%  \\
+%                         & & Med.    & 667.00 & 1267.00 & 27.86\%  \\
                          & & Std.Dev. & 745.78 & 1058.33& 21.66\%  \\\bottomrule
  \end{tabularx}
 \begin{tabularx}{\columnwidth}{X|r|cr|cr}
@@ -825,10 +825,10 @@ tiny-diff.-simulator &  195 & $\frac{747}{1282}$ &58.27\% &$\frac{770}{1214}$ & 
 \begin{tabularx}{\columnwidth}{Xllrrr}
               & & & Valid  & Invalid  & \% \\\midrule
 \multirow{6}{*}{\textbf{Overall}} & \mr{3}{Regex} & Mean     &  345.83 & 1545.00  & 17.74\% \\
-              &   & Med.     & 299.50 & 1524.50 & 16.90\%  \\
+%              &   & Med.     & 299.50 & 1524.50 & 16.90\%  \\
               &   & Std.Dev. & 203.86 & 467.98 & 8.73\%  \\\cline{2-6}
 & \mr{3}{Comby} & Mean     & 309.17 & 786.17 & 27.22\% \\
-              &   & Med.     & 253.50 & 724.50 & 24.79\% \\
+%              &   & Med.     & 253.50 & 724.50 & 24.79\% \\
               &   & Std.Dev. & 202.44 & 235.24  & 15.59\% \\\bottomrule
 \end{tabularx}
 \end{table}
@@ -909,6 +909,34 @@ tiny-diff.-simulator &  195 & $\frac{747}{1282}$ &58.27\% &$\frac{770}{1214}$ & 
 % }
 % \end{table}
 
+\iffalse
+\begin{table}[hbtp]
+\centering
+\caption{Regex vs. Comby for Python++, including redundant mutants.}
+\label{tab:table_pyrust}
+\begin{tabularx}{\columnwidth}{X|r|rcr|rcr}
+\toprule\toprule
+\mc{6}{c}{\textbf{Python++}} \\\midrule
+                 &                 & \multicolumn{3}{c|}{\textbf{Regex}}             &\multicolumn{3}{c}{\textbf{Comby}}  \\[1ex]
+\textbf{Project} & \textbf{LOC}    & redundant & $\frac{valid}{total}$ & \textbf{\%} & redundant & $\frac{valid}{total}$ &  \textbf{\%} \\[1ex]\midrule
+keract           & 402             & 729       & $\frac{1655}{3984}$   & 41.53\%     & 533       & $\frac{1471}{3067}$   & 47.96\% \\[1ex]
+dtw              & 118             & 567       & $\frac{973}{2106}$    & 46.20\%     & 639       & $\frac{866}{1836}$    & 47.19\% & \\[1ex]
+notion-sdk-py    & 189             & 82        & $\frac{196}{1038}$    & 18.89\%     & 122       & $\frac{196}{1019}$    & 19.23\% & \\[1ex]
+{\makecell{atlassian-python \\ api}} & 236 & $\frac{302}{1304}$  & 207  &	19.99\% & \multirow{2}{*}{236}\\\cline{2-7}
+       & \multicolumn{2}{c|}{Comby} & 333  & 635  & 351  & 25.25\% & \\ \hline
+ESD    & 698 & $\frac{1859}{4626}$  & 1642  & 29.46\% & \multirow{2}{*}{698}\\\cline{2-7}
+       & \multicolumn{2}{c|}{Comby} & 1712  & 1548  &	614  & 44.18\% & \\ \hline
+fiber  & 358 & $\frac{493}{1402}$  & 163  & 31.08\% & \multirow{2}{*}{358}\\\cline{2-7}
+       & \multicolumn{2}{c|}{Comby} & 458  & 767 	& 241  & 31.24\% & \\ \hline
+
+\multirow{6}{*}{Overall} & \multirow{3}{*}{Regex} & Mean & 913.00 & 1267.33 & 565.00 & 31.19\%  & \\\cline{3-7}
+    &   &  Std. Dev & 708.93 & 813.35 & 584.79 & 11.06\%  & \\\cline{2-7}
+
+ & \multirow{3}{*}{Comby} & Mean & 839.33 & 840.67 & 416.67 & 35.84\% & \\\cline{3-7}
+    &   &  Std. Dev & 628.79 & 418.99 & 211.62 & 12.28\%  & \\\hline
+\end{tabularx}
+\end{table}
+\fi
 % ---------------- Python table UM Only --------------------------
 
 \begin{table}[hbtp]
@@ -946,6 +974,63 @@ tiny-diff.-simulator &  195 & $\frac{747}{1282}$ &58.27\% &$\frac{770}{1214}$ & 
 
 }
 \end{table}
+
+% ---------------- Rust table UM Only --------------------------
+\begin{table}[hbtp]
+\centering
+{\small
+\caption{Rust (Regex vs. Comby)}
+\label{tab:table_rust1}
+\begin{tabularx}{\columnwidth}{X|r|cr|cr}
+\toprule
+                 &              & \multicolumn{2}{c|}{\textbf{Regex}} &\multicolumn{2}{c}{\textbf{Comby}}  \\
+\textbf{Project} & \textbf{LOC} & $\frac{valid}{total}$ & \textbf{\%} & $\frac{valid}{total}$ &  \textbf{\%} \\[1ex]\midrule
+cargo release    & ...    & & & \\[1ex]
+\end{tabularx}
+ \begin{tabularx}{\columnwidth}{Xllrrr}
+               & & & Valid  & Invalid  & \% \\\midrule
+ \multirow{6}{*}{\textbf{Overall}} & \mr{3}{Regex} & Mean     &   &  & \\
+               &   & Std.Dev. & &  &   \\\cline{2-6}
+ & \mr{3}{Comby} & Mean     &  &  &  \\
+ %              &   & Med.     & 253.50 & 724.50 & 24.79\% \\
+               &   & Std.Dev. & &  &   \\\bottomrule
+\end{tabularx}}
+\end{table}
+
+\begin{table}[hbtp]
+\centering
+\caption{Rust (Regex vs. Comby)}
+\label{tab:table_rust1}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{|c|c|c|r|r|r|c|}
+\hline
+ & \multicolumn{2}{c|}{} & \textbf{Valid} & \textbf{Invalid} & \textbf{Valid \%} &  \textbf{LOC} \\ \hline
+\multirow{2}{*}{cargo release} & \multicolumn{2}{c|}{Regex} & 851 \hspace{8pt} &	1163 \hspace{8pt} & 42.25\%  & \multirow{2}{*}{346}\\\cline{2-6}
+    & \multicolumn{2}{c|}{Comby} & 1690 \hspace{8pt} & 711 \hspace{8pt} & 70.39\% & \\ \hline
+\multirow{2}{*}{passerine} & \multicolumn{2}{c|}{Regex} & 213 \hspace{8pt} & 2081 \hspace{8pt} & 9.29\% & \multirow{2}{*}{376}\\\cline{2-6}
+    & \multicolumn{2}{c|}{Comby} & 173 \hspace{8pt} & 1518 \hspace{8pt} & 10.23\% & \\ \hline
+\multirow{2}{*}{typos} & \multicolumn{2}{c|}{Regex} & 386 \hspace{8pt} & 1534 \hspace{8pt} & 20.10\% & \multirow{2}{*}{463}\\\cline{2-6}
+    & \multicolumn{2}{c|}{Comby} & 366 \hspace{8pt} & 1199 \hspace{8pt} &	 23.39\% & \\ \hline
+    
+\multirow{2}{*}{ord} & \multicolumn{2}{c|}{Regex} & 762 \hspace{8pt}	& 2096 \hspace{8pt} & 26.66\% & \multirow{2}{*}{533}\\\cline{2-6}
+    & \multicolumn{2}{c|}{Comby} & 643 \hspace{8pt} & 1669 \hspace{8pt} & 27.81\% & \\ \hline
+\multirow{2}{*}{bazuka} & \multicolumn{2}{c|}{Regex} & 451 \hspace{8pt} & 1103 \hspace{8pt} & 29.02\% & \multirow{2}{*}{285}\\\cline{2-6}
+    & \multicolumn{2}{c|}{Comby} & 402 \hspace{8pt} & 920 \hspace{8pt} & 30.41\% & \\ \hline
+\multirow{2}{*}{strum} & \multicolumn{2}{c|}{Regex} & 51 \hspace{8pt} & 377 \hspace{8pt}	& 11.92\% & \multirow{2}{*}{90}\\\cline{2-6}
+    & \multicolumn{2}{c|}{Comby} & 50 \hspace{8pt} & 318 \hspace{8pt}	& 13.51\% & \\ \hline
+
+\multirow{6}{*}{Overall} & \multirow{3}{*}{Regex} & Mean & 452.33 & 1392.33	& 23.21\% & \\\cline{3-6}
+    &   &  Median & 418.50 & 1348.50 & 23.38\%  & \\\cline{3-6}
+    &   &  Std. Dev & 309.05 & 656.76 & 12.16\%  & \\\cline{2-6}
+
+ & \multirow{3}{*}{Comby} & Mean & 554.00 & 1055.83	& 29.29\% & \\\cline{3-6}
+    &   &  Median & 384.00 & 1059.50	& 25.60\%  & \\\cline{3-6}
+    &   &  Std. Dev & 592.63 & 508.30 & 21.63\%  & \\\hline
+\end{tabular}
+
+}
+\end{table}
+
 
 
 % ---------------- Rust table UM Only --------------------------
