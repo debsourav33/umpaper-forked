@@ -1011,41 +1011,6 @@ strum            & 90           & $\frac{51}{428}$     & 11.92\%  & $\frac{50}{3
 \end{tabularx}}
 \end{table}
 
-\begin{table}[hbtp]
-\centering
-\caption{Rust (Regex vs. Comby)}
-\label{tab:table_rust1}
-\resizebox{\columnwidth}{!}{%
-\begin{tabular}{|c|c|c|r|r|r|c|}
-\hline
- & \multicolumn{2}{c|}{} & \textbf{Valid} & \textbf{Invalid} & \textbf{Valid \%} &  \textbf{LOC} \\ \hline
-\multirow{2}{*}{cargo release} & \multicolumn{2}{c|}{Regex} & 851 \hspace{8pt} &	1163 \hspace{8pt} & 42.25\%  & \multirow{2}{*}{346}\\\cline{2-6}
-    & \multicolumn{2}{c|}{Comby} & 1690 \hspace{8pt} & 711 \hspace{8pt} & 70.39\% & \\ \hline
-\multirow{2}{*}{passerine} & \multicolumn{2}{c|}{Regex} & 213 \hspace{8pt} & 2081 \hspace{8pt} & 9.29\% & \multirow{2}{*}{376}\\\cline{2-6}
-    & \multicolumn{2}{c|}{Comby} & 173 \hspace{8pt} & 1518 \hspace{8pt} & 10.23\% & \\ \hline
-\multirow{2}{*}{typos} & \multicolumn{2}{c|}{Regex} & 386 \hspace{8pt} & 1534 \hspace{8pt} & 20.10\% & \multirow{2}{*}{463}\\\cline{2-6}
-    & \multicolumn{2}{c|}{Comby} & 366 \hspace{8pt} & 1199 \hspace{8pt} &	 23.39\% & \\ \hline
-    
-\multirow{2}{*}{ord} & \multicolumn{2}{c|}{Regex} & 762 \hspace{8pt}	& 2096 \hspace{8pt} & 26.66\% & \multirow{2}{*}{533}\\\cline{2-6}
-    & \multicolumn{2}{c|}{Comby} & 643 \hspace{8pt} & 1669 \hspace{8pt} & 27.81\% & \\ \hline
-\multirow{2}{*}{bazuka} & \multicolumn{2}{c|}{Regex} & 451 \hspace{8pt} & 1103 \hspace{8pt} & 29.02\% & \multirow{2}{*}{285}\\\cline{2-6}
-    & \multicolumn{2}{c|}{Comby} & 402 \hspace{8pt} & 920 \hspace{8pt} & 30.41\% & \\ \hline
-\multirow{2}{*}{strum} & \multicolumn{2}{c|}{Regex} & 51 \hspace{8pt} & 377 \hspace{8pt}	& 11.92\% & \multirow{2}{*}{90}\\\cline{2-6}
-    & \multicolumn{2}{c|}{Comby} & 50 \hspace{8pt} & 318 \hspace{8pt}	& 13.51\% & \\ \hline
-
-\multirow{6}{*}{Overall} & \multirow{3}{*}{Regex} & Mean & 452.33 & 1392.33	& 23.21\% & \\\cline{3-6}
-    &   &  Median & 418.50 & 1348.50 & 23.38\%  & \\\cline{3-6}
-    &   &  Std. Dev & 309.05 & 656.76 & 12.16\%  & \\\cline{2-6}
-
- & \multirow{3}{*}{Comby} & Mean & 554.00 & 1055.83	& 29.29\% & \\\cline{3-6}
-    &   &  Median & 384.00 & 1059.50	& 25.60\%  & \\\cline{3-6}
-    &   &  Std. Dev & 592.63 & 508.30 & 21.63\%  & \\\hline
-\end{tabular}
-
-}
-\end{table}
-
-
 
 % ---------------- Rust table UM Only --------------------------
 \begin{table}[hbtp]
@@ -1288,6 +1253,7 @@ Project & Mutants & \makecell{\textbf{Mut.} \\ \textbf{Score}} & \textbf{\% Eqv.
 }
 \end{table}
 
+
 % ---------------- JAVA table (UM vs Others) --------------------------
 
 \begin{table}[htbp]
@@ -1341,6 +1307,31 @@ Project & Mutants & \makecell{\textbf{Mut.} \\ \textbf{Score}} & \textbf{\% Eqv.
     &   &  \multicolumn{2}{c|}{Std. Dev} & 0.35 & 0.00\%\\ \hline
     
 \end{tabular}
+}
+\end{table}
+
+
+
+
+% ---------------- JAVA table (UM vs Others) --------------------------
+
+\begin{table}[htbp]
+\centering
+{\small
+\caption{Java (Our Implementation vs. PIT vs. LittleDarwin)}
+\label{tab:table_java2}
+\begin{tabularx}{\columnwidth}{l|rrr|rrr|rrr}
+\hline
+                 & \mc{3}{c|}{Comby}   & \mc{3}{c|}{PIT} & \mc{3}{c}{LittleDarwin} \\
+\textbf{Project} & \textbf{Mutants} &  \makecell{\textbf{Mutation} \\ \textbf{Score}} & \textbf{\% Eqv}
+& \textbf{Mutants} &  \makecell{\textbf{Mutation} \\ \textbf{Score}} & \textbf{\% Eqv} 
+& \textbf{Mutants} &  \makecell{\textbf{Mutation} \\ \textbf{Score}} & \textbf{\% Eqv} \\ \midrule
+
+pebble & 85 & 0.81 & 50\% & 20 & 0.95 & N/A & 8 & 1.00 0\% \\
+... \\\midrule
+\textbf{Mean} &  XX & XX & XX & XX & XX & XX & XX & XX & XX \\
+\textbf{Std.Dev.} &  XX & XX & XX & XX & XX & XX & XX & XX & XX \\
+\end{tabularx}
 }
 \end{table}
 
