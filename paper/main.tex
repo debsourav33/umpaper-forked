@@ -1327,34 +1327,19 @@ Project & Mutants & \makecell{\textbf{Mut.} \\ \textbf{Score}} & \textbf{\% Eqv.
 & \textbf{Mutants} &  \makecell{\textbf{Mutation} \\ \textbf{Score}} & \textbf{\% Eqv} 
 & \textbf{Mutants} &  \makecell{\textbf{Mutation} \\ \textbf{Score}} & \textbf{\% Eqv} \\ \midrule
 
-pebble & 85 & 0.81 & 50\% & 20 & 0.95 & N/A & 8 & 1.00 0\% \\
-... \\\midrule
-\textbf{Mean} &  XX & XX & XX & XX & XX & XX & XX & XX & XX \\
-\textbf{Std.Dev.} &  XX & XX & XX & XX & XX & XX & XX & XX & XX \\
+pebble & 85 & 0.81 & 20\% & 20 & 0.95 & N/A & 8 & 1.00 & 0\% \\
+spring-hateoas & 176 & 0.37 & 0\% & 114 & 0.28 & N/A & 38 & 0.39 & 0\% \\
+javacc & 503 & 0.21 & 0\% & 143 & 0.21 & N/A & 82 & 0.78 & 0\% \\
+coffee-gb & 174 & 0.23 & 0\% & 36 & 0.89 & N/A & 29 & 0.38 & 0\% \\
+egads & 622 & 0.71 & 10\% & 107 & 0.81 & N/A & 85 & 0.87 & 0\% \\
+apk-parser & 338 & 0.08 & 0\% & 89 & 0.16 & N/A & 33 & 0.09 & 0\% \\
+\midrule
+\textbf{Mean} &  316.33 & 0.40 & 5.00\% & 84.83 & 0.55 & N/A & 45.83 & 0.59 & 0.00\% \\
+\textbf{Std.Dev.} &  210.81 & 0.29 & 8.37\% & 47.60 & 0.37 & N/A & 30.93 & 0.35 & 0.00\%8
+ \\
 \end{tabularx}
 }
 \end{table}
-
-% ----------------  Python table (UM vs Others) -------------------------------
-
-\begin{table}[htbp]
-\centering
-{\small
-\caption{Python (Our Implementation vs. Mutmut vs. CosmicRay)}
-\label{tab:table_python2}
-\begin{tabularx}{\columnwidth}{l|rrr|rrr|rrr}
-\toprule
-                 & \mc{3}{c|}{Comby}   & \mc{3}{c|}{MutMut} & \mc{3}{c}{CosmicRay} \\
-\textbf{Project} & \textbf{Mutants} &  \makecell{\textbf{Mutation} \\ \textbf{Score}} & \textbf{\% Eqv}
-& \textbf{Mutants} &  \makecell{\textbf{Mutation} \\ \textbf{Score}} & \textbf{\% Eqv} 
-& \textbf{Mutants} &  \makecell{\textbf{Mutation} \\ \textbf{Score}} & \textbf{\% Eqv} \\ \midrule
-keract  & & & & & & & \\
-\textbf{Mean} &  XX & XX & XX & XX & XX & XX & XX & XX & XX \\
-\textbf{Std.Dev.} &  XX & XX & XX & XX & XX & XX & XX & XX & XX \\
-\end{tabularx}
-}
-\end{table}
-
 
 % ----------------  Python table (UM vs Others) -------------------------------
 
@@ -1460,26 +1445,6 @@ keract  & & & & & & & \\
     
 \end{tabular}
 }
-\end{table}
-
-
-
-% ---------------- Rust table (UM vs Others)--------------------------
-
-\begin{table}[htbp]
-\centering
-{\small
-\caption{Rust (Our Implementation vs. Cargo-Mutants)}
-\label{tab:table_rust2}
-\begin{tabularx}{\columnwidth}{X|crr|crr}
-\hline
-        & \multicolumn{3}{c|}{Comby}  & \multicolumn{3}{c}{cargo-mutants} \\ 
-Project & Mutants & \makecell{\textbf{Mut.} \\ \textbf{Score}} & \textbf{\% Eqv.} & Mutants & \makecell{\textbf{Mut.} \\ \textbf{Score}} & \textbf{\% Eqv.} \\[1ex]\midrule
-
-cargo release & & & & & \\    
-\textbf{Mean}   & FIXME & 0.29 & 16.67\% & FIXME & 0.33 & N/A\\
-\textbf{Std. Dev} & FIXME & 0.37 & 13.66\%   & FIXME & 0.38 & N/A \\\bottomrule
-\end{tabularx}}
 \end{table}
 
 Previous studies comparing mutation tools for Java
