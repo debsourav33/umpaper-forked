@@ -1448,6 +1448,26 @@ keract  & & & & & & & \\
 }
 \end{table}
 
+
+
+% ---------------- Rust table (UM vs Others)--------------------------
+
+\begin{table}[htbp]
+\centering
+{\small
+\caption{Rust (Our Implementation vs. Cargo-Mutants)}
+\label{tab:table_rust2}
+\begin{tabularx}{\columnwidth}{X|crr|crr}
+\hline
+        & \multicolumn{3}{c|}{Comby}  & \multicolumn{3}{c}{cargo-mutants} \\ 
+Project & Mutants & \makecell{\textbf{Mut.} \\ \textbf{Score}} & \textbf{\% Eqv.} & Mutants & \makecell{\textbf{Mut.} \\ \textbf{Score}} & \textbf{\% Eqv.} \\[1ex]\midrule
+
+cargo release & & & & & \\    
+\textbf{Mean}   & FIXME & 0.29 & 16.67\% & FIXME & 0.33 & N/A\\
+\textbf{Std. Dev} & FIXME & 0.37 & 13.66\%   & FIXME & 0.38 & N/A \\\bottomrule
+\end{tabularx}}
+\end{table}
+
 Previous studies comparing mutation tools for Java
 \cite{MajorPIT,gopinath2017does,CommACMJavaTool} found that results
 for individual projects often varied considerably across tools without
