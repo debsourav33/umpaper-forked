@@ -1044,7 +1044,7 @@ mutants is good, and a rate below 10\% is very good.
 \caption{C++ (Our Implementation vs. Dextool). We cannot measure equivalent mutants for Dextool and thus omit the column.}
 \label{tab:table_cpp2}
 \begin{tabularx}{\columnwidth}{X|rrr|rr}
-\hline
+\toprule
         & \multicolumn{3}{c|}{\textbf{Comby}}  & \multicolumn{2}{c}{\textbf{Dextool}} \\ 
 \textbf{Project} & \textbf{Muts.} & \makecell{\textbf{Mut.} \\ \textbf{Score}} & \textbf{\% Eqv.} & \textbf{Muts.} & \makecell{\textbf{Mut.} \\ \textbf{Score}} \\[1ex]\midrule
  ompl &  564 & 0.07 & 40\% & 278 & 0.08  \\
@@ -1052,9 +1052,9 @@ mutants is good, and a rate below 10\% is very good.
  rethinkdb\_rebirth &  492 & 0.10 & 20\% & 25 & 0.36 \\
  xoreos &  2280 & 0.01 & 10\% & 414 & 0.02  \\
  libxmljs &  790 & 0.62 & 10\% & 830 & 0.46 \\[0.5ex]
- tiny-differentiable-simulator &  770 & 0.04 & 0\% & 61 & 0.21  \\
+ tiny-differentiable-simulator &  770 & 0.04 & 0\% & 61 & 0.21  \\\midrule
 \textbf{Mean}   & 837.83 & 0.29 & 16.67\% & 276.67 & 0.33\\
-\textbf{Std. Dev} & 745.78 & 0.37 & 13.66\%   & 311.56 & 0.38 \\\bottomrule
+\textbf{Std.Dev.} & 745.78 & 0.37 & 13.66\%   & 311.56 & 0.38 \\\bottomrule
 \end{tabularx}}
 \end{table}
 
@@ -1093,88 +1093,29 @@ apk-parser & 338 & 0.08 & 0\% & 89 & 0.16  & 33 & 0.09 \\
 
 % ----------------  Python table (UM vs Others) -------------------------------
 
-\begin{table}[htbp]
+\begin{table*}[htbp]
 \centering
-{\small
+{
 \caption{Python (Our Implementation vs. Mutmut vs. CosmicRay)}
 \label{tab:table_python2}
-\begin{tabularx}{\columnwidth}{l|rrr|rrr|rrr}
-\hline
-                 & \mc{3}{c|}{Comby}   & \mc{3}{c|}{Mutmut} & \mc{3}{c}{CosmicRay} \\
-\textbf{Project} & \textbf{Mutants} &  \makecell{\textbf{Mutation} \\ \textbf{Score}} & \textbf{\% Eqv}
-& \textbf{Mutants} &  \makecell{\textbf{Mutation} \\ \textbf{Score}} & \textbf{\% Eqv} 
-& \textbf{Mutants} &  \makecell{\textbf{Mutation} \\ \textbf{Score}} & \textbf{\% Eqv} \\ \midrule
-\hline
+\begin{tabular}{l|rrr|rrr|rrr}
+\toprule
+                 & \mc{3}{c|}{\textbf{Comby}}   & \mc{3}{c|}{\textbf{Mutmut}} & \mc{3}{c}{\textbf{CosmicRay}} \\
+\textbf{Project} & \textbf{Muts} &  \makecell{\textbf{Mut.} \\ \textbf{Score}} & \textbf{\% Eqv}
+& \textbf{Muts.} &  \makecell{\textbf{Mut.} \\ \textbf{Score}} & \textbf{\% Eqv} 
+& \textbf{Muts.} &  \makecell{\textbf{Mut.} \\ \textbf{Score}} & \textbf{\% Eqv} \\ \midrule
+\midrule
 keract & 1471 & 0.26 & 10\% & 482 & 0.72 & 10\% & 921 & 0.27 & 10\% \\
 dtw & 866 & 0.55 & 10\% & 270 & 0.44 & 0\% & 713 & 0.46 & 20\% \\
 notion-sdk-py & 196 & 0.60 & 20\% & 63 & 0.65 & 0\% & 52 & 0.44 & 0\% \\
 atlassian-python-api & 333 & 0.62 & 40\% & 174 & 0.71 & 10\% & 106 & 0.74 & 10\% \\
 ESD & 1712 & 0.07 & 10\% & 720 & 0.08 & 0\% & 1013 & 0.06 & 10\% \\
-Fiber & 458 & 0.64 & 20\% & 222 & 0.57 & 40\% & 320 & 0.81 & 0\% \\
+Fiber & 458 & 0.64 & 20\% & 222 & 0.57 & 40\% & 320 & 0.81 & 0\% \\\midrule
 \textbf{Mean} &  839.33 & 0.46 & 18.00\% & 321.83 & 0.53 & 10.00\% & 520.93 & 0.46 & 8.33\% \\
-\textbf{Std.Dev.} &  628.80 & 0.24 & 11.69\% & 239.04 & 0.24 & 15.49\% & 417.50 & 0.28 & 7.53\%
-        
-\end{tabularx}
-}
-\end{table}
-
-
-% ----------------  Python table (UM vs Others) -------------------------------
-
-\begin{table}[htbp]
-\centering
-\caption{Python (Our Implementation vs. Mutmut vs. CosmicRay)}
-\label{tab:table_python2}
-\resizebox{\columnwidth}{!}{
-\begin{tabular}{|c|c|r|r|r|r|}
-\hline
- &  & \textbf{Killed} & \textbf{Not Killed} &  \makecell{\textbf{Mutation} \\ \textbf{Score}} & \textbf{Equivalent \%} \\ \hline
-
- \multirow{4}{*}{\small keract} & Regex & 463 & 1192 & 0.28 & 0\% \\\cline{2-6}
-    & Comby & 383 & 1088 & 0.26 & 10\% \\\cline{2-6}
-    & Mutmut & 349 & 133 & 0.72 & 10\% \\ \cline{2-6}
-    & CosmicRay & 250 & 671 & 0.27 & 10\% \\ \hline
-\multirow{3}{*}{\small dtw} & Regex & 506 & 467 & 0.52 & 10\% \\\cline{2-6}
-    & Comby & 475 & 391 & 0.55 & 10\% \\ \cline{2-6}
-    & Mutmut & 118 & 152 & 0.44 & 0\% \\ \cline{2-6}
-    & CosmicRay & 328 & 385 & 0.46 & 20\% \\ \hline
-\multirow{3}{*}{\small notion-sdk-py} & Regex & 112 & 84 & 0.57 & 10\% \\\cline{2-6}
-    & Comby & 118 & 78 & 0.60 & 20\% \\ \cline{2-6}
-    & Mutmut & 41 & 22 & 0.65 & 0\%\\ \cline{2-6}
-    & CosmicRay & 23 & 29 & 0.44 & 0\%\\ \hline
-    
-\multirow{3}{*}{\makecell{\small atlassian-python \\ api}} & Regex & 193 & 109 & 0.64 & 20\%\\\cline{2-6}
-    & Comby & 207 & 126 & 0.62 & 40\% \\ \cline{2-6}
-    & Mutmut & 123 & 51 & 0.71 & 10\% \\ \cline{2-6}
-    & CosmicRay & 78 & 28 & 0.74 & 10\% \\ \hline
-\multirow{3}{*}{\small ESD} & Regex & 132 & 1727 & 0.07 & 30\%\\\cline{2-6}
-    & Comby & 121 & 1591 & 0.07 & 10\%\\ \cline{2-6}
-    & Mutmut & 57 & 663 & 0.08 & 0\%\\ \cline{2-6}
-    & CosmicRay & 63 & 950 & 0.06 & 10\%\\ \hline
-\multirow{3}{*}{\small fiber} & Regex & 307 & 186 & 0.62 & 10\%\\\cline{2-6}
-    & Comby & 291 & 167 & 0.64 & 20\%\\ \cline{2-6}
-    & Mutmut & 127 & 95 & 0.57 & 40\%\\ \cline{2-6}
-    & CosmicRay & 259 & 61 & 0.81 & 0\%\\ \hline
-    
-\multirow{12}{*}{Overall} & \multirow{3}{*}{Regex} & \multicolumn{2}{c|}{Mean} & 0.45  & 13.00\%\\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Median} & 0.55 & 10.00\%\\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.23 & 10.33\%\\\cline{2-6}
-
- & \multirow{3}{*}{Comby} & \multicolumn{2}{c|}{Mean} & 0.46 & 18.00\%\\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Median} & 0.58 & 15.00\%\\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.24 & 11.69\%\\\cline{2-6}
-
- & \multirow{3}{*}{Mutmut} & \multicolumn{2}{c|}{Mean} & 0.53 & 10.00\%\\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Median} & 0.61 & 5.00\%\\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.24 & 15.49\%\\\cline{2-6}
-    
- & \multirow{3}{*}{CosmicRay} & \multicolumn{2}{c|}{Mean} & 0.46 & 8.33\%\\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Median} & 0.45 & 10.00\%\\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.28 & 7.53\%\\ \hline
-    
+\textbf{Std.Dev.} &  628.80 & 0.24 & 11.69\% & 239.04 & 0.24 & 15.49\% & 417.50 & 0.28 & 7.53\% \\\bottomrule        
 \end{tabular}
 }
-\end{table}
+\end{table*}
 
 
 % ---------------- Rust table (UM vs Others)--------------------------
