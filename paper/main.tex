@@ -803,10 +803,10 @@ tiny-diff.-simulator &  195 & $\frac{747}{1282}$ &58.27\% &$\frac{770}{1214}$ & 
 \end{tabularx}
 \begin{tabularx}{\columnwidth}{Xllrrr}
                   & &       & Valid  & Invalid  & \% \\\midrule
- \multirow{6}{*}{\textbf{Overall}} & \multirow{3}{*}{Regex} & Mean     & 890.67 &  1553.83 & 35.28\% \\
+ \multirow{4}{*}{\textbf{Overall}} & \multirow{2}{*}{Regex} & Mean     & 890.67 &  1553.83 & 35.28\% \\
 %                          & & Med.    & 671.00 & 1579.00  & 23.88\%   \\
                           & & Std.Dev. & 787.62 & 956.31   & 19.48\%  \\\cline{2-6}
-  & \multirow{3}{*}{Comby}  & Mean     & 837.83 & 1352.50 & 38.75\%  \\
+  & \multirow{2}{*}{Comby}  & Mean     & 837.83 & 1352.50 & 38.75\%  \\
 %                         & & Med.    & 667.00 & 1267.00 & 27.86\%  \\
                          & & Std.Dev. & 745.78 & 1058.33& 21.66\%  \\\bottomrule
  \end{tabularx}
@@ -824,10 +824,10 @@ tiny-diff.-simulator &  195 & $\frac{747}{1282}$ &58.27\% &$\frac{770}{1214}$ & 
 \end{tabularx}
 \begin{tabularx}{\columnwidth}{Xllrrr}
               & & & Valid  & Invalid  & \% \\\midrule
-\multirow{6}{*}{\textbf{Overall}} & \mr{3}{Regex} & Mean     &  345.83 & 1545.00  & 17.74\% \\
+\multirow{4}{*}{\textbf{Overall}} & \mr{2}{Regex} & Mean     &  345.83 & 1545.00  & 17.74\% \\
 %              &   & Med.     & 299.50 & 1524.50 & 16.90\%  \\
               &   & Std.Dev. & 203.86 & 467.98 & 8.73\%  \\\cline{2-6}
-& \mr{3}{Comby} & Mean     & 309.17 & 786.17 & 27.22\% \\
+& \mr{2}{Comby} & Mean     & 309.17 & 786.17 & 27.22\% \\
 %              &   & Med.     & 253.50 & 724.50 & 24.79\% \\
               &   & Std.Dev. & 202.44 & 235.24  & 15.59\% \\\bottomrule
 \end{tabularx}
@@ -924,9 +924,9 @@ dtw              & ... \\
 \end{tabularx}
 \begin{tabularx}{\columnwidth}{Xllrrrrrr}
                   && &  Red.     & Valid  & Invalid  & \% \\\midrule
-\multirow{6}{*}{Overall} & \multirow{3}{*}{Regex} & Mean &  565.00 & 913.00 & 1267.33 & 31.19\%  & \\
+\multirow{4}{*}{Overall} & \multirow{2}{*}{Regex} & Mean &  565.00 & 913.00 & 1267.33 & 31.19\%  & \\
     &   &  Std. Dev & 584.79  & 708.93 & 813.35 & 11.06\%  \\
- & \multirow{3}{*}{Comby} & Mean & 839.33 & 840.67 & 416.67 & 35.84\% \\
+ & \multirow{2}{*}{Comby} & Mean & 839.33 & 840.67 & 416.67 & 35.84\% \\
   &   &  Std. Dev &  211.62 & 628.79 & 418.99 & 12.28\%   \\
 \end{tabularx}}
 \end{table}
@@ -1210,8 +1210,9 @@ Project & $\frac{killed}{total}$ & \makecell{\textbf{Mut.} \\ \textbf{Score}} & 
 % & \multirow{3}{*}{Dextool} & \multicolumn{2}{c|}{Mean} & 0.33 & N/A\\\cline{3-6}
 %    &   &  \multicolumn{2}{c|}{Median} & 0.29 & N/A \\\cline{3-6}
 %    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.38 & N/A \\ \hline
-\end{tabularx}
-}
+\textbf{Mean}   & -- & 0.29 & 16.67\% & -- & 0.33 & N/A\\
+\textbf{Std. Dev} & -- & 0.37 & 13.66\%   & -- & 0.38 & N/A \\\bottomrule
+\end{tabularx}}
 \end{table}
 
 
