@@ -869,26 +869,28 @@ strum            & 90           & 428     & 11.92\% & 368     & 13.58\% \\\botto
 
 \begin{table}[hbtp]
 \centering
-{\small
-\caption{Regex vs. Comby for Python, including redundant mutants.}
-\label{tab:table_pyrust}
-\begin{tabularx}{\columnwidth}{X|r|rcr|rcr}
+{\footnotesize % feels bad man but it's definitely easier than most other alternatives
+\caption{Regex vs. Comby for Python.   LOC describes the project files considered. Muts. is total number of mutants generated for those files. \claire{FIXME: what's an invalid mutant for python?}  We can use TCE to check for redundant Python mutants, shown under ``Red.''}
+\label{tab:table_python1}
+\begin{tabularx}{\columnwidth}{l|r|rcr|rcr}
 \toprule\toprule
                  &                 & \multicolumn{3}{c|}{\textbf{Regex}}             &\multicolumn{3}{c}{\textbf{Comby}}  \\[1ex]
-\textbf{Project} & \textbf{LOC}    & red.  & $\frac{valid}{total}$ & \textbf{\%} & red. & $\frac{valid}{total}$ &  \textbf{\%} \\[1ex]\midrule
-keract           & 402             & 729       & $\frac{1655}{3984}$   & 41.53\%     & 533       & $\frac{1471}{3067}$   & 47.96\% \\[1ex]
-dtw              & 118             & 567       & $\frac{973}{2106}$   & 46.20\%     & 639       & $\frac{866}{1835}$   & 47.19\% \\[1ex]
-notion-sdk-py    & 189             & 82        & $\frac{196}{1038}$   & 18.89\%     & 122       & $\frac{196}{1019}$   & 19.23\% \\[1ex]
-atlassian-python-api    & 236             & 207        & $\frac{302}{1541}$   & 19.99\%     & 351       & $\frac{333}{1319}$   & 25.25\% \\[1ex]
-ESD              & 698            & 1642      & $\frac{1859}{6268}$   & 29.46\%     & 614       & $\frac{1712}{3874}$   & 44.18\% \\[1ex]
-fiber            & 358            & 163      & $\frac{493}{1565}$   & 31.08\%     & 241       & $\frac{458}{1466}$   & 31.24\% \\[1ex]
+\textbf{Project} & \textbf{LOC}    & \textbf{Muts.} & \textbf{Red.}  & \textbf{\% Valid} & \textbf{Muts.} & \textbf{Red.}   &  \textbf{\% Valid} \\\midrule
+keract           & 402             & 3984  & 729   & 41.53\%           & 3067  & 533    & 47.96\% \\
+dtw              & 118             & 2106  & 567   & 46.20\%           & 1835  & 639    & 47.19\% \\
+notion-          & \mr{2}{189}     & \mr{2}{1038}  & \mr{2}{82}    & \mr{2}{18.89\%}           & \mr{2}{1019}  & \mr{2}{122}    & \mr{2}{19.23\%} \\
+sdk-py           & & & & & & \\[0.5ex]
+atlassian-       & \mr{2}{236}      & \mr{2}{1541}  & \mr{2}{207}   & \mr{2}{19.99\%}           & 1319  & \mr{2}{351}    & \mr{2}{25.25\%} \\
+python-api       & & & & & & \\[0.5ex]
+ESD              & 698             & 6268  & 1642  & 29.46\%           & 3874  & 614    & 44.18\% \\
+fiber            & 358             & 1565  & 163   & 31.08\%           & 1466  & 241    & 31.24\% \\\bottomrule
 \end{tabularx}
 \begin{tabularx}{\columnwidth}{Xllrrrrrr}
-                  && &  Red.     & Valid  & Invalid  & \% \\\midrule
-\multirow{4}{*}{Overall} & \multirow{2}{*}{Regex} & Mean &  565.00 & 913.00 & 1267.33 & 31.19\%  & \\
-    &   &  Std. Dev & 584.79  & 708.93 & 813.35 & 11.06\%  \\
+                  && &  \textbf{Red.}     & \textbf{Valid}  & \textbf{Invalid}  & \textbf{\% Valid} \\\midrule
+\multirow{4}{*}{\textbf{Overall}} & \multirow{2}{*}{Regex} & Mean &  565.00 & 913.00 & 1267.33 & 31.19\%  & \\
+    &   &  Std.Dev. & 584.79  & 708.93 & 813.35 & 11.06\%  \\
  & \multirow{2}{*}{Comby} & Mean & 839.33 & 840.67 & 416.67 & 35.84\% \\
-  &   &  Std. Dev &  211.62 & 628.79 & 418.99 & 12.28\%   \\
+  &   &  Std.Dev. &  211.62 & 628.79 & 418.99 & 12.28\%   \\\bottomrule
 \end{tabularx}}
 \end{table}
 
@@ -1039,100 +1041,24 @@ mutants is good, and a rate below 10\% is very good.
 \begin{table}[htbp]
 \centering
 {\small
-\caption{C++ (Our Implementation vs. Dextool)}
+\caption{C++ (Our Implementation vs. Dextool). We cannot measure equivalent mutants for Dextool and thus omit the column.}
 \label{tab:table_cpp2}
-\begin{tabularx}{\columnwidth}{X|crr|crr}
+\begin{tabularx}{\columnwidth}{X|rrr|rr}
 \hline
-        & \multicolumn{3}{c|}{Comby}  & \multicolumn{3}{c}{Dextool} \\ 
-Project & Mutants & \makecell{\textbf{Mut.} \\ \textbf{Score}} & \textbf{\% Eqv.} & Mutants & \makecell{\textbf{Mut.} \\ \textbf{Score}} & \textbf{\% Eqv.} \\[1ex]\midrule
- ompl &  564 & 0.07 & 40\% & 278 & 0.08 & N/A \\
- libgraphqlparser &  131 & 0.90 & 20\% & 52 & 0.96 & N/A \\
- rethinkdb\_rebirth &  492 & 0.10 & 20\% & 25 & 0.36 & N/A \\
- xoreos &  2280 & 0.01 & 10\% & 414 & 0.02 & N/A \\
- libxmljs &  790 & 0.62 & 10\% & 830 & 0.46 & N/A \\
- tiny-differentiable-simulator &  770 & 0.04 & 0\% & 61 & 0.21 & N/A \\
-
-%\multirow{3}{*}{\small libgraphqlparser} & Comby & 116 & 15 & 0.89 & 20\% \\ \cline{2-6}
-%    & Dextool & 50 & 2 & 0.96 & N/A \\ \hline
-%\multirow{3}{*}{\small rethinkdb\_rebirth} & Comby & 49 & 443 & 0.10 & 20\% \\ \cline{2-6}
-%    & Dextool & 9 & 16 & 0.36 & N/A \\ \hline
-    
-%\multirow{3}{*}{\small xoreos} & Comby & 33 & 2247 & 0.01 & 10\% \\ \cline{2-6}
-%    & Dextool & 8 & 406 & 0.02 & N/A \\ \hline
-%\multirow{3}{*}{\small libxmljs}  & Comby & 507 & 283 & 0.64 & 10\% \\ \cline{2-6}
-%    & Dextool & 383 & 447 & 0.46 & N/A \\ \hline
-%\multirow{3}{*}{\small tiny-differentiable-simulator} & Comby & 32 & 738 & 0.04 & 0\% \\ \cline{2-6}
-%    & Dextool & 13 & 48 & 0.21 & N/A\\ \hline
-%    
-%\multirow{9}{*}{Overall}\multirow{3}{*}{Comby} & \multicolumn{2}{c|}{Mean} & 0.29 & 16.67\% \\\cline{3-6}
-%    &   &  \multicolumn{2}{c|}{Median} & 0.09 & 15.00\% \\\cline{3-6}
-%    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.37 & 13.66\% \\\cline{2-6}
-%
-% & \multirow{3}{*}{Dextool} & \multicolumn{2}{c|}{Mean} & 0.33 & N/A\\\cline{3-6}
-%    &   &  \multicolumn{2}{c|}{Median} & 0.29 & N/A \\\cline{3-6}
-%    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.38 & N/A \\ \hline
-\textbf{Mean}   & 837.83 & 0.29 & 16.67\% & 276.67 & 0.33 & N/A\\
-\textbf{Std. Dev} & 745.78 & 0.37 & 13.66\%   & 311.56 & 0.38 & N/A \\\bottomrule
+        & \multicolumn{3}{c|}{\textbf{Comby}}  & \multicolumn{2}{c}{\textbf{Dextool}} \\ 
+\textbf{Project} & \textbf{Muts.} & \makecell{\textbf{Mut.} \\ \textbf{Score}} & \textbf{\% Eqv.} & \textbf{Muts.} & \makecell{\textbf{Mut.} \\ \textbf{Score}} \\[1ex]\midrule
+ ompl &  564 & 0.07 & 40\% & 278 & 0.08  \\
+ libgraphqlparser  &  131 & 0.90 & 20\% & 52 & 0.96  \\
+ rethinkdb\_rebirth &  492 & 0.10 & 20\% & 25 & 0.36 \\
+ xoreos &  2280 & 0.01 & 10\% & 414 & 0.02  \\
+ libxmljs &  790 & 0.62 & 10\% & 830 & 0.46 \\[0.5ex]
+ tiny-differentiable-simulator &  770 & 0.04 & 0\% & 61 & 0.21  \\
+\textbf{Mean}   & 837.83 & 0.29 & 16.67\% & 276.67 & 0.33\\
+\textbf{Std. Dev} & 745.78 & 0.37 & 13.66\%   & 311.56 & 0.38 \\\bottomrule
 \end{tabularx}}
 \end{table}
 
 
-% ---------------- JAVA table (UM vs Others) --------------------------
-
-\begin{table}[htbp]
-\centering
-\caption{Java (Our Implementation vs. PIT vs. LittleDarwin)}
-\label{tab:table_java2}
-\resizebox{\columnwidth}{!}{
-\begin{tabular}{|c|c|r|r|r|r|}
-\hline
- &  & \textbf{Killed} & \textbf{Not Killed} &  \makecell{\textbf{Mutation} \\ \textbf{Score}} & \textbf{Equivalent \%} \\ \hline
-
- \multirow{4}{*}{\small pebble} & Regex & 70 & 16 & 0.81 & 50\% \\\cline{2-6}
-    & Comby & 68 & 17 & 0.80 & 20\% \\\cline{2-6}
-    & PIT & 19 & 1 & 0.95 & N/A \\ \cline{2-6}
-    & LittleDarwin & 8 & 0 & 1.00 & 0\% \\ \hline
-\multirow{4}{*}{\small spring-hateoas} & Regex & 82 & 166 & 0.33 & 0\% \\\cline{2-6}
-    & Comby & 65 & 111 & 0.37 & 0\% \\ \cline{2-6}
-    & PIT & 82 & 32 & 0.28 & N/A \\ \cline{2-6}
-    & LittleDarwin & 15 & 23 & 0.39 & 0\% \\ \hline
-\multirow{4}{*}{\small javacc} & Regex & 123 & 419 & 0.23 & 0\% \\\cline{2-6}
-    & Comby & 103 & 400 & 0.21 & 0\% \\ \cline{2-6}
-    & PIT & 30 & 113 & 0.21 & N/A\\ \cline{2-6}
-    & LittleDarwin & 64 & 18 & 0.78 & 0\%\\ \hline
-\multirow{4}{*}{\small coffee-gb} & Regex & 48 & 176 & 0.21 & 0\%\\\cline{2-6}
-    & Comby & 40 & 134 & 0.23 & 0\% \\ \cline{2-6}
-    & PIT & 32 & 4 & 0.89 & N/A \\ \cline{2-6}
-    & LittleDarwin & 11 & 18 & 0.38 & 0\%\\ \hline
-\multirow{4}{*}{\small egads} & Regex & 442 & 182 & 0.71 & 20\% \\\cline{2-6}
-    & Comby & 422 & 200 & 0.71 & 10\% \\ \cline{2-6}
-    & PIT & 87 & 20 & 0.81 & N/A \\ \cline{2-6}
-    & LittleDarwin & 74 & 11 & 0.87 & 0\% \\ \hline
-\multirow{4}{*}{\small apk-parser} & Regex & 26 & 325 & 0.07 & 10\%\\\cline{2-6}
-    & Comby & 26 & 312 & 0.08 & 0\%\\ \cline{2-6}
-    & PIT & 14 & 75  & 0.16 & N/A\\ \cline{2-6}
-    & LittleDarwin & 3 & 30 & 0.09 & 0\%\\ \hline
-    
-\multirow{12}{*}{Overall} & \multirow{3}{*}{Regex} & \multicolumn{2}{c|}{Mean} & 0.39  & 13.33\%\\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Median} & 0.28 & 5.00\% \\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.30 & 19.66\% \\\cline{2-6}
-
- & \multirow{3}{*}{Comby} & \multicolumn{2}{c|}{Mean} & 0.40 & 5.00\%\\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Median} & 0.30 & 0.00\% \\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.29 & 8.37\%\\\cline{2-6}
-
- & \multirow{3}{*}{PIT} & \multicolumn{2}{c|}{Mean} & 0.55 & N/A\\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Median} & 0.55 & N/A \\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.37 & N/A \\\cline{2-6}
-    
- & \multirow{3}{*}{LittleDarwin} & \multicolumn{2}{c|}{Mean} & 0.59 & 0.00\%\\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Median} & 0.59 & 0.00\%\\\cline{3-6}
-    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.35 & 0.00\%\\ \hline
-    
-\end{tabular}
-}
-\end{table}
-
 
 
 
@@ -1140,27 +1066,27 @@ Project & Mutants & \makecell{\textbf{Mut.} \\ \textbf{Score}} & \textbf{\% Eqv.
 
 \begin{table}[htbp]
 \centering
-{\small
-\caption{Java (Our Implementation vs. PIT vs. LittleDarwin)}
+\caption{Java (Our Implementation vs. PIT vs. LittleDarwin). \claire{FIXME: explain why no eqv for PIT.} LittleDarwin produces no equivalent mutants.\claire{right?}}
 \label{tab:table_java2}
-\begin{tabularx}{\columnwidth}{l|rrr|rrr|rrr}
-\hline
-                 & \mc{3}{c|}{Comby}   & \mc{3}{c|}{PIT} & \mc{3}{c}{LittleDarwin} \\
-\textbf{Project} & \textbf{Mutants} &  \makecell{\textbf{Mutation} \\ \textbf{Score}} & \textbf{\% Eqv}
-& \textbf{Mutants} &  \makecell{\textbf{Mutation} \\ \textbf{Score}} & \textbf{\% Eqv} 
-& \textbf{Mutants} &  \makecell{\textbf{Mutation} \\ \textbf{Score}} & \textbf{\% Eqv} \\ \midrule
+\resizebox{\columnwidth}{!}{% again don't love it, but footnotesize is actually smaller than necessary
+\begin{tabular}{l|rrr|rr|rr}
+\toprule
+                 & \mc{3}{c|}{\textbf{Comby}}   & \mc{2}{c|}{\textbf{PIT}} & \mc{2}{c}{\textbf{LittleDarwin}} \\
+\textbf{Project} & \textbf{Muts.} &  \makecell{\textbf{Mut.} \\ \textbf{Score}} & \textbf{\% Eqv}
+& \textbf{Muts.} &  \makecell{\textbf{Mut.} \\ \textbf{Score}}
+& \textbf{Muts.} &  \makecell{\textbf{Mut.} \\ \textbf{Score}} \\ \midrule
 
-pebble & 85 & 0.81 & 20\% & 20 & 0.95 & N/A & 8 & 1.00 & 0\% \\
-spring-hateoas & 176 & 0.37 & 0\% & 114 & 0.28 & N/A & 38 & 0.39 & 0\% \\
-javacc & 503 & 0.21 & 0\% & 143 & 0.21 & N/A & 82 & 0.78 & 0\% \\
-coffee-gb & 174 & 0.23 & 0\% & 36 & 0.89 & N/A & 29 & 0.38 & 0\% \\
-egads & 622 & 0.71 & 10\% & 107 & 0.81 & N/A & 85 & 0.87 & 0\% \\
-apk-parser & 338 & 0.08 & 0\% & 89 & 0.16 & N/A & 33 & 0.09 & 0\% \\
+pebble & 85 & 0.81 & 20\% & 20 & 0.95  & 8 & 1.00  \\
+spring- & \mr{2}{176} & \mr{2}{0.37} & \mr{2}{0\%} & \mr{2}{114} & \mr{2}{0.28}  & \mr{2}{38} & \mr{2}{0.39}  \\
+hateoas  &    &       &     &    &   &   &   \\[0.5ex]
+javacc & 503 & 0.21 & 0\% & 143 & 0.21  & 82 & 0.78  \\
+coffee-gb & 174 & 0.23 & 0\% & 36 & 0.89 & 29 & 0.38  \\
+egads & 622 & 0.71 & 10\% & 107 & 0.81  & 85 & 0.87  \\
+apk-parser & 338 & 0.08 & 0\% & 89 & 0.16  & 33 & 0.09 \\
 \midrule
-\textbf{Mean} &  316.33 & 0.40 & 5.00\% & 84.83 & 0.55 & N/A & 45.83 & 0.59 & 0.00\% \\
-\textbf{Std.Dev.} &  210.81 & 0.29 & 8.37\% & 47.60 & 0.37 & N/A & 30.93 & 0.35 & 0.00\%
- \\
-\end{tabularx}
+\textbf{Mean} &  316.33 & 0.40 & 5.00\% & 84.83 & 0.55  & 45.83 & 0.59  \\
+\textbf{Std.Dev.} &  210.81 & 0.29 & 8.37\% & 47.60 & 0.37 & 30.93 & 0.35 \\\bottomrule
+\end{tabular}
 }
 \end{table}
 
@@ -1296,6 +1222,26 @@ Fiber & 458 & 0.64 & 20\% & 222 & 0.57 & 40\% & 320 & 0.81 & 0\% \\
     
     
 \end{tabular}
+}
+\end{table}
+
+
+
+\begin{table}[htbp]
+\centering
+{\small
+\caption{Rust (Our Implementation vs. Cargo-Mutants)}
+\label{tab:table_rust2}
+\begin{tabularx}{\columnwidth}{X|crr|crr}
+\hline
+        & \multicolumn{3}{c|}{Comby}  & \multicolumn{3}{c}{Cargo-Mutants} \\ 
+Project & Mutants & \makecell{\textbf{Mut.} \\ \textbf{Score}} & \textbf{\% Eqv.} & Mutants & \makecell{\textbf{Mut.} \\ \textbf{Score}} & \textbf{\% Eqv.} \\[1ex]\midrule
+\hline
+cargo release & \\
+
+\textbf{Mean}   &  \\
+\textbf{Std. Dev} &  \\
+\end{tabularx}
 }
 \end{table}
 
