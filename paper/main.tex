@@ -166,50 +166,37 @@ in syntax to any language it has been applied to previously.
 
 Mutation testing, though introduced in the late
 1970s~\cite{demillo1978hints,mathur2012foundations,demillo1978hints},
-has largely been a topic of academic interest rather than widespread
-practice until quite recently.  However, with the adoption of mutation
+has long been a topic of academic interest.  With the recent adoption of mutation
 testing by bellwether software industry companies including
 Google~\cite{GoogleMut}, Meta~\cite{BellerFacebookMutation}, and
 Amazon~\cite{AmazonMut}, interest in using mutation testing for
-real-world projects has grown widely.
-
-Interest in mutation testing has become widespread enough in the open
+real-world projects has grown widely in practice. 
+%
+Indeed, interest in mutation testing has become widespread enough in the open
 source community that a popular (more than 300 stars on GitHub)
 repository, ``Awesome Mutation Testing,'' lists more than 40 tools,
 covering almost twenty languages:
 \url{https://github.com/theofidry/awesome-mutation-testing}.  Some of
-these tools are the products of academic research, but many are
+these tools are the products of academic research; others are
 essentially the hobby projects of developers interested in enabling
 mutation testing for their favorite language.
 
-However, the same website demonstrates the existence of a sad history
-of mutation testing tools: mutation tools have a tendency to be
-developed for a while and then abandoned.   The page listing abandoned
-mutation testing tools
-(\url{https://github.com/theofidry/awesome-mutation-testing/blob/master/abandoned.md})
-lists almost half as many tools as are under active maintenance, and
-these tools cover approximately half as many languages.  Each of these
-tools required considerable development time and effort, and was
-popular enough at some point to be worth noting in the ``Awesome
-Mutation Testing'' resource.  Many of the abandoned tools have GitHub
-repositories (some archived) with more than 20 stars, and so may well
-have had users who at some point faced the reality of no future bug
-fixes or changes to address changes to the programming language being
-mutated\footnote{While this is a minor concern for languages such as C
-  that are relatively stable, it means that a mutation tool may fail
-  to parse C++ 2020, and is particularly problematic for somewhat
-  fast-moving languages such as Rust.}.  There
-appears to be a significant risk in relying on any mutation tools other
-than the most widely used and well-supported, such as PIT.
+This diversity of tools highlights the growth of widespread interest in mutation
+testing.  However, it also demonstrates various ways that bringing mutation testing to
+typically polyglot modern projects is cumbersome. Each language (or IR, at
+minimum) requires its own underlying mutation and testing framework.
+\clg{Alex, can something be said about 
+  how many LOC the tools we look at are on average, this early?} 
 
-Moreover, newer languages, including ones with considerable interest
+Newer languages, including ones with considerable interest
 in the development community, often lack mutation testing tools.  Even
 languages with a long history may long lack a working mutation testing
-tool; e.g., it was not until 2014 that Haskell had such a tool
-\cite{mucheck}.  Furthermore, that tool is no longer
-supported\footnote{The last commits or package updates were in 2015, and the
+tool; e.g., it was not until 2014 that Haskell had such a tool~\cite{mucheck}. 
+%
+Furthermore, the Haskell mutation tool is no longer
+supported,\footnote{The last commits or package updates were in 2015, and the
 primary author confirms that changes to {\tt haskell-src-ext} since
-introduced render it unusable at present.}, and it
+introduced render it unusable at present.} and it
 appears that no successor tool has appeared in the ensuing
 years\footnote{There is FitSpec~\cite{FitSpec}, which is maintained,
   but FitSpec does not perform traditional mutation testing or produce
@@ -218,9 +205,26 @@ years\footnote{There is FitSpec~\cite{FitSpec}, which is maintained,
 Haskell developers (until now, see below) have no option for
 performing true mutation testing.
 
+Indeed, abandonment is a feature of the sad history
+of many mutation testing tools, exacerbating the challenges of its uptake.  The page listing abandoned
+mutation testing tools
+(\url{https://github.com/theofidry/awesome-mutation-testing/blob/master/abandoned.md})
+lists almost half as many tools as are under active maintenance. Each tool represents 
+considerable development effort, and was
+popular enough to be noted in the ``Awesome
+Mutation Testing'' resource. Many of the abandoned repositories have more than
+20 stars, suggesting inconvenienced users, especially for tools targeting
+evolving languages. While this is a minor concern for languages such as C
+that are relatively stable, it means that a mutation tool may fail
+to parse C++ 2020, and is particularly problematic for 
+faster-moving languages like Rust.
+
+%There
+%appears to be a significant risk in relying on any mutation tools other
+%than the most widely used and well-supported, such as PIT.
 A great deal of research effort has been devoted to devising clever
 schemes for reducing the computational burden of mutation testing over
-the years; in practice, however, the recent adoption of mutation
+the years;\clg{a few references?} in practice, however, the recent adoption of mutation
 testing arguably relies more on the availability of vast (cloud) computing
 resources than any particular approach from the literature, beyond
 heuristic restrictions on the mutants used (e.g., one per line, or
@@ -230,6 +234,12 @@ mutation testing: in the absence of a working mutation testing
 tool for the language in which one is developing software, one cannot
 obtain the benefits of mutation testing.  The absence of such tools is
 due to the high human cost of developing and maintaining mutation
+\clg{OK I don't mind this argument, BUT it kind of seems in conflict with the
+  argument above that says there are a lot of tools and mutation testing is
+  popular.  I think it might be worth shifting the emphasis of this paragraph to
+  be to motivate source-level mutation testing over IR, because that's missing
+  so far and would be good to motivate.  Note that it's also an argument made in
+  the abstract, which I think is a particularly good summary of the paper.}
 testing tools.  Ideally, mutation testing would be available for
 \emph{any} newly proposed programming language, as soon as that
 language has any community of users at all.  In the present
