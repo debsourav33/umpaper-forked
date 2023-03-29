@@ -311,6 +311,18 @@ program transformation provides two major benefits:
       development effort.
       \end{enumerate}
 
+It is true that this approach to mutant generation does pay a cost in
+terms of generating invalid mutants that must be rejected at the
+compilation stage of the mutation testing process.  However, as
+observed by Pizzoleto et al. in their systematic review of mutation
+testing~\cite{pizzoleto2019systematic} cost reduction approaches, mutation testing consists of four
+stages: 1) execution of a test suite on the un-mutated program, 2)
+generation of mutants, 3) execution of the test suite on the mutants,
+and 4) analysis (by a human, usually) of the mutants.  It is only steps 3
+and 4 that are ``very costly,'' as Pizzoletto et al. note.  Our approach increases the costs of
+the second step only, and, as we discuss below, can help reduce
+costs of steps 3 and 4.
+      
 The contributions of this paper are therefore:
 
 \begin{enumerate}
@@ -986,7 +998,7 @@ tiny-diff.-simulator &  195 & $\frac{747}{1282}$ &58.27\% &$\frac{770}{1214}$ & 
 }
 \end{table}
 
-The mean and median percentage of mutants that are valid is higher for
+The mean (and median) percentage of mutants that are valid is higher for
 Comby for all languages.  On average, even for a single modestly sized
 file, using parser combinator combinators saves 100-600 failed
 compilations.
@@ -1082,7 +1094,7 @@ plugin\footnote{\url{https://solidsoft.wordpress.com/2017/09/19/how-fast-or-slow
   executing tests, and failed compiles are usually much
   faster than successful ones.
 
-We estimated mutant equivalency when possible by examining a sample of
+We estimated mutant equivalence when possible by examining a sample of
 10 randomly selected unkilled mutants for each file.  For some tools,
 human inspection of the individual unkilled mutants was not feasible.
 However, we were of course able to estimtate the percent of unkilled
@@ -1097,7 +1109,7 @@ be equivalent.  Schuler and Zeller found about 45\% of unkilled
 mutants of Java programs to be equivalent.  Other reports of lower
 rates, e.g, 9\%~\cite{offutt1997automatically} or 7\%~\cite{TCE}, report the percent of
 \emph{all} mutants, and so translate to much higher rates of
-equivalency for unkilled mutants.  We therefore suggest that as a
+equivalence for unkilled mutants.  We therefore suggest that as a
 fraction of unkilled mutants, a rate of 30\% or fewer equivalent
 mutants is good, and a rate below 10\% is very good.
 
@@ -1316,11 +1328,12 @@ Previous studies comparing mutation tools for Java
 for individual projects often varied considerably across tools without
 indicating a clear advantage for one tool over another.  Our primary
 criteria for comparing tools is whether there is an overall pattern of
-clearly less-effective mutation for our approach.  Below, we discuss
-the question for each language separately.  Each section also
-addresses briefly the question of whether Regex and Comby modes
-perform differently in terms of mutation score and equivalent mutants,
-which is relevant to RQ1.
+clearly less-effective mutation for our approach.  We only report
+results for Comby, as Comby and Regexp approaches produced nearly
+identical mutation scores, and had similar equivalence rates.  In
+fact, Regexp equivalence rates were somewhat lower over all than those
+shown here.  Full results for Regexp mutation execution are included
+in our replication package.
 
 \subsubsection{C++}
 
@@ -1340,16 +1353,13 @@ unkilled mutants.  Even assuming Dextool's mutants are never
 equivalent (highly unlikely) and supposing that a third of our
 generated mutants are equivalent, it seems likely that Dextool is
 missing important mutants in some cases.  Overall, mean mutation
-scores were similar for Dextool and both modes of our tool, while
-median mutation scores were much lower for our tools, which produced
-many more unkilled mutants for some projects.  For C++, there seems to
+scores were similar for Dextool and our tool, while
+median mutation scores were much lower for our tool, which produced
+many more unkilled mutants for some projects.  While our equivalence
+rate was somewhat high for one project, it was otherwise very good
+compared to results in the literature.  For C++, there seems to
 be no reason to suspect that the universal approach is producing
 sub-par mutation testing.
-
-Comparing Regex and Comby modes, mutation scores are very similar, as
-are estimated equivalency rates, though Comby produces a somewhat
-larger number and percentage of equivalent mutants.  Both modes
-produce relatively low mean percentages of equivalent mutants.
 
 \subsubsection{Java}
 
@@ -1357,26 +1367,22 @@ For Java, we compare to PIT, arguably the standard for mutation
 testing tools in real-world usage (and a tool very frequently used in
 the literature) as well as LittleDarwin, a source-based tool.  Our
 tool produces lower but comparable mutation scores, and usually
-acceptable or excellent equivalency rates.  LittleDarwin produces
+acceptable or excellent equivalence rates.  LittleDarwin produces
 \emph{no} equivalent mutants, but is a highly conservative tool, only
 implementing a small set of operators, and not including statement
 deletion.  Our tools always produced more non-equivalent unkilled
-mutants than PIT by a large margin.
-
-Mutation scores for both modes of our tool were again very similar.
-For Java, Comby shows a significant advantage in terms of equivalent
-mutants, with very low equivalency rates compared to Regex.
+mutants than PIT by a large margin.  Our equivalence rates were
+uniformly low, with a median of \emph{no} equivalent mutants.
 
 \subsubsection{Python}
 
 Our comparison of Python mutation tools showed the largest degree of
-similarity between all tools.  Muation scores and equivalency rates
+similarity between all tools.  Muation scores and equivalence rates
 were all, given the large variance expected from previous studies of
 Java tools, quite similar.  Again, there is no clear disadvantage to
 using our approach, and a large advantage in terms of development and
-maintenance ease.  The similarity extends to the two modes of our
-tool, though Comby had a somewhat higher equivalency rate than the
-other tools, including the Regexp mode of our tool.  We discuss
+maintenance ease.  Comby had a somewhat higher equivalence rate than the
+other tools (including the Regexp mode of our tool).  We discuss
 possible reasons for this below.
 
 \subsubsection{Rust}
@@ -1386,17 +1392,19 @@ not generate many mutants.  Mutation scores were broadly similar to
 ours, though lower, and none of the generated mutants we examined were
 equivalent, but for one project Cargo-Mutants did not produce
 \emph{any} mutants even though our tool was able to produce a large
-number of non-equivalent unkilled mutants.  Again, behavior of the two
-modes of our tool was similar, with both having acceptable equivalency
-rates and similar mutation scores.
+number of non-equivalent unkilled mutants.  Our tool did produce a
+very large percentage of equivalent mutants for one project, and high
+percentage for another project, but these numbers are still well
+within the range of expected results in past inspections of
+equivalent mutants.
 
 \subsubsection{Discussion: Summary of Tool Comparisons}
 
 Our tools produce somewhat lower mutation scores than other tools, and
-higher (though still generally good) equivalency rates than some
+higher (though still generally good) equivalence rates than some
 tools, but clearly fall into the same broad similarity of behavior
 reported for high-quality mutation tools in the literature comparing
-Java mutation tools.   The tools with very low or zero equivalency rates, furthermore,
+Java mutation tools.   The tools with very low or zero equivalence rates, furthermore,
 are very conservative in mutation generation, and often simply don't
 produce many mutants.  In fact, inspection of the non-comment source
 lines as measured by CLOC shown in Tables~\ref{tab:table_java1} and
@@ -1411,36 +1419,61 @@ allowing the detection of very subtle remaining holes in tests for
 high-criticality software.
 
 We speculate that our somewhat lower scores and possibly higher
-equivalenc rates derive from the simple fact that we generate more
+equivalence rates derive from the simple fact that we generate more
 mutants than most tools.  The ease of defining mutation operators,
 plus our interest in generating large numbers of mutants and
-prioritizing the most interesting, to make mutation testing useful for
+prioritizing the most interesting, in order to make mutation testing useful for
 projects with extremely high quality test suites, or even using formal
-verification, has encouraged a ``let a thousand flowers bloom''
+verification, has encouraged us to take a ``let a thousand flowers bloom''
 approach to choosing mutation operators.  For example, our approach
 provides many more control-flow mutations than most tools, due to our
 observation that test suites sometimes fail to check for loop
 execution counts other than one and zero.  Few other tools introduce
 {\tt break} and {\tt continue} statements into programs, or transform
-one into the other.  These mutants are often equivalent, but also
-sometimes expose subtle weaknesses in a test suite, in our
+one into the other.  These mutants are often equivalent (in fact, they
+give rise to a large number of our equivalent mutants reported above), but \emph{also
+sometimes expose subtle weaknesses in a high quality test suite}, in our
 experience.  In general, we take our philosophy of mutation from the
 proposal by Gopinath et al.~\cite{Limits,gopinath2017mutation} that
 expanding the set of mutation operations and classes of such
 operations, in the long run, is more important than using only a small
 set of ``good'' operators, in that the end-goal of mutation testing is
-to identify weaknesses in test suites, not simply to estimate a single score.
+to identify weaknesses in test suites, not simply to estimate a single
+score.  
 
 The price paid for this
 expansiveness in allowing ways to detect weaknessess in testing is a
 larger number of mutants to execute, and a somewhat larger number of
-equivalent mutants.  However, for our tool, this observation is not a
+equivalent mutants.  This cost, we observe, falls especially on Comby in some
+cases, because Comby is better at identifying places to inject
+control flow changes that produce valid code, but do yield equivalent mutants in
+many cases.
+
+However, for our approach, this is not a
 fundamental limitation or forced choice.  We propose as future work to
-split the operators for each level of the hierarchy into two sets, one
+split the operators for each level of the hierarchy into (at least) two sets, one
 set of core operators similar to (but larger than) those provided by
 LittleDarwin or Cargo-Mutants, and a set of ``aggressive'' operators
-encompassing our full set of operators, a very simple matter due to
+that includes our full current set of operators, a very simple matter due to
 our approach to mutant generation.
+
+In fact, this brings us back to a point made in the introduction.
+While our approach introduces some unavoidable costs in the
+(relatively cheap, compared to execution and analysis) compilation stage of
+mutation testing, it may offer \emph{more} flexibility in addressing
+execution and analysis stages.  Defining limited custom sets of
+operators to run is trivial in our setting, making it easy to
+execute only, e.g., statement mutations, or, in a numeric-computation
+intensive codebase, only arithmetic operators.  Expanding the
+hierarchical structure to include ``famillies'' of mutation operators
+is trivial, and lets users specify the aggressiveness of mutation
+generation in a simple way.  Our approach also produces actual source
+copies of all generated mutants, making it easy to apply techniques
+like Predictive Mutation Testing~\cite{zhangPMT} that work with source
+code.  This also makes it easy to integrate, as we have, heuristic
+aids to mutant \emph{analysis} such as ranking of unkilled mutants by
+similarity and ``interstingness,'' an approach that has already proven
+useful in using mutation testing to improve static analysis tools~\cite{StatMut}.
 
 \subsection{Haskell Case Study}
 
