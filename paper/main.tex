@@ -31,7 +31,9 @@
 \usepackage{multicol}
 \usepackage{listings}
 \usepackage{booktabs}
-\usepackage{subfig}
+%\usepackage{subfig}
+\usepackage{float}
+\usepackage{subcaption}
 \usepackage{url}
 \usepackage{comment}
 \usepackage{xcolor}
@@ -767,30 +769,58 @@ initial mutant generation, and generally indicates a better
 % ---------------- C++ table UM Only--------------------------
 \begin{table}[hbtp]
 \centering
-\caption{C++ (Regex vs. Comby)}
+\caption{Regex vs. Comby for C++ (top) and Java (bottom)}
+{\begin{subtable}[h]{\columnwidth}
+%\caption{C++ (Regex vs. Comby)}
 \label{tab:table_cpp1}
-\begin{tabular}{l|r|cr|cr}
+\begin{tabularx}{\columnwidth}{X|r|cr|cr}
 \toprule
-                 &              & \multicolumn{2}{c|}{\textbf{Regex}} &\multicolumn{2}{c}{\textbf{Comby}}  \\
+                 &              & \multicolumn{2}{c|}{\textbf{Regex}} &\multicolumn{2}{c}{\textbf{Comby}}  \\[1ex]
 \textbf{Project} & \textbf{LOC} & $\frac{valid}{total}$ & \textbf{\%} & $\frac{valid}{total}$ &  \textbf{\%} \\[1ex]\midrule
 ompl & 525 & $\frac{595}{2533}$ & 23.49\% &  $\frac{564}{2127}$  & 25.94\%   \\[1ex]
 libgraphqlparser& 137 & $\frac{157}{741}$ & 21.19\%  & $\frac{131}{440}$ & 29.77\% \\[1ex]
 rethinkdb\_rebirth &471 &  $\frac{545}{2246}$ & 24.27\% & $\frac{492}{2009}$ & 24.49\% \\[1ex]
 xoreos & 732  & $\frac{2419}{3876}$  & 62.41\% & $\frac{2280}{3297}$ & 69.15\% \\[1ex]
-libxmljs &630 &  $\frac{881}{3989}$ & 22.09\% & $\frac{790}{4008}$ & 19.71\% \\
-tiny-differentiable &  \multirow{2}{*}{195} & \multirow{2}{*}{$\frac{747}{1282}$} & \multirow{2}{*}{58.27\%} & \multirow{2}{*}{$\frac{770}{1214}$} & \multirow{2}{*}{63.43\%} \\
--simulator          & & & & \\[1ex]
-\midrule
-\mc{6}{c}{\textbf{Overall}} \\
-                   &    & \mc{1}{c}{Valid}  & \mc{1}{c}{Invalid} & \mc{1}{c}{\%} \\\midrule
- \multirow{3}{*}{Regex} & Mean & 890.67 &  \mc{1}{r}{1553.83} & 35.28\% \\
-                       &  Med. & 671.00 & \mc{1}{r}{1579.00} & 23.88\%   \\
-                       &  Std.Dev & 787.62 & \mc{1}{r}{956.31} & 19.48\%  \\\midrule
- \multirow{3}{*}{Comby} & Mean & 837.83 & \mc{1}{r}{1352.50} & 38.75\%  \\
-                        &  Med. & 667.00 & \mc{1}{r}{1267.00} & 27.86\%  \\
-                        &  Std.Dev & 745.78 & \mc{1}{r}{1058.33}& 21.66\%  \\\hline
-\end{tabular}
+libxmljs &630 &  $\frac{881}{3989}$ & 22.09\% & $\frac{790}{4008}$ & 19.71\% \\[1ex]
+tiny-diff.-simulator &  195 & $\frac{747}{1282}$ &58.27\% &$\frac{770}{1214}$ & 63.43\% \\[1ex]
+\bottomrule
+\end{tabularx}
+\begin{tabularx}{\columnwidth}{Xllrrr}
+                 & &       & Valid  & Invalid  & \% \\\midrule
+\multirow{6}{*}{\textbf{Overall}} & \multirow{3}{*}{Regex} & Mean     & 890.67 &  1553.83 & 35.28\% \\
+                         & & Med.    & 671.00 & 1579.00  & 23.88\%   \\
+                         & & Std.Dev. & 787.62 & 956.31   & 19.48\%  \\\cline{2-6}
+ & \multirow{3}{*}{Comby}  & Mean     & 837.83 & 1352.50 & 38.75\%  \\
+                        & & Med.    & 667.00 & 1267.00 & 27.86\%  \\
+                        & & Std.Dev. & 745.78 & 1058.33& 21.66\%  \\\bottomrule
+\end{tabularx}
+\end{subtable}}
+\vspace{1ex}
 
+{\begin{subtable}[h]{\columnwidth}
+%\caption{Java }
+\label{tab:table_java1}
+\begin{tabularx}{\columnwidth}{X|r|cr|cr}
+\toprule
+                 &              & \multicolumn{2}{c|}{\textbf{Regex}} &\multicolumn{2}{c}{\textbf{Comby}}  \\
+\textbf{Project} & \textbf{LOC} & $\frac{valid}{total}$ & \textbf{\%} & $\frac{valid}{total}$ &  \textbf{\%} \\[1ex]\midrule
+pebble         & 279 & $\frac{86}{1014}$ & 8.48\% & $\frac{85}{752}$ & 11.30\%  \\[1ex]
+spring-hateoas & 397 & $\frac{248}{2479}$ & 10.00\% & $\frac{172}{1384}$ & 12.43\%  \\[1ex]
+javacc         & 363 & $\frac{542}{1888}$ & 28.70\% & $\frac{494}{1281}$ & 38.71\%  \\[1ex]
+coffee-gb      & 463 & $\frac{224}{1927}$ & 11.63\% & $\frac{174}{798}$ & 21.80\% \\[1ex]
+egads          & 252 & $\frac{624}{2427}$ & 25.43\% & $\frac{597}{1163}$ & 51.33\%  \\[1ex]
+apk-parser     & 324 & $\frac{351}{1583}$ & 22.17\% & $\frac{333}{1199}$ & 27.77\%  \\[1ex]
+\end{tabularx}
+\begin{tabularx}{\columnwidth}{Xllrrr}
+              & & & Valid  & Invalid  & \% \\\midrule
+\multirow{6}{*}{\textbf{Overall}} & \mr{3}{Regex} & Mean     &  345.83 & 1545.00  & 17.74\% \\
+              &   & Med.     & 299.50 & 1524.50 & 16.90\%  \\
+              &   & Std.Dev. & 203.86 & 467.98 & 8.73\%  \\\cline{2-6}
+& \mr{3}{Comby} & Mean     & 309.17 & 786.17 & 27.22\% \\
+              &   & Med.     & 253.50 & 724.50 & 24.79\% \\
+              &   & Std.Dev. & 202.44 & 235.24  & 15.59\% \\\bottomrule
+\end{tabularx}
+\end{subtable}}
 \end{table}
 
 % % ---------------- C++ table UM Only--------------------------
@@ -833,31 +863,6 @@ tiny-differentiable &  \multirow{2}{*}{195} & \multirow{2}{*}{$\frac{747}{1282}$
 % ---------------- JAVA table UM Only--------------------------
 \begin{table}[hbtp]
 \centering
-\caption{Java (Regex vs. Comby)}
-\label{tab:table_java1}
-
-\begin{tabular}{l|r|cr|cr}
-\toprule
-                 &              & \multicolumn{2}{c|}{\textbf{Regex}} &\multicolumn{2}{c}{\textbf{Comby}}  \\
-\textbf{Project} & \textbf{LOC} & $\frac{valid}{total}$ & \textbf{\%} & $\frac{valid}{total}$ &  \textbf{\%} \\[1ex]\midrule
-pebble         & 279 & $\frac{86}{1014}$ & 8.48\% & $\frac{85}{752}$ & 11.30\%  \\[1ex]
-spring-hateoas & 397 & $\frac{248}{2479}$ & 10.00\% & $\frac{172}{1384}$ & 12.43\%  \\[1ex]
-javacc         & 363 & $\frac{542}{1888}$ & 28.70\% & $\frac{494}{1281}$ & 38.71\%  \\[1ex]
-coffee-gb      & 463 & $\frac{224}{1927}$ & 11.63\% & $\frac{174}{798}$ & 21.80\% \\[1ex]
-egads          & 252 & $\frac{624}{2427}$ & 25.43\% & $\frac{597}{1163}$ & 51.33\%  \\[1ex]
-apk-parser     & 324 & $\frac{351}{1583}$ & 22.17\% & $\frac{333}{1199}$ & 27.77\%  \\[1ex]
-
-% \multirow{6}{*}{Overall} & \multirow{3}{*}{Regex} & Mean & 345.83 & 1545.00  & 17.74\%& \\\cline{3-6}
-%     &   &  Median & 299.50 & 1524.50 & 16.90\%  & \\\cline{3-6}
-%     &   &  Std. Dev & 203.86 & 467.98 & 8.73\%  & \\\cline{2-6}
-
-%  & \multirow{3}{*}{Comby} & Mean & 309.17 & 786.17 & 27.22\% & \\\cline{3-6}
-%     &   &  Median & 253.50 & 724.50 & 24.79\%  & \\\cline{3-6}
-%     &   &  Std. Dev & 202.44 & 235.24  & 15.59\%  & \\\hline
-
-
-\end{tabular}
-
 \end{table}
 
   
