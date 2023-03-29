@@ -1209,8 +1209,14 @@ mutants is good, and a rate below 10\% is very good.
 \begin{tabularx}{\columnwidth}{X|crr|crr}
 \hline
         & \multicolumn{3}{c|}{Comby}  & \multicolumn{3}{c}{Dextool} \\ 
-Project & Mutants & \makecell{\textbf{Mut.} \\ \textbf{Score}} & \textbf{\% Eqv.} & $\frac{killed}{total}$ & \makecell{\textbf{Mut.} \\ \textbf{Score}} & \textbf{\% Eqv.} \\[1ex]\midrule
+Project & Mutants & \makecell{\textbf{Mut.} \\ \textbf{Score}} & \textbf{\% Eqv.} & Mutants & \makecell{\textbf{Mut.} \\ \textbf{Score}} & \textbf{\% Eqv.} \\[1ex]\midrule
  ompl &  564 & 0.07 & 40\% & 278 & 0.08 & N/A \\
+ libgraphqlparser &  131 & 0.90 & 20\% & 52 & 0.96 & N/A \\
+ rethinkdb\_rebirth &  492 & 0.10 & 20\% & 25 & 0.36 & N/A \\
+ xoreos &  2280 & 0.01 & 10\% & 414 & 0.02 & N/A \\
+ libxmljs &  790 & 0.62 & 10\% & 830 & 0.46 & N/A \\
+ tiny-differentiable-simulator &  770 & 0.04 & 0\% & 61 & 0.21 & N/A \\
+
 %\multirow{3}{*}{\small libgraphqlparser} & Comby & 116 & 15 & 0.89 & 20\% \\ \cline{2-6}
 %    & Dextool & 50 & 2 & 0.96 & N/A \\ \hline
 %\multirow{3}{*}{\small rethinkdb\_rebirth} & Comby & 49 & 443 & 0.10 & 20\% \\ \cline{2-6}
@@ -1230,8 +1236,8 @@ Project & Mutants & \makecell{\textbf{Mut.} \\ \textbf{Score}} & \textbf{\% Eqv.
 % & \multirow{3}{*}{Dextool} & \multicolumn{2}{c|}{Mean} & 0.33 & N/A\\\cline{3-6}
 %    &   &  \multicolumn{2}{c|}{Median} & 0.29 & N/A \\\cline{3-6}
 %    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.38 & N/A \\ \hline
-\textbf{Mean}   & FIXME & 0.29 & 16.67\% & FIXME & 0.33 & N/A\\
-\textbf{Std. Dev} & FIXME & 0.37 & 13.66\%   & FIXME & 0.38 & N/A \\\bottomrule
+\textbf{Mean}   & 837.83 & 0.29 & 16.67\% & 276.67 & 0.33 & N/A\\
+\textbf{Std. Dev} & 745.78 & 0.37 & 13.66\%   & 311.56 & 0.38 & N/A \\\bottomrule
 \end{tabularx}}
 \end{table}
 
