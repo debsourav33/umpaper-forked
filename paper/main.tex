@@ -1122,27 +1122,27 @@ mutants is good, and a rate below 10\% is very good.
 
 \begin{table}[htbp]
 \centering
-{\small
-\caption{Java (Our Implementation vs. PIT vs. LittleDarwin)}
+\caption{Java (Our Implementation vs. PIT vs. LittleDarwin). \claire{FIXME: explain why no eqv for PIT.} LittleDarwin produces no equivalent mutants.\claire{right?}}
 \label{tab:table_java2}
-\begin{tabularx}{\columnwidth}{l|rrr|rrr|rrr}
-\hline
-                 & \mc{3}{c|}{Comby}   & \mc{3}{c|}{PIT} & \mc{3}{c}{LittleDarwin} \\
-\textbf{Project} & \textbf{Mutants} &  \makecell{\textbf{Mutation} \\ \textbf{Score}} & \textbf{\% Eqv}
-& \textbf{Mutants} &  \makecell{\textbf{Mutation} \\ \textbf{Score}} & \textbf{\% Eqv} 
-& \textbf{Mutants} &  \makecell{\textbf{Mutation} \\ \textbf{Score}} & \textbf{\% Eqv} \\ \midrule
+\resizebox{\columnwidth}{!}{% again don't love it, but footnotesize is actually smaller than necessary here
+\begin{tabular}{l|rrr|rr|rr}
+\toprule
+                 & \mc{3}{c|}{\textbf{Comby}}   & \mc{2}{c|}{\textbf{PIT}} & \mc{2}{c}{\textbf{LittleDarwin}} \\
+\textbf{Project} & \textbf{Muts.} &  \makecell{\textbf{Mut.} \\ \textbf{Score}} & \textbf{\% Eqv}
+& \textbf{Muts.} &  \makecell{\textbf{Mut.} \\ \textbf{Score}}
+& \textbf{Muts.} &  \makecell{\textbf{Mut.} \\ \textbf{Score}} \\ \midrule
 
-pebble & 85 & 0.81 & 20\% & 20 & 0.95 & N/A & 8 & 1.00 & 0\% \\
-spring-hateoas & 176 & 0.37 & 0\% & 114 & 0.28 & N/A & 38 & 0.39 & 0\% \\
-javacc & 503 & 0.21 & 0\% & 143 & 0.21 & N/A & 82 & 0.78 & 0\% \\
-coffee-gb & 174 & 0.23 & 0\% & 36 & 0.89 & N/A & 29 & 0.38 & 0\% \\
-egads & 622 & 0.71 & 10\% & 107 & 0.81 & N/A & 85 & 0.87 & 0\% \\
-apk-parser & 338 & 0.08 & 0\% & 89 & 0.16 & N/A & 33 & 0.09 & 0\% \\
+pebble & 85 & 0.81 & 20\% & 20 & 0.95  & 8 & 1.00  \\
+spring- & \mr{2}{176} & \mr{2}{0.37} & \mr{2}{0\%} & \mr{2}{114} & \mr{2}{0.28}  & \mr{2}{38} & \mr{2}{0.39}  \\
+hateoas  &    &       &     &    &   &   &   \\[0.5ex]
+javacc & 503 & 0.21 & 0\% & 143 & 0.21  & 82 & 0.78  \\
+coffee-gb & 174 & 0.23 & 0\% & 36 & 0.89 & 29 & 0.38  \\
+egads & 622 & 0.71 & 10\% & 107 & 0.81  & 85 & 0.87  \\
+apk-parser & 338 & 0.08 & 0\% & 89 & 0.16  & 33 & 0.09 \\
 \midrule
-\textbf{Mean} &  316.33 & 0.40 & 5.00\% & 84.83 & 0.55 & N/A & 45.83 & 0.59 & 0.00\% \\
-\textbf{Std.Dev.} &  210.81 & 0.29 & 8.37\% & 47.60 & 0.37 & N/A & 30.93 & 0.35 & 0.00\%8
- \\
-\end{tabularx}
+\textbf{Mean} &  316.33 & 0.40 & 5.00\% & 84.83 & 0.55  & 45.83 & 0.59  \\
+\textbf{Std.Dev.} &  210.81 & 0.29 & 8.37\% & 47.60 & 0.37 & 30.93 & 0.35 \\\bottomrule
+\end{tabular}
 }
 \end{table}
 
