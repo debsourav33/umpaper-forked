@@ -1339,6 +1339,27 @@ pebble & 85 & 0.81 & 50\% & 20 & 0.95 & N/A & 8 & 1.00 0\% \\
 
 \begin{table}[htbp]
 \centering
+{\small
+\caption{Python (Our Implementation vs. Mutmut vs. CosmicRay)}
+\label{tab:table_python2}
+\begin{tabularx}{\columnwidth}{l|rrr|rrr|rrr}
+\toprule
+                 & \mc{3}{c|}{Comby}   & \mc{3}{c|}{MutMut} & \mc{3}{c}{CosmicRay} \\
+\textbf{Project} & \textbf{Mutants} &  \makecell{\textbf{Mutation} \\ \textbf{Score}} & \textbf{\% Eqv}
+& \textbf{Mutants} &  \makecell{\textbf{Mutation} \\ \textbf{Score}} & \textbf{\% Eqv} 
+& \textbf{Mutants} &  \makecell{\textbf{Mutation} \\ \textbf{Score}} & \textbf{\% Eqv} \\ \midrule
+keract  & & & & & & & \\
+\textbf{Mean} &  XX & XX & XX & XX & XX & XX & XX & XX & XX \\
+\textbf{Std.Dev.} &  XX & XX & XX & XX & XX & XX & XX & XX & XX \\
+\end{tabularx}
+}
+\end{table}
+
+
+% ----------------  Python table (UM vs Others) -------------------------------
+
+\begin{table}[htbp]
+\centering
 \caption{Python (Our Implementation vs. Mutmut vs. CosmicRay)}
 \label{tab:table_python2}
 \resizebox{\columnwidth}{!}{
@@ -1439,6 +1460,26 @@ pebble & 85 & 0.81 & 50\% & 20 & 0.95 & N/A & 8 & 1.00 0\% \\
     
 \end{tabular}
 }
+\end{table}
+
+
+
+% ---------------- Rust table (UM vs Others)--------------------------
+
+\begin{table}[htbp]
+\centering
+{\small
+\caption{Rust (Our Implementation vs. Cargo-Mutants)}
+\label{tab:table_rust2}
+\begin{tabularx}{\columnwidth}{X|crr|crr}
+\hline
+        & \multicolumn{3}{c|}{Comby}  & \multicolumn{3}{c}{cargo-mutants} \\ 
+Project & Mutants & \makecell{\textbf{Mut.} \\ \textbf{Score}} & \textbf{\% Eqv.} & Mutants & \makecell{\textbf{Mut.} \\ \textbf{Score}} & \textbf{\% Eqv.} \\[1ex]\midrule
+
+cargo release & & & & & \\    
+\textbf{Mean}   & FIXME & 0.29 & 16.67\% & FIXME & 0.33 & N/A\\
+\textbf{Std. Dev} & FIXME & 0.37 & 13.66\%   & FIXME & 0.38 & N/A \\\bottomrule
+\end{tabularx}}
 \end{table}
 
 Previous studies comparing mutation tools for Java
