@@ -1181,18 +1181,16 @@ fraction of unkilled mutants, a rate of 30\% or fewer equivalent
 mutants is good, and a rate below 10\% is very good.
 
 % ---------------- C++ table (UM vs Others)--------------------------
-\iffalse
 \begin{table}[htbp]
 \centering
+{\small
 \caption{C++ (Our Implementation vs. Dextool)}
 \label{tab:table_cpp2}
-\resizebox{\columnwidth}{!}{
-\begin{tabular}{|c|c|r|r|r|r|}
+\begin{tabularx}{\columnwidth}{X|crr|crr}
 \hline
- & \multicolumn{3}{c|}{Comby}  & \multicolumn{3}{c|}{Dextool} \\ 
- & $\frac{killed}{total}$ & \makecell{\textbf{Mutation} \\ \textbf{Score}} & \textbf{\% Equiv.} & $\frac{killed}{total}$ & \makecell{\textbf{Mutation} \\ \textbf{Score}} & \textbf{\% Equiv.} \\[1ex]\midrule
- \multirow{3}{*}{\small ompl} & Comby & 41 & 523 & 0.07 & 40\% \\\cline{2-6}
-    & Dextool & 23 & 255 & 0.08 & N/A \\ \hline
+        & \multicolumn{3}{c|}{Comby}  & \multicolumn{3}{c}{Dextool} \\ 
+Project & $\frac{killed}{total}$ & \makecell{\textbf{Mut.} \\ \textbf{Score}} & \textbf{\% Eqv.} & $\frac{killed}{total}$ & \makecell{\textbf{Mut.} \\ \textbf{Score}} & \textbf{\% Eqv.} \\[1ex]\midrule
+ ompl & $\frac{41}{564}$ & 0.07 & 40\% & $\frac{23}{278}$ & 0.08 & N/A \\[1ex]
 %\multirow{3}{*}{\small libgraphqlparser} & Comby & 116 & 15 & 0.89 & 20\% \\ \cline{2-6}
 %    & Dextool & 50 & 2 & 0.96 & N/A \\ \hline
 %\multirow{3}{*}{\small rethinkdb\_rebirth} & Comby & 49 & 443 & 0.10 & 20\% \\ \cline{2-6}
@@ -1212,10 +1210,9 @@ mutants is good, and a rate below 10\% is very good.
 % & \multirow{3}{*}{Dextool} & \multicolumn{2}{c|}{Mean} & 0.33 & N/A\\\cline{3-6}
 %    &   &  \multicolumn{2}{c|}{Median} & 0.29 & N/A \\\cline{3-6}
 %    &   &  \multicolumn{2}{c|}{Std. Dev} & 0.38 & N/A \\ \hline
-\end{tabular}
+\end{tabularx}
 }
 \end{table}
-\fi
 
 
 \begin{table}[htbp]
