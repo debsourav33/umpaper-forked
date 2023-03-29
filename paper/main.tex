@@ -187,8 +187,9 @@ This diversity of tools highlights the growth of widespread interest in mutation
 testing.  However, it also demonstrates various ways that bringing mutation testing to
 typically polyglot modern projects is cumbersome. Each language (or IR, at
 minimum) requires its own underlying mutation and testing framework.
-\clg{Alex, can something be said about 
-  how many LOC the tools we look at are on average, this early?} 
+Mutation tools are not trivial to develop; the smallest
+single-language tools we examined were nearly 4KLOC, and the mean size
+of a mutation testing tool was over 20K non-comment source lines.
 
 Newer languages, including ones with considerable interest
 in the development community, often lack mutation testing tools.  Even
@@ -226,7 +227,8 @@ faster-moving languages like Rust.
 %than the most widely used and well-supported, such as PIT.
 A great deal of research effort has been devoted to devising clever
 schemes for reducing the computational burden of mutation testing over
-the years;\clg{a few references?} in practice, however, the recent adoption of mutation
+the years (e.g., ~\cite{offutt2001mutation,
+  untch1993mutation,KaufmanFAKAJ2022}); in practice, however, the recent adoption of mutation
 testing arguably relies more on the availability of vast (cloud) computing
 resources than any particular approach from the literature, beyond
 heuristic restrictions on the mutants used (e.g., one per line, or
@@ -236,17 +238,22 @@ mutation testing: in the absence of a working mutation testing
 tool for the language in which one is developing software, one cannot
 obtain the benefits of mutation testing.  The absence of such tools is
 due to the high human cost of developing and maintaining mutation
-\clg{OK I don't mind this argument, BUT it kind of seems in conflict with the
-  argument above that says there are a lot of tools and mutation testing is
-  popular.  I think it might be worth shifting the emphasis of this paragraph to
-  be to motivate source-level mutation testing over IR, because that's missing
-  so far and would be good to motivate.  Note that it's also an argument made in
-  the abstract, which I think is a particularly good summary of the paper.}
-testing tools.  Ideally, mutation testing would be available for
+testing tools.  In particular, new languages may have unstable
+grammars, and few tools to aid developers in parsing and manipulating
+source code.   Ideally, mutation testing would be available for
 \emph{any} newly proposed programming language, as soon as that
 language has any community of users at all.  In the present
 state-of-the-art, however, it may be years before even rudimentary
-tools appear, and they may ``disappear'' shortly there-after.
+tools appear, and they may ``disappear'' shortly there-after.  In
+fact, the difficulties of parsing code make bytecode or IL-level
+mutation a popular recent choice in tool development, despite the advantages of source-based mutation for
+users of mutation testing~\cite{CompareSrcBinary}, including the
+ability to read and understand mutants (which is often essential if
+one aims to add a test to kill a mutant) and to define mutants in
+terms of source-level language (or even project/library)-specific
+features.  Moreover, even this arguably less desirable bytecode mutation
+approach is not available for languages that do not compile to, e.g.,
+Java or LLVM bytecode, such as Haskell.
 
 In this paper, we argue that developing a large number of mutation
 testing tools, each requiring its own development community, workflow
@@ -366,7 +373,7 @@ character is not another {\tt ``+''}.  This may still in some cases produce
 invalid mutants, but rejecting such mutants is easy, since they will fail
 to compile.  Of course, we pay the price of
 compiling each mutant at generation
-time.
+time.  
 
 On the positive side, this argues that we can replace a
 complex implementation requiring parsing and analysis with
@@ -407,20 +414,14 @@ strings with a possibly-empty amount of white space followed by a
 character pattern indicating a line of source code, with the same
 source code, preserving indentation, turned into a comment.
 
-\clg{I know we're walking a line on UM anonymity but I think we should cite it
-  here, just in the third person.}
-Using regular expressions to express mutants has many benefits.  While
+Using regular expressions to express mutants has many benefits, and
+has been demonstrated to be possible, with a relatively small code base~\cite{regexpMut}.  While
 much more expressive than simple string replacement, regular
 expressions are familliar to most developers.  In principle,
 development of complex regular expressions for operators can even be
 performed by simply providing examples~\cite{bartoli2014automatic}  or
 describing the operator in natural
 language~\cite{zhong2018generating}.  
-\clg{Just as a note (feel free to read and delete): I tried to cut out our
-  hypothetical Python program because I read it and was like OK well then why
-  didn't you write it? Or show me if it's so short? You know? And I felt like
-  the point could be made without it. I think reference to UM here does the
-  trick as well really}
 These approaches speak to the potential of string manipulation-based approaches
 for mutation testing, without the need for program parsing or analysis. 
 
@@ -474,7 +475,7 @@ constructs common to e.g.,  Java, C, and C++ ({{\tt if}, {\tt while},
 
 \begin{table}[hbtp]
 \centering
-\caption{Rule Examples}
+\caption{Regular Expression Rule Examples}
 \label{tab:rules}
 \resizebox{\columnwidth}{!}{%
 
@@ -494,29 +495,13 @@ constructs common to e.g.,  Java, C, and C++ ({{\tt if}, {\tt while},
 
 \end{table}
   
-\clg{OK this is confusing and I don't know how to fix it.  Two problems.  (1) we
-  haven't actually introduced a tool yet so talking about something from its
-  implementation is confusing.  We do have kind of a hypothetical tool, though
-  I've been removing specific references to it, because it wasn't clear enough
-  that it was supposed to represent our ACTUAL implementation and it was
-  confusing me.  If we'd like it to introduce an actual implementation, then we
-  might undo my changes there, but make it clear we're introducing an
-  implementation and not a thought experiment.  Problem (2) is that a lot of
-  this paper (and even the intro/abstract to date) is about using parser
-  combinators for this, not regular expressions.  So talking about using regular
-  expressions in our not-introduced implementation when alter we'll be talking
-  about parser combinators as a contribution is also confusing.  Beyond
-  ``concretize our hypothetical tool into introduicng actual tool, other
-  solutions I can think of are (1) forward ref a section of an implementation and expand slightly this
-  sentence to be like ``taken directly from our implementation of a regular
-  expression approach to syntactic mutation (Section FOO)'', or (2) be more abstract
-  about it here, like ``Table X shows examples of universal rules...we discuss
-  them further and how such rules are used in our implementation in Section
-  FOO.''.  Maybe those are the same I dunno.}
 Table~\ref{tab:rules} shows examples of universal, C-like, and
 language-specific rules for a few languages, taken directly from our
-implementation.  In all cases, the form of a rule is: {\tt regexp
-  ==> replacement}, using Python regular expression and replacement syntax.
+implementation of regular-expression based operators (see Section \ref{sec:imp}).  In all cases, the form of a rule is: {\tt regexp
+  ==> replacement}, using Python regular expression and replacement
+syntax.  While these rules are non-trivial to write and read, we show
+below that using parser parser combinators often simplifies and
+clarifies such rules.
 
 The first column shows universal rules applied to
 all languages, here drawn from the large set of transformations for
@@ -535,24 +520,7 @@ program, however, only the first column of rules and the second rule
 in the last column apply, as Python is not sufficiently ``C-like''.
 
 
-\subsection{Incremental Mutation}
-
-One obvious concern with any-language source-based mutation is that every time the
-program changes, the cost of invalid mutations must be paid again.
-However, the locality of mutants and source changes in fact means this
-is seldom required.
-
-The {\tt git merge-file} utility takes a base file and two modified
-versions of that file, and produces an automatic merge, using the
-usual git merge resolution algorithm.    Because a mutant is a (very
-small) source change, this means that in practice updating a mutant to
-reflect even large changes to a source file is cost-free, and if the
-original mutant was valid, the new mutant will usually also be valid.
-New mutant generation is only required for new lines of code and
-modified lines of code.  To the extent development is incremental,
-therefore, mutant generation can also be incremental.
-
-\section{Beyond Regular Expressions with Parser Parser Combinators}
+\subsection{Beyond Regular Expressions with Parser Parser Combinators}
 % Better to frame this as "Beyond regex with PPC" than "PPC instead of RE" 
 % instead of RE" because RE pattern matching can be implemented by PPCs,
 % they are just pattern matching functions that can be restricted to lexical
@@ -561,27 +529,21 @@ therefore, mutant generation can also be incremental.
 % general/more universal matching engine abstraction at the expressivity level
 % where we care about mutating source syntax with CFG properties.
 
-\clg{OK.  I think maybe ??? This section works better as a subsection in the
-  previous section, which can build to ``beyond...'' Then this text can/should
-  start with a TINY bit more transition from the regular expression thing we've
-  discussed so far to motivate comby ``instead'' (even though it's not really
-  instead.)  This is more a point for discussion than a unilateral decree, but
-  it feels like it flows better as a complete story.  Otherwise it's not super
-  clear what the point of Section 2 was, if Section 3 is the real thing we're
-  proposing? Is it? On that note, if we do this, I think we can/should move
-  ``Incremental Mutation'' down to implementation even if we didn't do it, just
-  as a point of discussion like ``oh btw we could do it if we wanted it's
-  easy.'' Otherwise it kind of disrupts the flow AND hierararies of operators
-  leads REALLY REALLY nicely into the parse parser combinator approach.}
-\clg{Either way regardless this needs a better starting transition haha.}
-We implement a lightweight parser-driven approach that attunes mutation
-operators to language-general syntax-aware transformations. For example, our
-operators can ensure syntactically well-formed outputs (e.g., transformations
-must preserve balanced parentheses or braces). More generally, operators are
-sensitive to coarse-grained context-free grammar properties. These operators go
-beyond the expressivity of regular expressions (which are typically limited to
-lexical transformations) to generate \emph{varied} and \emph{valid}
-programs during mutation testing.
+
+
+
+While regular expressions have been shown to be capable of driving mutant generation, we
+propose going beyond regular expressions using a lightweight
+parser-driven approach that attunes mutation operators to
+language-general syntax-aware transformations. Such operators can
+perform tasks that go beyond regular transforms and ensure
+syntactically well-formed outputs (e.g., transformations must preserve
+balanced parentheses or braces). More generally, operators can be made
+sensitive to coarse-grained context-free grammar properties. In short,
+these
+operators go beyond the expressivity of regular expressions (which are
+typically limited to lexical transformations) to generate more
+\emph{varied} and more \emph{valid} mutants.
 
 Parser parser combinators~\cite{vanTonderPPC} is a recent approach enabling
 syntax-transformation for multiple languages, and (we show) an apt choice for
@@ -596,14 +558,14 @@ expressive properties of parser parser combinators is covered in prior
 literature~\cite{vanTonderPPC}; in this paper we demonstrate that their application is
 uniquely effective for universal source-based mutation testing. In
 particular, we
-build mutation operators with \texttt{comby},\footnote{https://comby.dev} the tool that implements parser parser
+build mutation operators with Comby\footnote{https://comby.dev}, the tool that implements parser parser
 combinators to declaratively match and rewrite source code syntax. 
 
 Comby is especially suited for matching multi-line code blocks and
 disambiguating code from comments and strings---constructs that otherwise
 confound and complicate regular expression patterns. Comby supports over 40
 languages and implements a generic parser for additional languages to recognize
-these syntactic constructs. The following is a brief overview of Comby
+their syntactic constructs. The following is a brief overview of Comby
 definitions and syntax for mutation operators implemented in our approach:
 
 \begin{itemize}
@@ -626,18 +588,53 @@ definitions and syntax for mutation operators implemented in our approach:
 
 \end{itemize}
 
+Table~\ref{tab:crules} shows how the rules in Table~\ref{tab:rules}
+look, when implemented as Comby patterns.  While some simple rules are
+unchanged, others are either more succinct or provide more context as
+to applicability (e.g., only less than between valid holes should be
+mutated).  This shows that a
+further major benefit of using Comby: once a user has learned
+the simple concepts above, it is often much easier to read---and
+especially \emph{write}---mutation
+operator definitions in Comby than using regular expressions.  The
+added precision comes not only ``for free'' but in fact yields a
+benefit for the ``end-user-programmer'' of mutations.
+
 Comby provides mechanisms to further define custom match syntax and behavior
-beyond these standard patterns.\footnote{https://comby.dev/docs/advanced-usage\#custom-language-definitions} \texttt{Comby} patterns can also embed regular expressions, subsuming their
+beyond these standard patterns.\footnote{https://comby.dev/docs/advanced-usage\#custom-language-definitions} Comby patterns can also embed regular expressions, subsuming their
 expressive power to enable regex-based mutation operators intermixed with
-context-free syntax properties.\footnote{https://comby.dev/docs/basic-usage\#using-regular-expressions}
+context-free syntax
+properties\footnote{https://comby.dev/docs/basic-usage\#using-regular-expressions}.
+
+\begin{table}[hbtp]
+\centering
+\caption{Parser Parser Combinator Rule Examples}
+\label{tab:crules}
+\resizebox{\columnwidth}{!}{%
+
+  \begin{tabular}{|l|l|l|}
+    \hline
+    Universal & C-Like & Language-Specific \\
+    \hline
+{\tt :[a]<:[b] ==> :[a]>:[b]} &{\tt  else ==>} & {\tt synchronized ==>} \\ 
+{\tt :[a]<:[b] ==> :[a]==:[b]} & {\tt if (:[cond]) ==> if (!(:[cond]))} &
+                                                                 {\tt
+                                                                          :[ s]:[expr]:[lf~[\textbackslash n]] ==> :[s]pass:[lf]}\\
+{\tt :[a]<:[b] ==> :[a]<=:[b]} & {\tt if (:[cond]) ==> if (1==1)} & {\tt any\_of ==> all\_of}\\
+\hline
+
+\end{tabular}
+}
+\end{table}
 
 \section{Implementation}
+\label{sec:imp}
 
 We implemented our approach in a mutation testing tool, written in
 about 2,200 lines of Python.  The rules defining mutation operators
 for a set of languages including C, C++, Python, Java, Lisp, Swift,
 Rust, Solidity, Fe, Vyper, JavaScript, and Go, required another 436
-lines; this is the total for comby and regexp-based rules, so each
+lines; this is the total for Comby and regexp-based rules, so each
 version requires only 218 lines of rule definitions.  The tool makes
 use of parser parser combinators via the {\tt comby-python} module.
 
@@ -684,6 +681,27 @@ our project, and has been adopted by at least one flagship project
 its officially recommended mutation tool.  We omit details for
 purposes of blinding.
 
+\subsection{Incremental Mutation}
+
+One obvious concern with any-language source-based mutation is that every time the
+program changes, the cost of invalid mutants must be paid again.
+However, the locality of mutants and source changes in fact means this
+is seldom required.
+
+The {\tt git merge-file} utility takes a base file and two modified
+versions of that file, and produces an automatic merge, using the
+usual git merge resolution algorithm.    Because a mutant is a (very
+small) source change, this means that in practice updating a mutant to
+reflect even large changes to a source file is cost-free, and if the
+original mutant was valid, the new mutant will usually also be valid.
+New mutant generation is only required for new lines of code and
+modified lines of code.  To the extent development is incremental,
+therefore, mutant generation can also be incremental.  Our
+implementation allows the use of {\tt git merge-file} to control the
+modification of most mutants, and uses our mechanism for
+selective mutant generation based on coverage to force mutation where
+there is a conflict in a ``mutant patch.''
+
 \section{Experimental Evaluation}
 
 \begin{itemize}
@@ -714,9 +732,9 @@ certainly the most popular and widely used mutation tool.  Python long
 suffered from a lack of working and maintained mutation tools, despite
 a large number of abandoned efforts, though at present it is served by
 multiple maintained, AST-based tools.  Finally, Rust is an ``emerging
-language'' with few tools targeting it.
-\clg{Kinda want a table (or a pointer to tables) with projects per language.
-  Definitely want a pointer to at least Table 6, with the tools we compare to.}
+language'' with few tools targeting it.  Table~\ref{tab:mutationtools}
+gives an overview of tools we identified for each language as working tools
+capable of single-file mutant generation.
 
 To evaluate both RQ1 and RQ2 we assembled a set of 24 source files,
 six from each language.  We first selected, using the GitHub search
@@ -756,7 +774,7 @@ particularly rule readability, a second advantage is a reduction in
 the number of invalid mutants generated.
 
 Tables~\ref{tab:table_cpp1}-\ref{tab:table_rust1} compare generated
-mutants for ``Regex'' and ``Comby'' modes of our tool.  Invalid
+mutants for Regex and Comby modes of our tool.  Invalid
 mutants are mutants that the tool produces, but which fail to
 compile.  The cost of each such mutant is usually small,
 since compilation generally fails early for trivial reasons (e.g.,
@@ -764,7 +782,6 @@ since compilation generally fails early for trivial reasons (e.g.,
 but reducing the number of such mutants directly reduces the cost of
 initial mutant generation, and generally indicates a better
 ``understanding'' of the source being mutated.
-\clg{What are LOC in the tables?}
 
 % ---------------- C++ table UM Only--------------------------
 \begin{table}[hbtp]
@@ -1057,7 +1074,13 @@ generally similar, except for tools that produced very few mutants.
 We expect that our approach is generally slower for initial mutant
 generation, due to a higher number of invalid mutants, but that this
 cost is relatively small compared to the time required to compile and
-execute valid mutants for almost all projects.
+execute valid mutants for almost all projects.  An informal study of
+large Java projects by the author of the PIT gradle
+plugin\footnote{\url{https://solidsoft.wordpress.com/2017/09/19/how-fast-or-slow-mutation-testing-really-is/}}
+  suggests that even a successful compile of a typical project takes
+  somewhere between one-sixth to one-third the time required for
+  executing tests, and failed compiles are usually much
+  faster than successful ones.
 
 We estimated mutant equivalency when possible by examining a sample of
 10 randomly selected unkilled mutants for each file.  For some tools,
