@@ -1217,7 +1217,11 @@ number of non-equivalent unkilled mutants.  Our tool did produce a
 very large percentage of equivalent mutants for one project, and high
 percentage for another project, but these numbers are still well
 within the range of expected results in past inspections of
-equivalent mutants.
+equivalent mutants.  We also note  that for Rust the cost for invalid
+mutants is unusually low, due to the availability of {\tt cargo check}
+which very quickly checks that code compiles, without actually
+compiling it, making our approach more attractive.  Some C++ compilers
+also offer fast syntax check facilities, e.g., {\tt -fsyntax-only} in g++.
 
 \subsubsection{Discussion: Summary of Tool Comparisons}
 
