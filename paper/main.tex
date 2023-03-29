@@ -770,11 +770,10 @@ initial mutant generation, and generally indicates a better
 \begin{table}[hbtp]
 \centering
 \caption{Regex vs. Comby for C++ (top) and Java (bottom)}
-{\begin{subtable}[h]{\columnwidth}
-%\caption{C++ (Regex vs. Comby)}
-\label{tab:table_cpp1}
+\label{tab:table_cpp1java}
 \begin{tabularx}{\columnwidth}{X|r|cr|cr}
 \toprule
+\mc{6}{c}{\textbf{C++}} \\\midrule
                  &              & \multicolumn{2}{c|}{\textbf{Regex}} &\multicolumn{2}{c}{\textbf{Comby}}  \\[1ex]
 \textbf{Project} & \textbf{LOC} & $\frac{valid}{total}$ & \textbf{\%} & $\frac{valid}{total}$ &  \textbf{\%} \\[1ex]\midrule
 ompl & 525 & $\frac{595}{2533}$ & 23.49\% &  $\frac{564}{2127}$  & 25.94\%   \\[1ex]
@@ -785,31 +784,26 @@ libxmljs &630 &  $\frac{881}{3989}$ & 22.09\% & $\frac{790}{4008}$ & 19.71\% \\[
 tiny-diff.-simulator &  195 & $\frac{747}{1282}$ &58.27\% &$\frac{770}{1214}$ & 63.43\% \\[1ex]
 \bottomrule
 \end{tabularx}
-\begin{tabularx}{\columnwidth}{Xllrrr}
-                 & &       & Valid  & Invalid  & \% \\\midrule
-\multirow{6}{*}{\textbf{Overall}} & \multirow{3}{*}{Regex} & Mean     & 890.67 &  1553.83 & 35.28\% \\
-                         & & Med.    & 671.00 & 1579.00  & 23.88\%   \\
-                         & & Std.Dev. & 787.62 & 956.31   & 19.48\%  \\\cline{2-6}
- & \multirow{3}{*}{Comby}  & Mean     & 837.83 & 1352.50 & 38.75\%  \\
-                        & & Med.    & 667.00 & 1267.00 & 27.86\%  \\
-                        & & Std.Dev. & 745.78 & 1058.33& 21.66\%  \\\bottomrule
-\end{tabularx}
-\end{subtable}}
-\vspace{1ex}
-
-{\begin{subtable}[h]{\columnwidth}
-%\caption{Java }
-\label{tab:table_java1}
+ \begin{tabularx}{\columnwidth}{Xllrrr}
+                  & &       & Valid  & Invalid  & \% \\\midrule
+ \multirow{6}{*}{\textbf{Overall}} & \multirow{3}{*}{Regex} & Mean     & 890.67 &  1553.83 & 35.28\% \\
+                          & & Med.    & 671.00 & 1579.00  & 23.88\%   \\
+                          & & Std.Dev. & 787.62 & 956.31   & 19.48\%  \\\cline{2-6}
+  & \multirow{3}{*}{Comby}  & Mean     & 837.83 & 1352.50 & 38.75\%  \\
+                         & & Med.    & 667.00 & 1267.00 & 27.86\%  \\
+                         & & Std.Dev. & 745.78 & 1058.33& 21.66\%  \\\bottomrule
+ \end{tabularx}
 \begin{tabularx}{\columnwidth}{X|r|cr|cr}
 \toprule
+\mc{6}{c}{\textbf{Java}} \\\midrule
                  &              & \multicolumn{2}{c|}{\textbf{Regex}} &\multicolumn{2}{c}{\textbf{Comby}}  \\
 \textbf{Project} & \textbf{LOC} & $\frac{valid}{total}$ & \textbf{\%} & $\frac{valid}{total}$ &  \textbf{\%} \\[1ex]\midrule
-pebble         & 279 & $\frac{86}{1014}$ & 8.48\% & $\frac{85}{752}$ & 11.30\%  \\[1ex]
-spring-hateoas & 397 & $\frac{248}{2479}$ & 10.00\% & $\frac{172}{1384}$ & 12.43\%  \\[1ex]
-javacc         & 363 & $\frac{542}{1888}$ & 28.70\% & $\frac{494}{1281}$ & 38.71\%  \\[1ex]
-coffee-gb      & 463 & $\frac{224}{1927}$ & 11.63\% & $\frac{174}{798}$ & 21.80\% \\[1ex]
-egads          & 252 & $\frac{624}{2427}$ & 25.43\% & $\frac{597}{1163}$ & 51.33\%  \\[1ex]
-apk-parser     & 324 & $\frac{351}{1583}$ & 22.17\% & $\frac{333}{1199}$ & 27.77\%  \\[1ex]
+ pebble         & 279 & $\frac{86}{1014}$ & 8.48\% & $\frac{85}{752}$ & 11.30\%  \\[1ex]
+ spring-hateoas & 397 & $\frac{248}{2479}$ & 10.00\% & $\frac{172}{1384}$ & 12.43\%  \\[1ex]
+ javacc         & 363 & $\frac{542}{1888}$ & 28.70\% & $\frac{494}{1281}$ & 38.71\%  \\[1ex]
+ coffee-gb      & 463 & $\frac{224}{1927}$ & 11.63\% & $\frac{174}{798}$ & 21.80\% \\[1ex]
+ egads          & 252 & $\frac{624}{2427}$ & 25.43\% & $\frac{597}{1163}$ & 51.33\%  \\[1ex]
+ apk-parser     & 324 & $\frac{351}{1583}$ & 22.17\% & $\frac{333}{1199}$ & 27.77\%  \\[1ex]\midrule
 \end{tabularx}
 \begin{tabularx}{\columnwidth}{Xllrrr}
               & & & Valid  & Invalid  & \% \\\midrule
@@ -820,7 +814,6 @@ apk-parser     & 324 & $\frac{351}{1583}$ & 22.17\% & $\frac{333}{1199}$ & 27.77
               &   & Med.     & 253.50 & 724.50 & 24.79\% \\
               &   & Std.Dev. & 202.44 & 235.24  & 15.59\% \\\bottomrule
 \end{tabularx}
-\end{subtable}}
 \end{table}
 
 % % ---------------- C++ table UM Only--------------------------
@@ -860,50 +853,44 @@ apk-parser     & 324 & $\frac{351}{1583}$ & 22.17\% & $\frac{333}{1199}$ & 27.77
 
 % \end{table}
 
-% ---------------- JAVA table UM Only--------------------------
-\begin{table}[hbtp]
-\centering
-\end{table}
 
-  
+% % ---------------- JAVA table UM Only--------------------------
+% \begin{table}[hbtp]
+% \centering
+% \caption{Java (Regex vs. Comby)}
+% \label{tab:table_java1}
+% \resizebox{\columnwidth}{!}{%
 
-% ---------------- JAVA table UM Only--------------------------
-\begin{table}[hbtp]
-\centering
-\caption{Java (Regex vs. Comby)}
-\label{tab:table_java1}
-\resizebox{\columnwidth}{!}{%
-
-\begin{tabular}{|c|c|c|r|r|r|c|}
-\hline
- & \multicolumn{2}{c|}{} & \textbf{Valid} & \textbf{Invalid} & \textbf{Valid \%} & \textbf{LOC}\\ \hline
-\multirow{2}{*}{pebble} & \multicolumn{2}{c|}{Regex} & 86 \hspace{8pt} & 928 \hspace{8pt} & 8.48\%  & \multirow{2}{*}{279}\\\cline{2-6}
-    & \multicolumn{2}{c|}{Comby} & 85 \hspace{8pt} & 667 \hspace{8pt} & 11.30\% & \\ \hline
-\multirow{2}{*}{spring-hateoas} & \multicolumn{2}{c|}{Regex} & 248 \hspace{8pt} & 2231 \hspace{8pt} & 10.00\% & \multirow{2}{*}{397}\\\cline{2-6}
-    & \multicolumn{2}{c|}{Comby} & 172 \hspace{8pt} & 1212 \hspace{8pt} & 12.43\% & \\ \hline
-\multirow{2}{*}{javacc} & \multicolumn{2}{c|}{Regex} & 542 \hspace{8pt} & 1346 \hspace{8pt} & 28.70\% & \multirow{2}{*}{363}\\\cline{2-6}
-    & \multicolumn{2}{c|}{Comby} & 494 \hspace{8pt} & 782 \hspace{8pt} & 38.71\% & \\ \hline
+% \begin{tabular}{|c|c|c|r|r|r|c|}
+% \hline
+%  & \multicolumn{2}{c|}{} & \textbf{Valid} & \textbf{Invalid} & \textbf{Valid \%} & \textbf{LOC}\\ \hline
+% \multirow{2}{*}{pebble} & \multicolumn{2}{c|}{Regex} & 86 \hspace{8pt} & 928 \hspace{8pt} & 8.48\%  & \multirow{2}{*}{279}\\\cline{2-6}
+%     & \multicolumn{2}{c|}{Comby} & 85 \hspace{8pt} & 667 \hspace{8pt} & 11.30\% & \\ \hline
+% \multirow{2}{*}{spring-hateoas} & \multicolumn{2}{c|}{Regex} & 248 \hspace{8pt} & 2231 \hspace{8pt} & 10.00\% & \multirow{2}{*}{397}\\\cline{2-6}
+%     & \multicolumn{2}{c|}{Comby} & 172 \hspace{8pt} & 1212 \hspace{8pt} & 12.43\% & \\ \hline
+% \multirow{2}{*}{javacc} & \multicolumn{2}{c|}{Regex} & 542 \hspace{8pt} & 1346 \hspace{8pt} & 28.70\% & \multirow{2}{*}{363}\\\cline{2-6}
+%     & \multicolumn{2}{c|}{Comby} & 494 \hspace{8pt} & 782 \hspace{8pt} & 38.71\% & \\ \hline
     
-\multirow{2}{*}{coffee-gb} & \multicolumn{2}{c|}{Regex} & 224 \hspace{8pt} & 1703 \hspace{8pt} & 11.63\% & \multirow{2}{*}{463}\\\cline{2-6}
-    & \multicolumn{2}{c|}{Comby} & 174 \hspace{8pt} & 624 \hspace{8pt} & 21.80\% & \\ \hline
-\multirow{2}{*}{egads} & \multicolumn{2}{c|}{Regex} & 624 \hspace{8pt} & 1830 \hspace{8pt} & 25.43\% & \multirow{2}{*}{252}\\\cline{2-6}
-    & \multicolumn{2}{c|}{Comby} & 597 \hspace{8pt} & 566 \hspace{8pt} & 51.33\% & \\ \hline
-\multirow{2}{*}{apk-parser} & \multicolumn{2}{c|}{Regex} & 351 \hspace{8pt} & 1232 \hspace{8pt} & 22.17\% & \multirow{2}{*}{324}\\\cline{2-6}
-    & \multicolumn{2}{c|}{Comby} & 333 \hspace{8pt} & 866 \hspace{8pt} & 27.77\% & \\ \hline
+% \multirow{2}{*}{coffee-gb} & \multicolumn{2}{c|}{Regex} & 224 \hspace{8pt} & 1703 \hspace{8pt} & 11.63\% & \multirow{2}{*}{463}\\\cline{2-6}
+%     & \multicolumn{2}{c|}{Comby} & 174 \hspace{8pt} & 624 \hspace{8pt} & 21.80\% & \\ \hline
+% \multirow{2}{*}{egads} & \multicolumn{2}{c|}{Regex} & 624 \hspace{8pt} & 1830 \hspace{8pt} & 25.43\% & \multirow{2}{*}{252}\\\cline{2-6}
+%     & \multicolumn{2}{c|}{Comby} & 597 \hspace{8pt} & 566 \hspace{8pt} & 51.33\% & \\ \hline
+% \multirow{2}{*}{apk-parser} & \multicolumn{2}{c|}{Regex} & 351 \hspace{8pt} & 1232 \hspace{8pt} & 22.17\% & \multirow{2}{*}{324}\\\cline{2-6}
+%     & \multicolumn{2}{c|}{Comby} & 333 \hspace{8pt} & 866 \hspace{8pt} & 27.77\% & \\ \hline
 
-\multirow{6}{*}{Overall} & \multirow{3}{*}{Regex} & Mean & 345.83 & 1545.00  & 17.74\%& \\\cline{3-6}
-    &   &  Median & 299.50 & 1524.50 & 16.90\%  & \\\cline{3-6}
-    &   &  Std. Dev & 203.86 & 467.98 & 8.73\%  & \\\cline{2-6}
+% \multirow{6}{*}{Overall} & \multirow{3}{*}{Regex} & Mean & 345.83 & 1545.00  & 17.74\%& \\\cline{3-6}
+%     &   &  Median & 299.50 & 1524.50 & 16.90\%  & \\\cline{3-6}
+%     &   &  Std. Dev & 203.86 & 467.98 & 8.73\%  & \\\cline{2-6}
 
- & \multirow{3}{*}{Comby} & Mean & 309.17 & 786.17 & 27.22\% & \\\cline{3-6}
-    &   &  Median & 253.50 & 724.50 & 24.79\%  & \\\cline{3-6}
-    &   &  Std. Dev & 202.44 & 235.24  & 15.59\%  & \\\hline
+%  & \multirow{3}{*}{Comby} & Mean & 309.17 & 786.17 & 27.22\% & \\\cline{3-6}
+%     &   &  Median & 253.50 & 724.50 & 24.79\%  & \\\cline{3-6}
+%     &   &  Std. Dev & 202.44 & 235.24  & 15.59\%  & \\\hline
 
 
-\end{tabular}
+% \end{tabular}
 
-}
-\end{table}
+% }
+% \end{table}
 
 % ---------------- Python table UM Only --------------------------
 
