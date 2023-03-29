@@ -869,26 +869,28 @@ strum            & 90           & 428     & 11.92\% & 368     & 13.58\% \\\botto
 
 \begin{table}[hbtp]
 \centering
-{\small
-\caption{Regex vs. Comby for Python, including redundant mutants.}
-\label{tab:table_pyrust}
-\begin{tabularx}{\columnwidth}{X|r|rcr|rcr}
+{\footnotesize % feels bad man but it's definitely easier than most other alternatives
+\caption{Regex vs. Comby for Python.   LOC describes the project files considered. Muts. is total number of mutants generated for those files. \claire{FIXME: what's an invalid mutant for python?}  We can use TCE to check for redundant Python mutants, shown under ``Red.''}
+\label{tab:table_python1}
+\begin{tabularx}{\columnwidth}{l|r|rcr|rcr}
 \toprule\toprule
                  &                 & \multicolumn{3}{c|}{\textbf{Regex}}             &\multicolumn{3}{c}{\textbf{Comby}}  \\[1ex]
-\textbf{Project} & \textbf{LOC}    & red.  & $\frac{valid}{total}$ & \textbf{\%} & red. & $\frac{valid}{total}$ &  \textbf{\%} \\[1ex]\midrule
-keract           & 402             & 729       & $\frac{1655}{3984}$   & 41.53\%     & 533       & $\frac{1471}{3067}$   & 47.96\% \\[1ex]
-dtw              & 118             & 567       & $\frac{973}{2106}$   & 46.20\%     & 639       & $\frac{866}{1835}$   & 47.19\% \\[1ex]
-notion-sdk-py    & 189             & 82        & $\frac{196}{1038}$   & 18.89\%     & 122       & $\frac{196}{1019}$   & 19.23\% \\[1ex]
-atlassian-python-api    & 236             & 207        & $\frac{302}{1541}$   & 19.99\%     & 351       & $\frac{333}{1319}$   & 25.25\% \\[1ex]
-ESD              & 698            & 1642      & $\frac{1859}{6268}$   & 29.46\%     & 614       & $\frac{1712}{3874}$   & 44.18\% \\[1ex]
-fiber            & 358            & 163      & $\frac{493}{1565}$   & 31.08\%     & 241       & $\frac{458}{1466}$   & 31.24\% \\[1ex]
+\textbf{Project} & \textbf{LOC}    & \textbf{Muts.} & \textbf{Red.}  & \textbf{\% Valid} & \textbf{Muts.} & \textbf{Red.}   &  \textbf{\% Valid} \\\midrule
+keract           & 402             & 3984  & 729   & 41.53\%           & 3067  & 533    & 47.96\% \\
+dtw              & 118             & 2106  & 567   & 46.20\%           & 1835  & 639    & 47.19\% \\
+notion-          & \mr{2}{189}     & \mr{2}{1038}  & \mr{2}{82}    & \mr{2}{18.89\%}           & \mr{2}{1019}  & \mr{2}{122}    & \mr{2}{19.23\%} \\
+sdk-py           & & & & & & \\[0.5ex]
+atlassian-       & \mr{2}{236}      & \mr{2}{1541}  & \mr{2}{207}   & \mr{2}{19.99\%}           & 1319  & \mr{2}{351}    & \mr{2}{25.25\%} \\
+python-api       & & & & & & \\[0.5ex]
+ESD              & 698             & 6268  & 1642  & 29.46\%           & 3874  & 614    & 44.18\% \\
+fiber            & 358             & 1565  & 163   & 31.08\%           & 1466  & 241    & 31.24\% \\\bottomrule
 \end{tabularx}
 \begin{tabularx}{\columnwidth}{Xllrrrrrr}
-                  && &  Red.     & Valid  & Invalid  & \% \\\midrule
-\multirow{4}{*}{Overall} & \multirow{2}{*}{Regex} & Mean &  565.00 & 913.00 & 1267.33 & 31.19\%  & \\
-    &   &  Std. Dev & 584.79  & 708.93 & 813.35 & 11.06\%  \\
+                  && &  \textbf{Red.}     & \textbf{Valid}  & \textbf{Invalid}  & \textbf{\% Valid} \\\midrule
+\multirow{4}{*}{\textbf{Overall}} & \multirow{2}{*}{Regex} & Mean &  565.00 & 913.00 & 1267.33 & 31.19\%  & \\
+    &   &  Std.Dev. & 584.79  & 708.93 & 813.35 & 11.06\%  \\
  & \multirow{2}{*}{Comby} & Mean & 839.33 & 840.67 & 416.67 & 35.84\% \\
-  &   &  Std. Dev &  211.62 & 628.79 & 418.99 & 12.28\%   \\
+  &   &  Std.Dev. &  211.62 & 628.79 & 418.99 & 12.28\%   \\\bottomrule
 \end{tabularx}}
 \end{table}
 
