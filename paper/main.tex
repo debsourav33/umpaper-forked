@@ -798,13 +798,13 @@ initial mutant generation, and generally indicates a better
 % ---------------- C++ table UM Only--------------------------
 \begin{table}[hbtp]
 \centering
-\caption{Regex vs. Comby for C++ (top), Java (middle), and Rust (bottom)}
+\caption{Regex vs. Comby for C++ (top), Java (middle), and Rust (bottom). LOC describes the project files considered. Muts. is total number of mutants generated for those files. Invalid mutants are those that don't compile.}
 \label{tab:table_cpp1java}
 \begin{tabularx}{\columnwidth}{X|r|rr|rr}
-\toprule\toprule
+\bottomrule\toprule
 \mc{6}{c}{\textbf{C++}} \\\midrule
                  &              & \multicolumn{2}{c|}{\textbf{Regex}} &\multicolumn{2}{c}{\textbf{Comby}}  \\
-\textbf{Project} & \textbf{LOC} & \textbf{Muts} & \textbf{\% Valid} & \textbf{Muts} &  \textbf{\% Valid} \\\midrule
+\textbf{Project} & \textbf{LOC} & \textbf{Muts.} & \textbf{\% Valid} & \textbf{Muts.} &  \textbf{\% Valid} \\\midrule
 ompl & 525 & 2533 & 23.49\% &  2127  & 25.94\%   \\
 libgraphqlparser& 137 & 741 & 21.19\%  & 440 & 29.77\% \\
 rethinkdb\_rebirth &471 & 2246 & 24.27\% & 2009 & 24.49\% \\
@@ -815,10 +815,10 @@ tiny-diff.-simulator &  195 & 1282 &58.27\% & 1214 & 63.43\% \\
 \end{tabularx}
 \begin{tabularx}{\columnwidth}{Xllrrr}
                   & &       & \textbf{Valid}  & \textbf{Invalid}  & \textbf{\% Valid} \\\midrule
- \multirow{4}{*}{\textbf{Overall}} & \multirow{2}{*}{\bf Regex} & Mean     & 890.67 &  1553.83 & 35.28\% \\
+ \multirow{4}{*}{\textbf{Overall}} & \multirow{2}{*}{Regex} & Mean     & 890.67 &  1553.83 & 35.28\% \\
 %                          & & Med.    & 671.00 & 1579.00  & 23.88\%   \\
                           & & Std.Dev. & 787.62 & 956.31   & 19.48\%  \\\cline{2-6}
-  & \multirow{2}{*}{\bf Comby}  & Mean     & 837.83 & 1352.50 & 38.75\%  \\
+  & \multirow{2}{*}{Comby}  & Mean     & 837.83 & 1352.50 & 38.75\%  \\
 %                         & & Med.    & 667.00 & 1267.00 & 27.86\%  \\
                          & & Std.Dev. & 745.78 & 1058.33& 21.66\%  \\\bottomrule
  \end{tabularx}
@@ -826,16 +826,16 @@ tiny-diff.-simulator &  195 & 1282 &58.27\% & 1214 & 63.43\% \\
 \toprule
 \mc{6}{c}{\textbf{Java}} \\\midrule
                  &              & \multicolumn{2}{c|}{\textbf{Regex}} &\multicolumn{2}{c}{\textbf{Comby}}  \\
-\textbf{Project} & \textbf{LOC} & \textbf{Mutants} & \textbf{\% Valid} & \textbf{Mutants} &  \textbf{\% Valid} \\\midrule
- pebble         & 279 & 1014 & 8.48\%  & 752 & 11.30\%  \\[1ex]
- spring-hateoas & 397 & 2479 & 10.00\% & 1384 & 12.43\%  \\[1ex]
- javacc         & 363 & 1888 & 28.70\% & 1281 & 38.71\%  \\[1ex]
- coffee-gb      & 463 & 1927 & 11.63\% & 798 & 21.80\% \\[1ex]
- egads          & 252 & 2427 & 25.43\% & 1163 & 51.33\%  \\[1ex]
- apk-parser     & 324 & 1583 & 22.17\% & 1199 & 27.77\%  \\[1ex]\bottomrule
+\textbf{Project} & \textbf{LOC} & \textbf{Muts.} & \textbf{\% Valid} & \textbf{Muts.} &  \textbf{\% Valid} \\\midrule
+ pebble         & 279 & 1014 & 8.48\%  & 752 & 11.30\%  \\
+ spring-hateoas & 397 & 2479 & 10.00\% & 1384 & 12.43\%  \\
+ javacc         & 363 & 1888 & 28.70\% & 1281 & 38.71\%  \\
+ coffee-gb      & 463 & 1927 & 11.63\% & 798 & 21.80\% \\
+ egads          & 252 & 2427 & 25.43\% & 1163 & 51.33\%  \\
+ apk-parser     & 324 & 1583 & 22.17\% & 1199 & 27.77\%  \\\bottomrule
 \end{tabularx}
 \begin{tabularx}{\columnwidth}{Xllrrr}
-              & & & Valid  & Invalid  & \% \\\midrule
+              & & & \textbf{Valid}  & \textbf{Invalid}  & \textbf{\% Valid} \\\midrule
 \multirow{4}{*}{\textbf{Overall}} & \mr{2}{Regex} & Mean     &  345.83 & 1545.00  & 17.74\% \\
 %              &   & Med.     & 299.50 & 1524.50 & 16.90\%  \\
               &   & Std.Dev. & 203.86 & 467.98 & 8.73\%  \\\cline{2-6}
@@ -847,19 +847,19 @@ tiny-diff.-simulator &  195 & 1282 &58.27\% & 1214 & 63.43\% \\
 \toprule
 \mc{6}{c}{\textbf{Rust}} \\ \midrule
                  &              & \multicolumn{2}{c|}{\textbf{Regex}} &\multicolumn{2}{c}{\textbf{Comby}}  \\
-\textbf{Project} & \textbf{LOC} & $\frac{valid}{total}$ & \textbf{\%} & $\frac{valid}{total}$ &  \textbf{\%} \\[1ex]\midrule
-cargo release    & 346          & $\frac{851}{2014}$   & 42.25\%  & $\frac{1690}{2401}$   & 70.39\% \\[1ex]
-passarine        & 376          & $\frac{213}{2294}$   & 9.29\%  & $\frac{173}{1691}$   & 10.23\% \\[1ex]
-typos            & 463          & $\frac{386}{1920}$   & 20.10\%  & $\frac{366}{1565}$   & 23.39\% \\[1ex]
-ord              & 533          & $\frac{762}{2858}$   & 26.66\%  & $\frac{643}{2312}$   & 27.81\% \\[1ex]
-bazuka           & 285          & $\frac{451}{1554}$   & 29.02\%  & $\frac{402}{1322}$   & 30.41\% \\[1ex]
-strum            & 90           & $\frac{51}{428}$     & 11.92\%  & $\frac{50}{368}$     & 13.58\% \\[1ex]\bottomrule
+\textbf{Project} & \textbf{LOC} & \textbf{Muts.} & \textbf{\% Valid} & \textbf{Muts.} &  \textbf{\% Valid} \\\midrule
+cargo release    & 346          & 2014   & 42.25\%  & 2401   & 70.39\% \\
+passarine        & 376          & 2294   & 9.29\%   & 1691   & 10.23\% \\
+typos            & 463          & 1920   & 20.10\%  & 1565   & 23.39\% \\
+ord              & 533          & 2858   & 26.66\%  & 2312   & 27.81\% \\
+bazuka           & 285          & 1554   & 29.02\%  & 1322   & 30.41\% \\
+strum            & 90           & 428     & 11.92\% & 368     & 13.58\% \\\bottomrule
 \end{tabularx}
 \begin{tabularx}{\columnwidth}{Xllrrr}
-               & & & Valid  & Invalid  & \% \\\midrule
- \multirow{6}{*}{\textbf{Overall}} & \mr{3}{Regex} & Mean     &  452.33 &  1392.33 & 23.21\% \\
+               & & & \textbf{Valid}  & \textbf{Invalid}  & \textbf{\% Valid} \\\midrule
+ \multirow{4}{*}{\textbf{Overall}} & \mr{2}{Regex} & Mean     &  452.33 &  1392.33 & 23.21\% \\
                &   & Std.Dev. & 309.05 & 656.76 & 12.16\%  \\\cline{2-6}
- & \mr{3}{Comby} & Mean     & 554.00 &  1055.83 & 29.29\% \\
+ & \mr{2}{Comby} & Mean     & 554.00 &  1055.83 & 29.29\% \\
  %              &   & Med.     & 253.50 & 724.50 & 24.79\% \\
                &   & Std.Dev. & 592.63 & 508.30 & 21.63\%  \\\bottomrule
 \end{tabularx}}
@@ -892,32 +892,32 @@ fiber            & 358            & 163      & $\frac{493}{1565}$   & 31.08\%   
 \end{tabularx}}
 \end{table}
 
-% ---------------- Rust table UM Only --------------------------
-\begin{table}[hbtp]
-\centering
-{\small
-\caption{Rust (Regex vs. Comby)}
-\label{tab:table_rust1}
-\begin{tabularx}{\columnwidth}{X|r|cr|cr}
-\toprule
-                 &              & \multicolumn{2}{c|}{\textbf{Regex}} &\multicolumn{2}{c}{\textbf{Comby}}  \\
-\textbf{Project} & \textbf{LOC} & $\frac{valid}{total}$ & \textbf{\%} & $\frac{valid}{total}$ &  \textbf{\%} \\[1ex]\midrule
-cargo release    & 346          & $\frac{851}{2014}$   & 42.25\%  & $\frac{1690}{2401}$   & 70.39\% \\[1ex]
-passarine        & 376          & $\frac{213}{2294}$   & 9.29\%  & $\frac{173}{1691}$   & 10.23\% \\[1ex]
-typos            & 463          & $\frac{386}{1920}$   & 20.10\%  & $\frac{366}{1565}$   & 23.39\% \\[1ex]
-ord              & 533          & $\frac{762}{2858}$   & 26.66\%  & $\frac{643}{2312}$   & 27.81\% \\[1ex]
-bazuka           & 285          & $\frac{451}{1554}$   & 29.02\%  & $\frac{402}{1322}$   & 30.41\% \\[1ex]
-strum            & 90           & $\frac{51}{428}$     & 11.92\%  & $\frac{50}{368}$     & 13.58\% \\[1ex]
-\end{tabularx}
- \begin{tabularx}{\columnwidth}{Xllrrr}
-               & & & Valid  & Invalid  & \% \\\midrule
- \multirow{6}{*}{\textbf{Overall}} & \mr{3}{Regex} & Mean     &  452.33 &  1392.33 & 23.21\% \\
-               &   & Std.Dev. & 309.05 & 656.76 & 12.16\%  \\\cline{2-6}
- & \mr{3}{Comby} & Mean     & 554.00 &  1055.83 & 29.29\% \\
- %              &   & Med.     & 253.50 & 724.50 & 24.79\% \\
-               &   & Std.Dev. & 592.63 & 508.30 & 21.63\%  \\\bottomrule
-\end{tabularx}}
-\end{table}
+% % ---------------- Rust table UM Only --------------------------
+% \begin{table}[hbtp]
+% \centering
+% {\small
+% \caption{Rust (Regex vs. Comby)}
+% \label{tab:table_rust1}
+% \begin{tabularx}{\columnwidth}{X|r|cr|cr}
+% \toprule
+%                  &              & \multicolumn{2}{c|}{\textbf{Regex}} &\multicolumn{2}{c}{\textbf{Comby}}  \\
+% \textbf{Project} & \textbf{LOC} & $\frac{valid}{total}$ & \textbf{\%} & $\frac{valid}{total}$ &  \textbf{\%} \\[1ex]\midrule
+% cargo release    & 346          & $\frac{851}{2014}$   & 42.25\%  & $\frac{1690}{2401}$   & 70.39\% \\[1ex]
+% passarine        & 376          & $\frac{213}{2294}$   & 9.29\%  & $\frac{173}{1691}$   & 10.23\% \\[1ex]
+% typos            & 463          & $\frac{386}{1920}$   & 20.10\%  & $\frac{366}{1565}$   & 23.39\% \\[1ex]
+% ord              & 533          & $\frac{762}{2858}$   & 26.66\%  & $\frac{643}{2312}$   & 27.81\% \\[1ex]
+% bazuka           & 285          & $\frac{451}{1554}$   & 29.02\%  & $\frac{402}{1322}$   & 30.41\% \\[1ex]
+% strum            & 90           & $\frac{51}{428}$     & 11.92\%  & $\frac{50}{368}$     & 13.58\% \\[1ex]
+% \end{tabularx}
+%  \begin{tabularx}{\columnwidth}{Xllrrr}
+%                & & & Valid  & Invalid  & \% \\\midrule
+%  \multirow{6}{*}{\textbf{Overall}} & \mr{3}{Regex} & Mean     &  452.33 &  1392.33 & 23.21\% \\
+%                &   & Std.Dev. & 309.05 & 656.76 & 12.16\%  \\\cline{2-6}
+%  & \mr{3}{Comby} & Mean     & 554.00 &  1055.83 & 29.29\% \\
+%  %              &   & Med.     & 253.50 & 724.50 & 24.79\% \\
+%                &   & Std.Dev. & 592.63 & 508.30 & 21.63\%  \\\bottomrule
+% \end{tabularx}}
+% \end{table}
 
 
 The mean (and median) percentage of mutants that are valid is higher for
