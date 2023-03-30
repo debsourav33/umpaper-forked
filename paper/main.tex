@@ -519,7 +519,7 @@ basicstyle=\ttfamily\bfseries\footnotesize,
 
 \begin{figure}[hbtp]
 \centering
-\caption{Mutation operator rule examples, using regular expressions (left) and the Comby language (right), based on parser parser combinators.}
+\caption{\small Mutation operator rule examples, using regular expressions (left) and the Comby language (right), based on parser parser combinators.}
 \label{tab:rules}
   \begin{tabular}{l|l}
     \toprule
@@ -673,7 +673,7 @@ definitions and syntax for mutation operators implemented in our approach:
 
 \item Non-whitespace characters are matched literally.
 
-\item Contiguous whitespace (e.g., spaces and newline) match contiguous whitespace in the source code. That is, match templates are sensitive to the \emph{presence} of whitespace, but \emph{not} the exact layout of spaces (i.e., the number of spaces may not correspond exactly between template and source code).
+\item Contiguous whitespace (e.g., spaces, newline) match contiguous whitespace in the source code. That is, match templates are sensitive to the \emph{presence} of whitespace, but \emph{not} exact layout (i.e., the number of spaces may not correspond exactly between template and source code).
 
 \item Matching is insensitive to comments. Comments are parsed as whitespace when matching non-hole syntax.
 
@@ -854,7 +854,7 @@ initial mutant generation, and generally indicates a better
 % ---------------- C++/Java/Rust table UM Only--------------------------
 \begin{table}[hbtp]
 \centering
-\caption{Regex vs. Comby for C++ (top), Java (middle), and Rust (bottom). LOC describes the project files considered. Muts. is total number of mutants generated for those files. Invalid mutants are those that don't compile.}
+\caption{\small Regex vs. Comby for C++ (top), Java (middle), and Rust (bottom). LOC describes the project files considered. Muts. is total number of mutants generated for those files. Invalid mutants are those that don't compile.}
 \label{tab:table_cpp1javarust}
 \begin{tabularx}{\columnwidth}{X|r|rr|rr}
 \bottomrule\toprule
@@ -992,9 +992,9 @@ Comby produces a much larger number of valid mutants.  As discussed
 below, mutation scores and mutant equivalence rates are similar for
 both modes.
 
-For Python, where TCE based on Python bytecode was possible, the
+On Python, TCE on Python bytecode was possible. The
 number of redundant (equivalent to the original bytecode, or
-equivalent to the bytecode of an already-generated mutant) mutants was
+the bytecode of an already-generated mutant) mutants was
 overall similar for both Regex and Comby, though varied widely by file.
 
 In sum, in addition to providing a major advantage in expressiveness
@@ -1006,8 +1006,9 @@ efficiency of initial mutant generation, with no apparent loss of overall effect
 \subsection{Universal Source-Based Mutation vs. Previous Approaches}
 
 \begin{table*}[hbtp]
+{\small
     \centering
-    \caption{Overview of Mutation Testing Tools. Our tool has significantly fewer lines of code than the single-language tools.}
+    \caption{\small Overview of Mutation Testing Tools. Our tool has significantly fewer lines of code than the single-language tools.}
     \label{tab:mutationtools}
     
     \begin{tabular}{|l|l|l|r|}
@@ -1021,7 +1022,7 @@ efficiency of initial mutant generation, with no apparent loss of overall effect
         Rust & Cargo-Mutants & https://github.com/sourcefrog/cargo-mutants & 7020 \\\hline
         C++ & Dextool & https://github.com/joakim-brannstrom/dextool & 38611 \\\hline
         ALL & Our Tool & removed for blinding & 2244 \\\hline
-    \end{tabular}
+    \end{tabular}}
     \end{table*}
     
 Table \ref{tab:mutationtools} shows the set of tools compared.  We
@@ -1101,7 +1102,7 @@ mutants is good, and a rate of 10\% or below is very good.
 \begin{table}[htbp]
 \centering
 {\small
-\caption{C++ (Our Implementation vs. Dextool). We cannot measure equivalent mutants for Dextool and thus omit the column.}
+\caption{C++ (Our Implementation vs. Dextool). We cannot measure equivalent mutants for Dextool.}
 \label{tab:table_cpp2}
 \begin{tabularx}{\columnwidth}{X|rrr|rr}
 \toprule
@@ -1126,9 +1127,9 @@ mutants is good, and a rate of 10\% or below is very good.
 
 \begin{table}[htbp]
 \centering
-\caption{Java (Our Implementation vs. PIT vs. LittleDarwin).
-  Determining if PIT bytecode mutants are equivalent is extremely
-  difficult to do with reasonable accuracy. LittleDarwin produces no equivalent mutants.}
+\caption{\small Java (Our Implementation vs. PIT vs. LittleDarwin).
+  Accurately determining if PIT bytecode mutants are equivalent is intractable;
+  LittleDarwin produces no equivalent mutants.}
 \label{tab:table_java2}
 \resizebox{\columnwidth}{!}{% again don't love it, but footnotesize is actually smaller than necessary
 \begin{tabular}{l|rrr|rr|rr}
@@ -1158,7 +1159,7 @@ apk-parser & 333 & 0.08 & 0\% & 89 & 0.16  & 33 & 0.09 \\
 \begin{table*}[htbp]
 \centering
 {
-\caption{Python (Our Implementation vs. Mutmut vs. CosmicRay)}
+\caption{\small Python (Our Implementation vs. Mutmut vs. CosmicRay)}
 \label{tab:table_python2}
 \begin{tabular}{l|rrr|rrr|rrr}
 \toprule
@@ -1364,16 +1365,15 @@ useful in using mutation testing to improve static analysis tools~\cite{StatMut}
 
 \begin{figure}
 
-  \begin{code}
+\begin{lstlisting}
  qsort :: [ Int] -> [ Int ]
  qsort [] = []
  qsort (x: xs ) = qsort l ++ [x] ++ qsort r
      where l = filter (< x) xs
            r = filter ( >= x) xs
-\end{code}
-\caption{Example from MuCheck Paper}
+\end{lstlisting}
+\caption{\small Example from MuCheck Paper~\cite{mucheck}}
 \label{fig:haskell}
-
 \end{figure}
 
 Figure~\ref{fig:haskell} shows a simple Haskell program, the
