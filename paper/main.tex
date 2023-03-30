@@ -188,7 +188,7 @@ testing.  However, it also demonstrates various ways that bringing mutation test
 typically polyglot modern projects is cumbersome. Each language (or IR, at
 minimum) requires its own underlying mutation and testing framework.
 Mutation tools are not trivial to develop; the smallest
-single-language tools we examined were nearly 4KLOC, and the mean size
+single-language tools we examined were nearly 4K LOC, and the mean size
 of a mutation testing tool was over 20K non-comment source lines.
 
 Newer languages, including ones with considerable interest
@@ -232,7 +232,7 @@ the years (e.g., ~\cite{offutt2001mutation,
 testing arguably relies more on the availability of vast (cloud) computing
 resources than any particular approach from the literature, beyond
 heuristic restrictions on the mutants used (e.g., one per line, or
-only some siimple operators).   On the other hand, almost no
+only some simple operators).   On the other hand, almost no
 research has addressed perhaps the most central issue of
 mutation testing: in the absence of a working mutation testing
 tool for the language in which one is developing software, one cannot
@@ -250,8 +250,8 @@ mutation a popular recent choice in tool development, despite the advantages of 
 users of mutation testing~\cite{CompareSrcBinary}, including the
 ability to read and understand mutants (which is often essential if
 one aims to add a test to kill a mutant) and to define mutants in
-terms of source-level language (or even project/library)-specific
-features.  Moreover, even this arguably less desirable bytecode mutation
+terms of source-level language (or even project/library-specific
+features).  Moreover, even this arguably less desirable bytecode mutation
 approach is not available for languages that do not compile to, e.g.,
 Java or LLVM bytecode, such as Haskell.
 
