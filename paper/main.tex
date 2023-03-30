@@ -487,7 +487,7 @@ constructs common to e.g.,  Java, C, and C++ ({{\tt if}, {\tt while},
 % Just an example style, the most important is the escapeinside part, the rest... not so much. you probably have your own.
 \lstdefinestyle{cstyle}{
 language=c,
-basicstyle=\ttfamily\bfseries\scriptsize,
+basicstyle=\ttfamily\bfseries\footnotesize,
   morekeywords={virtualinvoke},
   keywordstyle=\color{blue},
   ndkeywordstyle=\color{red},
@@ -525,11 +525,9 @@ if(strcmp((?\color{dkgreen}\verb|:[1]|?),"(?\color{dkgreen}\verb|:[2]|?)"))
     \hline
     \mc{2}{c|}{Universal}                          & \mc{2}{c|}{C-Like}      & \mc{2}{c|}{Language-Specific} \\
     Regexp & Comby                                 & Regexp & Comby & Regexp & Comby     \\
-    {\tt < ==> >} & {\tt :[a]<:[b] ==> :[a]>:[b]}  &  {\tt  else ==>}  & {\tt  else ==>} & {\tt synchronized ==>} &  {\tt synchronized ==>} \\
-    {\tt < ==> ==} & {\tt :[a]<:[b] ==> :[a]==:[b]} &  {\tt if (\textbackslash(.*\textbackslash)) ==> if (!\textbackslash 1)} &  {\tt if (:[cond]) ==> if (!(:[cond]))} & {\tt (\^{}\textbackslash s*)(\textbackslash S+.*\textbackslash n) ==> \textbackslash 1pass} & {\tt
-                                                                          :[ s]:[expr]:[lf~[\textbackslash n]] ==> :[s]pass:[lf]} \\
-{\tt < ==> <=}  & {\tt :[a]<:[b] ==> :[a]<=:[b]} & {\tt if (\textbackslash(.*\textbackslash)) ==> if
-                 (1==1)} & {\tt if (:[cond]) ==> if (1==1)} &  {\tt any\_of ==> all\_of} & {\tt any\_of ==> all\_of} \\
+    {\lstinline|< ==> >|} & {\lstinline|:[a]<:[b] ==> :[a]>:[b]|}  &  {\lstinline|else ==>|}  & {\lstinline|else ==>|} & {\lstinline|synchronized ==>|} &  {\lstinline|synchronized ==>|} \\
+   {\lstinline|< ==> ==|} & {\lstinline|:[a]<:[b] ==> :[a]==:[b]|} &  {\lstinline|if (\(.*\)) ==> if (!\1)|} &  {\lstinline|if (:[cond]) ==> if (!(:[cond]))|} & {\lstinline|(\^{}\s*)(\S+.*\n) ==> \1pass|} & {\lstinline|:[ s]:[expr]:[lf~[\n]] ==> :[s]pass:[lf]|} \\
+{\lstinline|< ==> <=|}  & {\lstinline|:[a]<:[b] ==> :[a]<=:[b]|} & {\lstinline|if (\(.*\)) ==> if (1==1)|} & {\lstinline|if (:[cond]) ==> if (1==1)|} &  {\lstinline|any_of ==> all_of|} & {\lstinline|any_of ==> all_of|} \\
 \hline
 \end{tabular}
 \end{figure*}
