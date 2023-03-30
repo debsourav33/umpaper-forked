@@ -484,6 +484,56 @@ constructs common to e.g.,  Java, C, and C++ ({{\tt if}, {\tt while},
   by using the common comment notation for such languages.
   Implementing Java mutation, given universal and C-like rules, may
   require no more than a handful of additional rules.
+% Just an example style, the most important is the escapeinside part, the rest... not so much. you probably have your own.
+\lstdefinestyle{cstyle}{
+language=c,
+basicstyle=\ttfamily\bfseries\scriptsize,
+  morekeywords={virtualinvoke},
+  keywordstyle=\color{blue},
+  ndkeywordstyle=\color{red},
+  commentstyle=\color{dkred},
+% https://tex.stackexchange.com/questions/329533/listings-package-lstinline-command-has-strange-spacing-behaviour-after-double-qu
+  keepspaces=true,              % very important to preserve space after ' in footnote
+  numbers=left,
+  breaklines=true,
+  numberstyle=\ttfamily\footnotesize\color{gray},
+  stepnumber=1,
+  numbersep=10pt,
+  backgroundcolor=\color{white},
+  tabsize=4,
+  showspaces=false,
+  showstringspaces=false,
+  xleftmargin=.23in,
+  captionpos=b,
+  escapeinside={(?}{?)},
+}
+
+% set above style (or just use your style)
+\lstset{style=cstyle}
+
+% example listing, basically use escape inside and then do use \color and \verb
+\begin{lstlisting}[basicstyle=\footnotesize\ttfamily,numbers=none]
+if(strcmp((?\color{dkgreen}\verb|:[1]|?),"(?\color{dkgreen}\verb|:[2]|?)"))
+\end{lstlisting}
+
+
+\begin{figure*}[hbtp]
+\centering
+\caption{Regular Expression Rule Examples \clg{Comby, or PPC, you think?}}
+\label{tab:rules}
+  \begin{tabular}{ll|ll|ll}
+    \hline
+    \mc{2}{c|}{Universal}                          & \mc{2}{c|}{C-Like}      & \mc{2}{c|}{Language-Specific} \\
+    Regexp & Comby                                 & Regexp & Comby & Regexp & Comby     \\
+    {\tt < ==> >} & {\tt :[a]<:[b] ==> :[a]>:[b]}  &  {\tt  else ==>}  & {\tt  else ==>} & {\tt synchronized ==>} &  {\tt synchronized ==>} \\
+    {\tt < ==> ==} & {\tt :[a]<:[b] ==> :[a]==:[b]} &  {\tt if (\textbackslash(.*\textbackslash)) ==> if (!\textbackslash 1)} &  {\tt if (:[cond]) ==> if (!(:[cond]))} & {\tt (\^{}\textbackslash s*)(\textbackslash S+.*\textbackslash n) ==> \textbackslash 1pass} & {\tt
+                                                                          :[ s]:[expr]:[lf~[\textbackslash n]] ==> :[s]pass:[lf]} \\
+{\tt < ==> <=}  & {\tt :[a]<:[b] ==> :[a]<=:[b]} & {\tt if (\textbackslash(.*\textbackslash)) ==> if
+                 (1==1)} & {\tt if (:[cond]) ==> if (1==1)} &  {\tt any\_of ==> all\_of} & {\tt any\_of ==> all\_of} \\
+\hline
+\end{tabular}
+\end{figure*}
+
 
 \begin{table}[hbtp]
 \centering
@@ -506,6 +556,30 @@ constructs common to e.g.,  Java, C, and C++ ({{\tt if}, {\tt while},
 }
 
 \end{table}
+
+
+
+\begin{table}[hbtp]
+\centering
+\caption{Parser Parser Combinator Rule Examples}
+\label{tab:crules}
+\resizebox{\columnwidth}{!}{%
+
+  \begin{tabular}{|l|l|l|}
+    \hline
+    Universal & C-Like & Language-Specific \\
+    \hline
+{\tt :[a]<:[b] ==> :[a]>:[b]} &{\tt  else ==>} & {\tt synchronized ==>} \\ 
+{\tt :[a]<:[b] ==> :[a]==:[b]} & {\tt if (:[cond]) ==> if (!(:[cond]))} &
+                                                                 {\tt
+                                                                          :[ s]:[expr]:[lf~[\textbackslash n]] ==> :[s]pass:[lf]}\\
+{\tt :[a]<:[b] ==> :[a]<=:[b]} & {\tt if (:[cond]) ==> if (1==1)} & {\tt any\_of ==> all\_of}\\
+\hline
+
+\end{tabular}
+}
+\end{table}
+
   
 Table~\ref{tab:rules} shows examples of universal, C-like, and
 language-specific rules for a few languages, taken directly from our
