@@ -517,21 +517,29 @@ if(strcmp((?\color{dkgreen}\verb|:[1]|?),"(?\color{dkgreen}\verb|:[2]|?)"))
 \end{lstlisting}
 
 
-\begin{figure*}[hbtp]
+\begin{figure}[hbtp]
 \centering
-\caption{Regular Expression Rule Examples \clg{Comby, or PPC, you think?}}
+\caption{Mutation operator rule examples, using regular expressions (left) and the Comby language (right), based on parser parser combinators.}
 \label{tab:rules}
-  \begin{tabular}{ll|ll|ll}
-    \hline
-    \mc{2}{c|}{Universal}                          & \mc{2}{c|}{C-Like}      & \mc{2}{c|}{Language-Specific} \\
-    Regexp & Comby                                 & Regexp & Comby & Regexp & Comby     \\
-    {\lstinline|< ==> >|} & {\lstinline|:[a]<:[b] ==> :[a]>:[b]|}  &  {\lstinline|else ==>|}  & {\lstinline|else ==>|} & {\lstinline|synchronized ==>|} &  {\lstinline|synchronized ==>|} \\
-   {\lstinline|< ==> ==|} & {\lstinline|:[a]<:[b] ==> :[a]==:[b]|} &  {\lstinline|if (\(.*\)) ==> if (!\1)|} &  {\lstinline|if (:[cond]) ==> if (!(:[cond]))|} & {\lstinline|(\^{}\s*)(\S+.*\n) ==> \1pass|} & {\lstinline|:[ s]:[expr]:[lf~[\n]] ==> :[s]pass:[lf]|} \\
-{\lstinline|< ==> <=|}  & {\lstinline|:[a]<:[b] ==> :[a]<=:[b]|} & {\lstinline|if (\(.*\)) ==> if (1==1)|} & {\lstinline|if (:[cond]) ==> if (1==1)|} &  {\lstinline|any_of ==> all_of|} & {\lstinline|any_of ==> all_of|} \\
+  \begin{tabular}{l|l}
+    \toprule
+    \mc{1}{c|}{\textbf{Regexp}} & \mc{1}{c}{\textbf{Comby}}                          \\\midrule
+    \mc{2}{c}{\textbf{Universal}}                         \\\midrule
+    {\lstinline|< ==> >|} & {\lstinline|:[a]<:[b] ==> :[a]>:[b]|}   \\
+    {\lstinline|< ==> ==|} & {\lstinline|:[a]<:[b] ==> :[a]==:[b]|} \\
+    {\lstinline|< ==> <=|}  & {\lstinline|:[a]<:[b] ==> :[a]<=:[b]|} \\\midrule
+\mc{2}{c}{\textbf{C-Like}} \\\midrule
+ {\lstinline|else ==>|}  & {\lstinline|else ==>|} \\
+ {\lstinline|if (\(.*\)) ==> if (!\1)|} &  {\lstinline|if (:[cond]) ==> if (!(:[cond]))|} \\
+ {\lstinline|if (\(.*\)) ==> if (1==1)|} & {\lstinline|if (:[cond]) ==> if (1==1)|} \\
+\toprule
+\mc{2}{c}{\textbf{Language-Specific}} \\\midrule
+ {\lstinline|synchronized ==>|} &  {\lstinline|synchronized ==>|} \\
+ {\lstinline|(\^{}\s*)(\S+.*\n) ==> \1pass|} & {\lstinline|:[ s]:[expr]:[lf [\n]] ==> :[s]pass:[lf]|} \\
+ {\lstinline|any_of ==> all_of|} & {\lstinline|any_of ==> all_of|} \\
 \hline
 \end{tabular}
-\end{figure*}
-
+\end{figure}
 
 \begin{table}[hbtp]
 \centering
@@ -689,27 +697,6 @@ beyond these standard patterns.\footnote{https://comby.dev/docs/advanced-usage\#
 expressive power to enable regex-based mutation operators intermixed with
 context-free syntax
 properties\footnote{https://comby.dev/docs/basic-usage\#using-regular-expressions}.
-
-\begin{table}[hbtp]
-\centering
-\caption{Parser Parser Combinator Rule Examples}
-\label{tab:crules}
-\resizebox{\columnwidth}{!}{%
-
-  \begin{tabular}{|l|l|l|}
-    \hline
-    Universal & C-Like & Language-Specific \\
-    \hline
-{\tt :[a]<:[b] ==> :[a]>:[b]} &{\tt  else ==>} & {\tt synchronized ==>} \\ 
-{\tt :[a]<:[b] ==> :[a]==:[b]} & {\tt if (:[cond]) ==> if (!(:[cond]))} &
-                                                                 {\tt
-                                                                          :[ s]:[expr]:[lf~[\textbackslash n]] ==> :[s]pass:[lf]}\\
-{\tt :[a]<:[b] ==> :[a]<=:[b]} & {\tt if (:[cond]) ==> if (1==1)} & {\tt any\_of ==> all\_of}\\
-\hline
-
-\end{tabular}
-}
-\end{table}
 
 \section{Implementation}
 \label{sec:imp}
