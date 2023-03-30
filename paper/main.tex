@@ -1079,8 +1079,9 @@ large Java projects by the author of the PIT gradle
 plugin\footnote{\url{https://solidsoft.wordpress.com/2017/09/19/how-fast-or-slow-mutation-testing-really-is/}}
   suggests that even a successful compile of a typical project takes
   somewhere between one-sixth to one-third the time required for
-  executing tests, and failed compiles are usually much
-  faster than successful ones.
+  executing tests, and failed compiles are usually faster than
+  successful ones, since invalid mutants almost always fail during
+  parsing, and so code generation, optimization, and linking are not performed.
 
 We estimated mutant equivalence when possible by examining a sample of
 10 randomly selected unkilled mutants for each file.  For some tools,
