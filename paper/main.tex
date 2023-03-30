@@ -869,7 +869,10 @@ strum            & 90           & 428     & 11.92\% & 368     & 13.58\% \\\botto
 \begin{table}[hbtp]
 \centering
 {\footnotesize % feels bad man but it's definitely easier than most other alternatives
-\caption{Regex vs. Comby for Python.   LOC describes the project files considered. Muts. is total number of mutants generated for those files. \clg{FIXME: what's an invalid mutant for python?}  We can use TCE to check for redundant Python mutants, shown under ``Red.''}
+\caption{Regex vs. Comby for Python.   LOC describes the project files
+  considered. Muts. is total number of mutants generated for those
+  files.  Invalid mutants are ones that fail module load (e.g., due
+  to imbalanced parenthesis, bad indentation, or similar problems).  We can use TCE to check for redundant Python mutants, shown under ``Red.''}
 \label{tab:table_python1}
 \begin{tabularx}{\columnwidth}{l|r|rcr|rcr}
 \toprule\toprule
@@ -1065,7 +1068,9 @@ mutants is good, and a rate below 10\% is very good.
 
 \begin{table}[htbp]
 \centering
-\caption{Java (Our Implementation vs. PIT vs. LittleDarwin). \clg{FIXME: explain why no eqv for PIT.} LittleDarwin produces no equivalent mutants.\clg{right?}}
+\caption{Java (Our Implementation vs. PIT vs. LittleDarwin).
+  Determining it PIT bytecode mutants are equivalent is extremely
+  difficult to do with reasonable accuracy, so we did not attempt it.  LittleDarwin produces no equivalent mutants.}
 \label{tab:table_java2}
 \resizebox{\columnwidth}{!}{% again don't love it, but footnotesize is actually smaller than necessary
 \begin{tabular}{l|rrr|rr|rr}
@@ -1212,7 +1217,11 @@ number of non-equivalent unkilled mutants.  Our tool did produce a
 very large percentage of equivalent mutants for one project, and high
 percentage for another project, but these numbers are still well
 within the range of expected results in past inspections of
-equivalent mutants.
+equivalent mutants.  We also note  that for Rust the cost for invalid
+mutants is unusually low, due to the availability of {\tt cargo check}
+which very quickly checks that code compiles, without actually
+compiling it, making our approach more attractive.  Some C++ compilers
+also offer fast syntax check facilities, e.g., {\tt -fsyntax-only} in g++.
 
 \subsubsection{Discussion: Summary of Tool Comparisons}
 
