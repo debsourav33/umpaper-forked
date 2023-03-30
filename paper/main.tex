@@ -535,7 +535,7 @@ if(strcmp((?\color{dkgreen}\verb|:[1]|?),"(?\color{dkgreen}\verb|:[2]|?)"))
 \toprule
 \mc{2}{c}{\textbf{Language-Specific}} \\\midrule
  {\lstinline|synchronized ==>|} &  {\lstinline|synchronized ==>|} \\[0.5ex]
-{\lstinline|(\^{}\s*)(\S+.*\n) ==> \1pass|} & {\lstinline|:[ s]:[expr]:[lf [\n]]|} \\
+{\lstinline|(^\s*)(\S+.*\n) ==> \1pass|} & {\lstinline|:[ s]:[expr]:[lf [\n]]|} \\
                                                          &\hspace{42pt}{\lstinline|==> :[s]pass:[lf]|} \\
  {\lstinline|any_of ==> all_of|} & {\lstinline|any_of ==> all_of|} \\
 \bottomrule
