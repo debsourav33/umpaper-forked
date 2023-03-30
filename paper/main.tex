@@ -1425,13 +1425,19 @@ Our study only examined 24 total source files, from 24 different projects, acros
 languages.  None of these files were very large, though they were of
 sizes common to many source files in projects across GitHub, and none
 were less than about 100 non-comment lines of code.  More importantly,
-there is no simple objective way to determine if a mutation testing
-tool is ``as good as'' another tool, in an even approximate sense.
+there is no established way to compare mutation tools.
 Previous studies of the topic have generally simply expected that a
 useful tool must
 generate a significant number of non-equivalent unkilled mutants, and
-yields mutation scores that are broadly similar to those of other tools.
+yield mutation scores that are broadly similar to those of other tools.
 
+\section{Data Availability}
+
+We have made a full replication package available at
+\url{https://figshare.com/s/7ab4bc9a156fec248528}.  See the README.md
+file included for details.  The package contains Python scripts to run
+our data collection and experiments, as well as full source
+code for our tool.
 
 \section{Related Work}
 
@@ -1518,5 +1524,6 @@ for an entire project.
 \bibliographystyle{ACM-Reference-Format}
 \bibliography{bibliography}
 
+\balance
 
 \end{document}
