@@ -592,25 +592,23 @@ The left-hand-side Table~\ref{tab:rules} shows examples of universal, C-like, an
 language-specific rules for a few languages, taken directly from our
 implementation of regular-expression based operators (see Section \ref{sec:imp}).  In all cases, the form of a rule is: {\tt regexp
   ==> replacement}, using Python regular expression and replacement
-syntax.  While these rules are non-trivial to write and read, we show
+syntax.  Such rules are often non-trivial to write and read; we show
 below that using parser parser combinators often simplifies and
-clarifies such rules.
+clarifies matters.
 
-The first column shows universal rules applied to
-all languages, here drawn from the large set of transformations for
-less-than comparisons.  The second column shows somewhat more
-complex rules, for removing elses (which always leaves valid code in
+We first show universal rules drawn from the large set of transformations for
+less-than comparisons.  The C-like rules are somewhat more
+complex: for removing elses (which always leaves valid code in
 C-like languages, but with the else clause always executing) and for
 replacing if conditions with, respectively, a negation and a
-constantly true expression.  Finally, the last column shows
+constantly true expression.  Finally, we show
 language-specific rules, for, respectively, Java, Python (statement
 deletion, including a {\tt pass} and respecting indentation level),
 and C++.  The last rule was contributed by a user using our tool to
 perform mutation testing on the bitcoin core implementation.  For a
-C++ program, all of the rules in the first two columns will be
-applied, as well as the last rule in the third column.  For a Python
-program, however, only the first column of rules and the second rule
-in the last column apply, as Python is not sufficiently ``C-like''.
+C++ program, all of the universal rules and C-like rules will be
+applied, plus the last language-specific rule.  For a Python
+program, however, only the universal and Python-specific rule apply.
 
 
 \subsection{Beyond Regular Expressions with Parser Parser Combinators}
@@ -634,8 +632,7 @@ syntactically well-formed outputs (e.g., transformations must preserve
 balanced parentheses or braces). More generally, operators can be made
 sensitive to coarse-grained context-free grammar properties. In short,
 these
-operators go beyond the expressivity of regular expressions (which are
-typically limited to lexical transformations) to generate more
+operators go beyond the expressivity of regular expressions to generate more
 \emph{varied} and more \emph{valid} mutants.
 
 Parser parser combinators~\cite{vanTonderPPC} is a recent approach enabling
@@ -676,9 +673,9 @@ definitions and syntax for mutation operators implemented in our approach:
 
 \item Non-whitespace characters are matched literally.
 
-\item Contiguous whitespace (e.g., spaces and newline) match contiguous whitespace in the source code. That is, match templates are sensitive to the \emph{presence} of whitespace, but \emph{not} the exact layout of spaces (i.e., the number of spaces may not correspond exactly between match template and source code).
+\item Contiguous whitespace (e.g., spaces and newline) match contiguous whitespace in the source code. That is, match templates are sensitive to the \emph{presence} of whitespace, but \emph{not} the exact layout of spaces (i.e., the number of spaces may not correspond exactly between template and source code).
 
-\item Matching is insensitive to comments. Comments are parsed as whitespace when matching non-hole syntax in the match template.
+\item Matching is insensitive to comments. Comments are parsed as whitespace when matching non-hole syntax.
 
 \end{itemize}
 
@@ -721,9 +718,7 @@ single language.  For example, the widely used PIT system is strongly tied to
 certain versions of JUnit, and mutating projects using a different
 testing infrastructure, or an older JUnit, can be difficult.  Our
 approach also is suitable for use in CI and other automated
-environments.
-
-The tool attempts to automatically identify which rule sets to use in
+environments.  The tool attempts to automatically identify which rule sets to use in
 mutating a source file, but can also be instructed to run fewer or
 more rule sets, and allows users to supply their own custom rule sets.
 
@@ -1012,7 +1007,7 @@ efficiency of initial mutant generation, with no apparent loss of overall effect
 
 \begin{table*}[hbtp]
     \centering
-    \caption{Overview of Mutation Testing Tools. Our tool has significantly fewer lines of code than any of the single language tools.}
+    \caption{Overview of Mutation Testing Tools. Our tool has significantly fewer lines of code than the single-language tools.}
     \label{tab:mutationtools}
     
     \begin{tabular}{|l|l|l|r|}
@@ -1097,10 +1092,10 @@ reporting the percentage of \emph{unkilled} mutants that were found to
 be equivalent.  Schuler and Zeller found about 45\% of unkilled
 mutants of Java programs to be equivalent.  Other reports of lower
 rates, e.g, 9\%~\cite{offutt1997automatically} or 7\%~\cite{TCE}, report the percent of
-\emph{all} mutants, and so translate to much higher rates of
-equivalence for unkilled mutants.  We therefore suggest that as a
+\emph{all} mutants, and so map to much higher rates of
+equivalence over \emph{unkilled} mutants.  We suggest that as a
 fraction of unkilled mutants, a rate of 30\% or fewer equivalent
-mutants is good, and a rate below 10\% is very good.
+mutants is good, and a rate of 10\% or below is very good.
 
 % ---------------- C++ table (UM vs Others)--------------------------
 \begin{table}[htbp]
@@ -1133,7 +1128,7 @@ mutants is good, and a rate below 10\% is very good.
 \centering
 \caption{Java (Our Implementation vs. PIT vs. LittleDarwin).
   Determining if PIT bytecode mutants are equivalent is extremely
-  difficult to do with reasonable accuracy, so we did not attempt it.  LittleDarwin produces no equivalent mutants.}
+  difficult to do with reasonable accuracy. LittleDarwin produces no equivalent mutants.}
 \label{tab:table_java2}
 \resizebox{\columnwidth}{!}{% again don't love it, but footnotesize is actually smaller than necessary
 \begin{tabular}{l|rrr|rr|rr}
@@ -1413,14 +1408,14 @@ score of 0.84, and our implementation yields a score of 0.8.  Checking
 only sortedness, MuCheck yields a score of 0.61, while our approach
 produces an even lower score of 0.4.  Our lower
 scores are not due to equivalent mutants: adding a property to check
-that the sorted list is a permutation of the original list, all
-mutants generated by our approach can be killed.
+that the sorted list is a permutation of the original list kills all
+our mutants.
 
 Of course, our implementation does not provide the small set of Haskell-specific
 mutations provided by MuCheck (e.g., type-aware function replacement).  It nonetheless produces clearly useful
 mutants, even for a language arguably radically different from those
 for which the universal rules were developed.  In short, our approach
-likely provides users of a new language working, if sub-optimal, mutation testing,
+likely provides users of a new language with mutation testing,
 \emph{even if no effort has been expended to define rules for the
   language at all}.
 
@@ -1432,12 +1427,11 @@ sizes common to many source files in projects across GitHub, and none
 were less than about 100 non-comment lines of code.  More importantly,
 there is no simple objective way to determine if a mutation testing
 tool is ``as good as'' another tool, in an even approximate sense.
-Previous studies of the topic have considered that so long as a tool
-generates a significant number of non-equivalent unkilled mutants, and
-produces a mutation score not extremely differnt than for other tools,
-it is a useful mutation testing tool.  Further, there is no
-established acceptable tradeoff between generating more mutants and
-accepting a higher cost of compilation and execution for mutants.
+Previous studies of the topic have generally simply expected that a
+useful tool must
+generate a significant number of non-equivalent unkilled mutants, and
+yields mutation scores that are broadly similar to those of other tools.
+
 
 \section{Related Work}
 
@@ -1453,15 +1447,11 @@ faster} approaches include mutant schema generation, code patching, and
 other methods to make mutants run faster. Finally, the
 \textit{do fewer} approaches try to reduce the number of mutants examined,
 and include selective mutation and mutant sampling.
-
 None of these approaches focus on the cost in \emph{human} time to
 develop and maintain mutation testing tools.  In fact, the complexity
 and sophistication of some of these approaches imposes a daunting
 barrier to those who would develop ``good'' mutation tools for a new
-language.  However, arguably the most powerful and generalizable
-methods for reducing the cost of mutation, such as random sampling~\cite{GopinathSampleSize,gopinath2017mutation} and
-predictive mutation testing~\cite{zhang2016pmt,kim2022predictive}, are independent of the generation of
-mutants and so applicable to any language.
+language.
 
 Hariri et al. compared C mutation approaches at the source and
 compiler IR levels~\cite{CompareSrcBinary} and found that overall
@@ -1476,27 +1466,23 @@ considered active maintenance, support for a variety of testing
 frameworks, and support for recent Java versions as the most important
 features in a Java mutation tool.  The approach proposed in this paper
 by its nature tends to promise all three of these key factors without
-imposing onerous burdens on maintainers.
+imposing burdens on maintainers.
 
 Finally, the practical use of mutation testing at Google argues that
-support for a variety of languages is critical, and that the approach
-we take is more than sufficient.  Google has used its
+support for a variety of languages is critical.  Google has used its
 substantial resources to provide mutant generation for C++, Java,
 Python, Javascript, Go, Typescript, and Common
 Lisp~\cite{PetrovicMutationGoogle}, all of which we also support.  The
 operators Google uses for these
 languages (based on the original Mothra operators~\cite{offutt1996experimental}) are a subset of those provided by our implementation, with the caveat
-that statement block removal is only supported when using Comby;
+that block removal is only supported when using Comby;
 regular expression mutation is limited to single-line statement
 deletion.  For Lisp-like languages, the difficulty of identifying statements vs. value-returning
-function calls makes use of block deletion somewhat impractical, but
-still easy to implement.  The majority of the Google Mothra operators
-can be implemented in
-a few lines as universal rules for all languages; only specializing
+function calls makes use of block deletion somewhat impractical.  The majority of the Google Mothra operators
+can be implemented as universal rules for all languages; only specializing
 logical operators and implementing block/statement deletion even requires
 language identification.  Unlike Google's mutation infrastructure, our
-tool is open source, easily extensible, and not tied to any particular
-development environment.
+tool is open source and easily extensible.
 
 The approach reported in this paper was briefly presented in part in a
 tool paper (citation redacted for blinding purposes) that introduced
