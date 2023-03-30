@@ -670,7 +670,8 @@ definitions and syntax for mutation operators implemented in our approach:
 
 \item \texttt{\small :[[hole]]} matches alphanumeric characters in source code (similar to \texttt{\small\textbackslash w+} in regex).
 
-\item When a variable \emph{hole} occurs multiple times in a match template, the matched matched values be equal.
+\item When a variable \emph{hole} occurs multiple times in a match
+  template, the matched values must be equal.
 
 \item Non-whitespace characters are matched literally.
 
@@ -1064,9 +1065,10 @@ mutation testing for the generated mutants for our tool, in both Regex
 and Comby modes, and the above-listed tools for each of the four
 studied languages.
 
-We do not report the time taken for mutation generation and testing,
-since due to only Dextools using schema (and PIT using bytecode mutants), most tools took similar
-amounts of time to compile mutants, and mutant execution time was
+We do not report the time taken for mutation generation and testing.
+Dextools uses mutant schema, and PIT performs bytecode mutation, so
+both are much faster for compiling mutants, but other tools took similar
+amounts of time to compile mutants.   Mutant execution time was also
 generally similar, except for tools that produced very few mutants.
 We expect that our approach is generally slower for initial mutant
 generation, due to a higher number of invalid mutants, but that this
