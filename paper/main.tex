@@ -1128,7 +1128,7 @@ mutants is good, and a rate below 10\% is very good.
 \begin{table}[htbp]
 \centering
 \caption{Java (Our Implementation vs. PIT vs. LittleDarwin).
-  Determining it PIT bytecode mutants are equivalent is extremely
+  Determining if PIT bytecode mutants are equivalent is extremely
   difficult to do with reasonable accuracy, so we did not attempt it.  LittleDarwin produces no equivalent mutants.}
 \label{tab:table_java2}
 \resizebox{\columnwidth}{!}{% again don't love it, but footnotesize is actually smaller than necessary
@@ -1268,10 +1268,10 @@ possible reasons for this below.
 \subsubsection{Rust}
 
 Finally, for Rust, we observed that the Cargo-Mutants tool simply does
-not generate many mutants.  Mutation scores were broadly similar to
+not generate many mutants for a particular source file.  Mutation scores were broadly similar to
 ours, though lower, and none of the generated mutants we examined were
 equivalent, but for one project Cargo-Mutants did not produce
-\emph{any} mutants even though our tool was able to produce a large
+\emph{any compilable} mutants even though our tool was able to produce a large
 number of non-equivalent unkilled mutants.  Our tool did produce a
 very large percentage of equivalent mutants for one project, and high
 percentage for another project, but these numbers are still well
@@ -1507,7 +1507,7 @@ beyond regular expression-based generation.
 We conclude that, by using a hierarchical, source-based approach,
 either relying on a pure-text regular expression definition of
 mutation operators or a richer parser parser combinator transformation
-definition, it is possibly to implement effective, easily extensible
+definition, it is possible to implement effective, easily extensible
 mutation testing for essentially \emph{all} commonly used programming
 languages, and many non-so-commonly-used programming languages, in
 fewer lines of code than any single-language tool we examined.  This
