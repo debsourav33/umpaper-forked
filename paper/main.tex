@@ -1259,14 +1259,16 @@ uniformly low, with a median of \emph{no} equivalent mutants.
 
 \subsubsection{Python}
 
-Our comparison of Python mutation tools showed the largest degree of
-similarity between all tools.  Mutation scores and equivalence rates
-were all, given the large variance expected from previous studies of
-Java tools, quite similar.  Again, there is no clear disadvantage to
-using our approach, and a large advantage in terms of development and
-maintenance ease.  Comby had a somewhat higher equivalence rate than the
-other tools (including the Regexp mode of our tool).  We discuss
-possible reasons for this below.
+Our comparison of Python mutation tools again showed that there is no
+evident disadvantage to
+using our approach, in terms of mutation testing results.  Comby had a somewhat higher mean equivalence rate than the
+other tools (including the Regexp mode of our tool), but with one
+exception still achieved a very good equivalence rate.  Again, discarding
+equivalent mutants, our tool produced more mutants, and more unkilled
+mutants, than other tools, but still had a similar overall mutation
+score (the only clear outlier in scores is Mutmut's high score for the
+keract project).  We discuss
+possible reasons for higher Comby equivalence rates below.
 
 \subsubsection{Rust}
 
