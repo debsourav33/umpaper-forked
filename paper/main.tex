@@ -302,7 +302,7 @@ program transformation provides two major benefits:
     need for many   maintenance activities related to parsing code;
     such changes need to be made only when a change to the language
     would introduce new mutation operators or modify existing ones.
-    The local nature of operators tends to make the second case very rare.
+    The local nature of operators tends to make the second case rare.
     \item The existing literature on multi-lingual or language
       agnostic program transformation can be applied to the problem of
       mutant generation, making it easy to express mutation operators
@@ -457,8 +457,8 @@ example, consider the case of replacing instances of {\tt
 particular language, but applies to \emph{almost all programming
   languages in use.}  Others are not quite
 so widely applicable, but still apply to a large number of specific
-languages.  E.g., many programming languages share C's logical
-operators, though important exception such as Python and Lisp-family
+languages, e.g., many programming languages share C's logical
+operators, though important exceptions like Python and Lisp-family
 languages do not.
 
 Implementing a tool for a language $L$ therefore, generally need not
@@ -534,60 +534,61 @@ if(strcmp((?\color{dkgreen}\verb|:[1]|?),"(?\color{dkgreen}\verb|:[2]|?)"))
  {\lstinline|if (\(.*\)) ==> if (1==1)|} & {\lstinline|if (:[cond]) ==> if (1==1)|} \\
 \toprule
 \mc{2}{c}{\textbf{Language-Specific}} \\\midrule
- {\lstinline|synchronized ==>|} &  {\lstinline|synchronized ==>|} \\
- {\lstinline|(\^{}\s*)(\S+.*\n) ==> \1pass|} & {\lstinline|:[ s]:[expr]:[lf [\n]] ==> :[s]pass:[lf]|} \\
+ {\lstinline|synchronized ==>|} &  {\lstinline|synchronized ==>|} \\[0.5ex]
+{\lstinline|(\^{}\s*)(\S+.*\n) ==> \1pass|} & {\lstinline|:[ s]:[expr]:[lf [\n]]|} \\
+                                                         &\hspace{42pt}{\lstinline|==> :[s]pass:[lf]|} \\
  {\lstinline|any_of ==> all_of|} & {\lstinline|any_of ==> all_of|} \\
-\hline
+\bottomrule
 \end{tabular}
 \end{figure}
 
-\begin{table}[hbtp]
-\centering
-\caption{Regular Expression Rule Examples}
-\label{tab:rules}
-\resizebox{\columnwidth}{!}{%
+% \begin{table}[hbtp]
+% \centering
+% \caption{Regular Expression Rule Examples}
+% \label{tab:rules}
+% \resizebox{\columnwidth}{!}{%
 
-  \begin{tabular}{|l|l|l|}
-    \hline
-    Universal & C-Like & Language-Specific \\
-    \hline
-{\tt < ==> >} &{\tt  else ==>} & {\tt synchronized ==>} \\ 
-{\tt < ==> ==} & {\tt if (\textbackslash(.*\textbackslash)) ==> if (!\textbackslash 1)} &
-                                                                 {\tt (\^{}\textbackslash s*)(\textbackslash S+.*\textbackslash n) ==> \textbackslash 1pass}\\
-{\tt < ==> <=} & {\tt if (\textbackslash(.*\textbackslash)) ==> if
-                 (1==1)} & {\tt any\_of ==> all\_of}\\
-\hline
+%   \begin{tabular}{|l|l|l|}
+%     \hline
+%     Universal & C-Like & Language-Specific \\
+%     \hline
+% {\tt < ==> >} &{\tt  else ==>} & {\tt synchronized ==>} \\ 
+% {\tt < ==> ==} & {\tt if (\textbackslash(.*\textbackslash)) ==> if (!\textbackslash 1)} &
+%                                                                  {\tt (\^{}\textbackslash s*)(\textbackslash S+.*\textbackslash n) ==> \textbackslash 1pass}\\
+% {\tt < ==> <=} & {\tt if (\textbackslash(.*\textbackslash)) ==> if
+%                  (1==1)} & {\tt any\_of ==> all\_of}\\
+% \hline
 
-\end{tabular}
-}
+% \end{tabular}
+% }
 
-\end{table}
+% \end{table}
 
 
 
-\begin{table}[hbtp]
-\centering
-\caption{Parser Parser Combinator Rule Examples}
-\label{tab:crules}
-\resizebox{\columnwidth}{!}{%
+% \begin{table}[hbtp]
+% \centering
+% \caption{Parser Parser Combinator Rule Examples}
+% \label{tab:crules}
+% \resizebox{\columnwidth}{!}{%
 
-  \begin{tabular}{|l|l|l|}
-    \hline
-    Universal & C-Like & Language-Specific \\
-    \hline
-{\tt :[a]<:[b] ==> :[a]>:[b]} &{\tt  else ==>} & {\tt synchronized ==>} \\ 
-{\tt :[a]<:[b] ==> :[a]==:[b]} & {\tt if (:[cond]) ==> if (!(:[cond]))} &
-                                                                 {\tt
-                                                                          :[ s]:[expr]:[lf~[\textbackslash n]] ==> :[s]pass:[lf]}\\
-{\tt :[a]<:[b] ==> :[a]<=:[b]} & {\tt if (:[cond]) ==> if (1==1)} & {\tt any\_of ==> all\_of}\\
-\hline
+%   \begin{tabular}{|l|l|l|}
+%     \hline
+%     Universal & C-Like & Language-Specific \\
+%     \hline
+% {\tt :[a]<:[b] ==> :[a]>:[b]} &{\tt  else ==>} & {\tt synchronized ==>} \\ 
+% {\tt :[a]<:[b] ==> :[a]==:[b]} & {\tt if (:[cond]) ==> if (!(:[cond]))} &
+%                                                                  {\tt
+%                                                                           :[ s]:[expr]:[lf~[\textbackslash n]] ==> :[s]pass:[lf]}\\
+% {\tt :[a]<:[b] ==> :[a]<=:[b]} & {\tt if (:[cond]) ==> if (1==1)} & {\tt any\_of ==> all\_of}\\
+% \hline
 
-\end{tabular}
-}
-\end{table}
+% \end{tabular}
+% }
+% \end{table}
 
   
-Table~\ref{tab:rules} shows examples of universal, C-like, and
+The left-hand-side Table~\ref{tab:rules} shows examples of universal, C-like, and
 language-specific rules for a few languages, taken directly from our
 implementation of regular-expression based operators (see Section \ref{sec:imp}).  In all cases, the form of a rule is: {\tt regexp
   ==> replacement}, using Python regular expression and replacement
@@ -681,8 +682,8 @@ definitions and syntax for mutation operators implemented in our approach:
 
 \end{itemize}
 
-Table~\ref{tab:crules} shows how the rules in Table~\ref{tab:rules}
-look, when implemented as Comby patterns.  While some simple rules are
+The right-hand-side of Table~\ref{tab:rules} shows the same regular-expression rules 
+implemented as Comby patterns.  While some simple rules are
 unchanged, others are either more succinct or provide more context as
 to applicability (e.g., only less than between valid holes should be
 mutated).  This shows that a
